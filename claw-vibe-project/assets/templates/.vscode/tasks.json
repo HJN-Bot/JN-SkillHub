@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Vibe Session Start",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Session started: $(date '+%Y-%m-%d %H:%M')"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": "build",
+      "detail": "记录 session 开始时间，提醒执行开场 prompt"
+    },
+    {
+      "label": "📋 Show Project Status",
+      "type": "shell",
+      "command": "echo '=== PROJECT STATUS ===' && cat PROJECT.md | head -40 && echo '' && echo '=== RECENT CHANGELOG ===' && grep -m 5 '## \\[' CHANGELOG.md",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "快速查看项目状态和最近 changelog"
+    },
+    {
+      "label": "📝 New Changelog Entry",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "-e",
+        "const fs=require('fs');const d=new Date().toISOString().split('T')[0];const cl=fs.readFileSync('CHANGELOG.md','utf8');const sessions=cl.match(/Session #(\\d+)/g)||[];const next=(sessions.length?Math.max(...sessions.map(s=>parseInt(s.match(/\\d+/)[0])))+1:1);const entry=`\\n## [${d}] Session #${next} — [在此填写任务名]\\n\\n**触发者**: Jianan\\n**AI 模型**: claude-sonnet-4-20250514\\n**任务类型**: Feature | Bugfix | Refactor | Config | Docs\\n\\n### 变动摘要\\n- \\n\\n### 关键决策\\n- \\n\\n### 遗留问题\\n- [ ] \\n\\n---\\n`;const lines=cl.split('\\n');const insertAt=lines.findIndex(l=>l.startsWith('## ['));lines.splice(insertAt<0?3:insertAt,0,...entry.split('\\n'));fs.writeFileSync('CHANGELOG.md',lines.join('\\n'));console.log('✅ New changelog entry created: Session #'+next);"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "自动创建下一个 Session changelog 条目模板"
+    }
+  ]
+}

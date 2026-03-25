@@ -1,0 +1,59 @@
+# skills.yaml — <项目名> Skill 白名单
+# 修改此文件后，下次 session 开场时 Claude 会读取最新版本
+
+project: "<项目名>"
+version: "1.0"
+last_updated: "YYYY-MM-DD"
+
+# ============================================================
+# 运行模式开关
+#   openclaw : OpenClaw 多 agent 体系接管（个人/副业项目）
+#   copilot  : GitHub Copilot 接管编码，Claude 只做规划和审查（公司项目）
+# ============================================================
+runtime:
+  mode: copilot   # "openclaw" | "copilot"
+
+skills:
+  # 核心 skill（两种模式都启用）
+  core:
+    - claw-vibe-project       # 项目管理框架（必选）
+    - file-reading             # 文件读取
+
+  # 按项目类型选择（openclaw 模式下完整生效；copilot 模式下降级为 prompt 建议）
+  project_specific:
+    # - jianan-presentation-system  # 需要出 PPT 时启用
+    # - frontend-design              # 需要做前端 UI 时启用
+    # - docx                         # 需要出 Word 文档时启用
+    # - pdf                          # 需要处理 PDF 时启用
+    # - xlsx                         # 需要处理表格时启用
+
+  # 明确禁用（防止 AI 误调用）
+  disabled:
+    - ai-morphing-video        # 与本项目无关
+
+# 调用约束
+constraints:
+  require_confirmation_before:
+    - docx
+    - pdf
+  max_skill_chain_depth: 3
+  harness_change_requires_confirmation: true
+
+# Copilot 模式专属配置（mode: copilot 时生效）
+copilot:
+  claude_role: "architect"      # Claude 只做规划+审查，不直接写代码
+  changelog_author: "Jianan + Copilot"
+  ai_model_label: "GitHub Copilot (GPT-4o)"
+  output_copilot_subtasks: true  # 开场时自动输出给 Copilot 的子任务分解
+
+# OpenClaw 模式专属配置（mode: openclaw 时生效）
+openclaw:
+  agents:
+    - SAM    # session 生命周期管理
+    - SCOUT  # 项目状态读取
+    - FORGE  # 代码执行
+    - LENS   # diff review + 漂移检测
+    - INK    # 文档更新
+    - AUX    # eval 跑批
+  changelog_author: "OpenClaw-FORGE"
+  ai_model_label: "claude-sonnet-4-20250514"

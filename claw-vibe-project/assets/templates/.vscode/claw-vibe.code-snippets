@@ -1,0 +1,115 @@
+{
+  "Claw Vibe Session Start": {
+    "prefix": "vibe-start",
+    "body": [
+      "你是这个项目的 AI pair programmer，遵循 claw-vibe-project skill 协议。",
+      "",
+      "请先完成以下开场步骤：",
+      "1. 读取 PROJECT.md，理解当前架构和状态",
+      "2. 读取 CHANGELOG.md 最后 5 条，了解近期变动",
+      "3. 读取 skills.yaml，确认 runtime.mode（openclaw 或 copilot）",
+      "4. 根据模式输出不同格式的开场摘要：",
+      "   - copilot 模式：输出「任务分解」和「建议 Copilot Prompt」",
+      "   - openclaw 模式：输出「当前状态摘要」并准备 agent 分工",
+      "",
+      "本次任务：$1",
+      "",
+      "约束：",
+      "- 不修改 harness/ 目录（除非我明确说「更新 harness」）",
+      "- copilot 模式下：你只规划和审查，不直接写代码",
+      "- 每个重要决策都要说出来，不要静默执行"
+    ],
+    "description": "Claw Vibe Project Session 开场（自动感知 openclaw/copilot 模式）"
+  },
+
+  "Claw Vibe Session End": {
+    "prefix": "vibe-end",
+    "body": [
+      "本次 session 结束，请执行收尾协议：",
+      "",
+      "1. 生成 CHANGELOG 条目（严格按照 changelog-format.md 格式）",
+      "   - 触发者和 AI 模型字段根据 skills.yaml 的 runtime.mode 自动填充",
+      "   - copilot 模式：触发者 = Jianan + Copilot，模型 = GitHub Copilot (GPT-4o)",
+      "   - openclaw 模式：触发者 = OpenClaw-FORGE，模型 = claude-sonnet-4-20250514",
+      "2. 更新 PROJECT.md：当前状态 + 下一步 + 如有架构变化追加 ADR",
+      "3. 说出「收尾完成，项目状态已更新」"
+    ],
+    "description": "Claw Vibe Project Session 收尾（模式感知）"
+  },
+
+  "Claw Drift Check": {
+    "prefix": "vibe-drift",
+    "body": [
+      "请执行架构漂移检测：",
+      "",
+      "1. 读取 PROJECT.md 中的架构描述和核心约定",
+      "2. 扫描 src/ 实际代码结构",
+      "3. 输出漂移报告：",
+      "   - 设计有但代码没有的",
+      "   - 代码有但设计没说的",
+      "   - 命名/结构不一致的",
+      "4. 对每项漂移，询问我：改代码 or 改文档？",
+      "5. 执行我的决定，写 CHANGELOG [DRIFT FIX] 条目"
+    ],
+    "description": "Claw Vibe Project 漂移检测"
+  },
+
+  "Claw Run Evals": {
+    "prefix": "vibe-eval",
+    "body": [
+      "请跑 evals/core/smoke.json 中的所有 P0 测试：",
+      "",
+      "1. 对每个 eval，根据 input.scenario 执行相应逻辑",
+      "2. 检查输出是否满足所有 assertions",
+      "3. 输出 pass/fail 表格",
+      "4. 如有 fail，说明原因和建议修复方向",
+      "5. 更新每个条目的 last_run 和 status"
+    ],
+    "description": "Claw Vibe Project 跑 P0 Eval"
+  },
+
+  "Claw Switch Mode": {
+    "prefix": "vibe-mode",
+    "body": [
+      "请将本项目的运行模式切换为 ${1|openclaw,copilot|}。",
+      "",
+      "执行步骤：",
+      "1. 更新 skills.yaml 中的 runtime.mode 字段",
+      "2. 说出新模式下的行为变化摘要",
+      "3. 写一条 CHANGELOG [CONFIG] 条目记录此次切换"
+    ],
+    "description": "切换项目运行模式（openclaw ↔ copilot）"
+  },
+
+  "Claw Vibe Light Start": {
+    "prefix": "vibe-light",
+    "body": [
+      "读取以下项目快照，我们继续开发：",
+      "",
+      "---",
+      "[粘贴 CURRENT_STATE.md 内容]",
+      "---",
+      "",
+      "本次任务：$1",
+      "",
+      "约束：不改 harness/，改之前先告诉我。"
+    ],
+    "description": "轻量开场：只注入 CURRENT_STATE.md，适合日常小改动"
+  },
+
+  "Claw Vibe Day End": {
+    "prefix": "vibe-day",
+    "body": [
+      "今天开发结束，请更新项目快照：",
+      "",
+      "1. 覆盖更新 CURRENT_STATE.md：",
+      "   - 「今天实际改了什么」区块（只写今天，替换旧内容）",
+      "   - 「现在能跑的功能」如有变化则更新",
+      "   - 「当前已知的坑」如有新坑则追加",
+      "   - 「下次开发从这里开始」写一句话",
+      "2. 追加一条 CHANGELOG 条目（简版即可）",
+      "3. 说出「今日快照已更新，明天从 CURRENT_STATE.md 开始」"
+    ],
+    "description": "每日收尾：更新 CURRENT_STATE.md 快照 + 追加 Changelog"
+  }
+}
