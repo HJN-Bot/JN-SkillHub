@@ -85,7 +85,68 @@ Triggered when the user says "deep dive into [file/module/pipeline]" or asks que
 
 ---
 
-## The Process (4 Phases)
+## The Process (5 Phases)
+
+### Phase 0: Input Classification & Reasoning (THINK FIRST)
+
+**Before ANY analysis or code generation, stop and classify what you received.** This is the most important step. Different inputs demand fundamentally different approaches. Do NOT jump to building — first reason about what you're looking at.
+
+**Step 1 — Identify the input type:**
+
+| Input Type | How to Detect | Example |
+|---|---|---|
+| **Full project (GitHub repo)** | Has `package.json` / `pyproject.toml` / `docker-compose.yml` / multiple directories | `git clone https://github.com/user/project` |
+| **Multi-file bundle** | 3+ files pasted or uploaded, mixed types | User drops `main.py`, `config.yaml`, `utils.py` |
+| **Single code file** | One `.py` / `.js` / `.ts` / `.sh` file | User pastes `pipeline_runner.py` |
+| **Single data file** | One `.json` / `.yaml` / `.csv` / `.env` file | User pastes a `config.json` |
+| **Single document** | One `.md` / `.html` / `.sql` file | User pastes a `README.md` or `schema.sql` |
+
+**Step 2 — Determine the presentation strategy:**
+
+| Input Type | Mode | Architecture Depth | Primary Focus |
+|---|---|---|---|
+| Full project | Standard Mode | All 4 layers (Architecture → Module → Detail → Unit) | System structure, how modules collaborate, full data flow |
+| Multi-file bundle | Deep Dive Mode | Layers 2-4 (Module → Detail → Unit) | How the files relate to each other, cross-file call graph |
+| Single `.py` / `.js` | Deep Dive Mode | Layers 3-4 (Detail → Unit) | Function inventory, internal call flow, I/O per function, data transformations |
+| Single `.json` / `.yaml` | Deep Dive Mode | Layer 3 only | Schema structure, who consumes it, field meanings, validation rules |
+| Single `.csv` | Deep Dive Mode | Layer 3 only | Column analysis, data types, sample rows, which code processes it |
+| Single `.html` | Deep Dive Mode | Layers 3-4 | DOM structure, template variables, linked resources, render result |
+| Single `.md` | Deep Dive Mode | Layer 3 only | Document structure, whether it describes architecture, key decisions it captures |
+| Single `.sql` | Deep Dive Mode | Layers 3-4 | Tables, relationships, key queries, migration sequence |
+
+**Step 3 — Choose the right visualization elements:**
+
+| What You're Explaining | Best Visualization | Library/Technique |
+|---|---|---|
+| Module dependencies (who imports who) | Force-directed graph or Chord diagram | D3.js force layout or d3-chord |
+| Data transformation pipeline | Sankey diagram or Data Pipeline Tracer | D3-sankey or custom step animation |
+| Function call sequence | Numbered step cards or animated flow | CSS animation with step-by-step reveal |
+| File tree with roles | Interactive file tree with type dots | Custom HTML with expand/collapse |
+| JSON/YAML schema | Collapsible tree with type annotations | Custom HTML accordion |
+| CSV data profile | Mini data table + column type badges | HTML table with sparklines |
+| Git changes over time | Timeline with commit dots | SVG timeline or step cards |
+| Architecture overview | Structural block diagram | SVG or HTML grid layout |
+| Circular dependencies | Chord diagram | D3-chord |
+| Data flow volume | Sankey diagram | D3-sankey |
+
+**Step 4 — Write your reasoning (internal, before building):**
+
+Before generating any HTML, write a brief internal plan:
+```
+INPUT TYPE: [what was detected]
+MODE: [Standard / Deep Dive]
+ARCHITECTURE DEPTH: [which layers apply]
+KEY QUESTIONS TO ANSWER:
+  1. [What is the main thing the user needs to understand?]
+  2. [What's the most confusing part that visualization will clarify?]
+  3. [What data flow or dependency is most important?]
+VISUALIZATION PLAN:
+  Module 1: [element type] for [purpose]
+  Module 2: [element type] for [purpose]
+  ...
+```
+
+**Only after completing Phase 0 should you proceed to Phase 1.**
 
 ### Phase 1: Codebase Analysis
 
@@ -107,6 +168,85 @@ Before writing course HTML, deeply understand the codebase. Read all the key fil
 - **Git history** (if available): Run `git log --oneline -20` and `git diff HEAD~1` (or between specified commits) to identify recent changes. Map changed files to the module collaboration graph
 
 **Figure out what the app does yourself** by reading the README, the main entry points, and the UI code. Don't ask the user to explain the product — they may not be familiar with it either. The course should open by explaining what the app does in plain language (a brief "here's what this thing does and why it's interesting") before diving into how it works. The first module should start with a concrete user action — "imagine you paste a YouTube URL and click Analyze — here's what happens under the hood."
+
+#### File-Type Aware Analysis
+
+Different file types serve different roles and need different analysis approaches. During Phase 1, classify every file you encounter and apply the appropriate analysis lens:
+
+| File Type | Role in Project | What to Extract |
+|---|---|---|
+| `.py` | Logic / processing | Functions (name, args, return), class hierarchy, imports, call graph, data transformations |
+| `.js` / `.ts` | Frontend logic / API | Components, event handlers, API calls, state management, DOM manipulation |
+| `.html` | Structure / templates | Page structure, template variables, component slots, form fields, linked resources |
+| `.css` / `.scss` | Presentation | Layout patterns, responsive breakpoints, component class naming, theme variables |
+| `.json` | Configuration / data | Schema structure, key fields and their meanings, nesting depth, which code reads this |
+| `.csv` / `.tsv` | Tabular data | Column names, data types per column, row count estimate, which code consumes it |
+| `.md` | Documentation | What it documents, whether it's up-to-date, key decisions or architecture notes it captures |
+| `.yaml` / `.yml` | Configuration / pipelines | Structure hierarchy, which service/tool consumes it, environment-specific overrides |
+| `.env` / `.toml` / `.ini` | Environment config | Variables defined, which ones are secrets, which code references them |
+| `.sql` | Database | Tables defined, relationships, key queries, migration sequence |
+| `.sh` / `.bat` | Automation | What it automates, execution order, dependencies, error handling |
+
+**When analyzing a file, always surface:**
+1. What TYPE of file is this (from the table above)
+2. WHO consumes this file (which other files import/read/reference it)
+3. WHAT is its role in the overall data flow
+
+#### Four-Layer Architecture Model (for projects)
+
+When analyzing a full project (not a single file), organize your understanding into four nested layers. This is the "zoom" structure — the course should let the learner navigate from the outermost layer inward:
+
+**Layer 1 — Architecture layer (the 30,000ft view)**
+What are the major subsystems? How do they relate? What's the tech stack?
+- Example: "This project has a Python backend (FastAPI), a React frontend, a PostgreSQL database, and an LLM service layer."
+- Visual: High-level block diagram with 3-5 blocks and arrows showing data direction
+- File types here: README.md, docker-compose.yml, project root configs
+
+**Layer 2 — Module layer (the building blocks)**
+Within each subsystem, what are the packages/directories? What does each one own?
+- Example: "The backend has 4 packages: `api/` (route handlers), `services/` (business logic), `models/` (data schemas), `utils/` (shared helpers)."
+- Visual: Expanded block diagram — each subsystem opens into its constituent packages
+- File types here: `__init__.py`, `package.json`, directory-level READMEs
+
+**Layer 3 — Detail layer (the working parts)**
+Within each module, what are the key files? What does each file do? How do they call each other?
+- Example: "`services/pipeline.py` orchestrates the CER generation. It calls `services/llm_client.py` for model inference and `services/formatter.py` for output."
+- Visual: File tree with annotations + Package Anatomy Cards + cross-file call arrows
+- File types here: All `.py`, `.js`, `.html`, `.yaml` files that contain actual logic
+
+**Layer 4 — Unit layer (the code itself)**
+Within each key file, what are the functions/classes? What are their I/O contracts? How does data transform step by step?
+- Example: "`process_chapter(chapter_id, context)` takes a chapter ID and pipeline context, calls the LLM, then runs 3 post-processing steps, and returns a ChapterResult."
+- Visual: Code ↔ English translations + Data Pipeline Tracer
+- File types here: Individual functions within files
+
+**The course should navigate these layers progressively** — start at Layer 1, then the user can "zoom in" to any block to see Layer 2, then further into Layer 3, and finally Layer 4 for specific functions.
+
+#### Single-File Analysis Protocol
+
+When analyzing a SINGLE file (user says "explain this file" or pastes one file), apply a file-type-specific deep analysis. Every single-file analysis must cover these aspects, adapted to the file type:
+
+**For code files (`.py`, `.js`, `.ts`, `.sh`):**
+1. **Purpose** — What is this file's job in one sentence?
+2. **Imports / dependencies** — What does it pull in and why?
+3. **Function inventory** — List every `def` / `function` with: name, input args (with types if available), return value, one-line purpose
+4. **Call flow** — Which functions call which? Show the internal call graph
+5. **Data flow** — Trace input → transformation → output through the main functions. What does the data look like at each stage?
+6. **Entry point** — How is this file invoked? (CLI? imported? called by another script?)
+7. **Side effects** — Does it write files, call APIs, modify databases?
+8. **Core logic spotlight** — Pick the 2-3 most important functions and do full Code ↔ English translations
+
+**For data/config files (`.json`, `.yaml`, `.csv`, `.env`):**
+1. **Schema** — What's the structure? Key fields and their purposes
+2. **Consumer** — Which code files read this? How do they parse it?
+3. **Sensitivity** — Are there secrets, environment-specific values, or user data?
+4. **Example** — Show a real sample with annotations explaining each field
+5. **Validation** — Are there constraints? Required fields? Format rules?
+
+**For markup/template files (`.html`, `.md`, `.sql`):**
+1. **Structure** — What sections/components does it define?
+2. **Dynamic parts** — Template variables, conditional blocks, loops
+3. **Relationships** — What data feeds into this? What renders/consumes it?
 
 ### Phase 2: Curriculum Design
 
@@ -284,15 +424,18 @@ The goal of learning is practical application — being able to *do something* w
 
 ## Design Identity
 
-The visual design should feel like a **beautiful developer notebook** — warm, inviting, and distinctive. Read `references/design-system.md` for the full token system, but here are the non-negotiable principles:
+The visual design should feel like **Apple's product pages** — clean, confident, typographically rich, and almost entirely black-and-white. Read `references/design-system.md` for the full token system, but here are the non-negotiable principles:
 
-- **Warm palette**: Off-white backgrounds (like aged paper), warm grays, NO cold whites or blues
-- **Bold accent**: One confident accent color (vermillion, coral, teal — NOT purple gradients)
-- **Distinctive typography**: Display font with personality for headings (Bricolage Grotesque, or similar bold geometric face — NEVER Inter, Roboto, Arial, or Space Grotesk). Clean sans-serif for body (DM Sans or similar). JetBrains Mono for code.
-- **Generous whitespace**: Modules breathe. Max 3-4 short paragraphs per screen.
-- **Alternating backgrounds**: Even/odd modules alternate between two warm background tones for visual rhythm
-- **Dark code blocks**: IDE-style with Catppuccin-inspired syntax highlighting on deep indigo-charcoal (#1E1E2E)
-- **Depth without harshness**: Subtle warm shadows, never black drop shadows
+- **Refined neutral baseline**: The entire course sits on warm ivory (#FAFAF8), never pure white. Alternating modules use a soft warm gray (#F3F3F1). The palette should feel like high-quality paper — not a hospital, not a coffee shop
+- **System fonts first**: -apple-system / Inter stack. No decorative display fonts. Typography hierarchy comes from weight (300 for decorative numbers, 700 for titles) and size, not font variety
+- **One accent color**: Apple blue (#0071E3) by default, used ONLY for interactive affordances — links, active states, buttons. Never for backgrounds or section headers
+- **Frosted glass nav**: `backdrop-filter: blur(20px)` on the navigation bar — Apple's signature transparency
+- **Module numbers in light weight**: Large (72px), thin (weight 300), gray — architectural, not attention-grabbing
+- **Minimal shadows**: Prefer 1px borders over shadows. When shadows are used, they're barely visible (`rgba(0,0,0,0.04)`)
+- **Content width 720px**: Tighter than typical — forces concise content and feels editorial
+- **Alternating ivory / warm gray**: Modules alternate between `--color-bg` and `--color-bg-alt` — subtle rhythm, not colored sections
+- **File type dots**: 6px colored dots before filenames in file trees — the ONLY place file-type color appears
+- **Code blocks**: Near-black (#1C1C1E) with restrained syntax colors (no neon, no rainbow)
 
 ---
 

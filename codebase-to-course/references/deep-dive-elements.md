@@ -97,32 +97,32 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
 .pkg-card {
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
   margin: var(--space-6) 0;
-  border: 1px solid var(--color-border);
-  transition: box-shadow var(--duration-normal);
+  border: 1px solid var(--color-border-light);
+  transition: border-color var(--duration-normal);
 }
-.pkg-card:hover { box-shadow: var(--shadow-md); }
+.pkg-card:hover { border-color: var(--color-border); }
 
 .pkg-header {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border: none;
   cursor: pointer;
   width: 100%;
   text-align: left;
 }
 .pkg-icon {
-  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; flex-shrink: 0;
+  font-size: 1rem; flex-shrink: 0;
+  background: var(--color-bg-alt);
 }
 .pkg-name {
   font-family: var(--font-mono);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
@@ -146,12 +146,12 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
   border-radius: var(--radius-full);
 }
 .pkg-io-in {
-  background: var(--color-info-light);
-  color: var(--color-info);
+  background: var(--color-bg-alt);
+  color: var(--color-text-secondary);
 }
 .pkg-io-out {
-  background: var(--color-success-light);
-  color: var(--color-success);
+  background: var(--color-bg-alt);
+  color: var(--color-text-secondary);
 }
 .pkg-toggle {
   font-size: var(--text-sm);
@@ -164,7 +164,7 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
   max-height: 0;
   overflow: hidden;
   transition: max-height var(--duration-slow) var(--ease-out);
-  background: var(--color-surface-warm);
+  background: var(--color-bg-alt);
   border-top: 1px solid var(--color-border-light);
 }
 .pkg-card.open .pkg-body {
@@ -182,21 +182,23 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
   color: var(--color-text-muted);
   margin: 0 0 var(--space-3);
   font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .pkg-fn {
   padding: var(--space-3) var(--space-4);
   margin-bottom: var(--space-2);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: border-color var(--duration-fast);
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
 }
 .pkg-fn:hover { border-left-color: var(--color-accent); }
 .pkg-fn-name {
   font-size: var(--text-sm);
-  color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: 500;
 }
 .pkg-fn-desc {
   display: block;
@@ -213,8 +215,10 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
   font-size: var(--text-xs);
 }
 .pkg-fn:hover .pkg-fn-io { display: flex; }
-.pkg-fn-in { color: var(--color-info); }
-.pkg-fn-out { color: var(--color-success); }
+.pkg-fn-in { color: var(--color-text-secondary); }
+.pkg-fn-in::before { content: "→ "; }
+.pkg-fn-out { color: var(--color-text-secondary); }
+.pkg-fn-out::before { content: "← "; }
 
 .pkg-deps {
   display: flex;
@@ -225,12 +229,14 @@ An expandable card that X-rays a single package/module/script. Collapsed state s
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   padding: 4px 12px;
-  background: var(--color-accent-light);
-  color: var(--color-accent);
+  background: var(--color-bg-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-light);
   border-radius: var(--radius-full);
   cursor: pointer;
+  transition: all var(--duration-fast);
 }
-.pkg-dep:hover { background: var(--color-accent); color: white; }
+.pkg-dep:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 .pkg-data-shape {
   background: var(--color-bg-code);
@@ -374,9 +380,9 @@ An animated, step-by-step visualization of data flowing through a processing pip
 .pipeline-tracer {
   margin: var(--space-8) 0;
   padding: var(--space-6);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
 }
 .pipeline-header {
   display: flex;
@@ -387,19 +393,21 @@ An animated, step-by-step visualization of data flowing through a processing pip
 .pipeline-header h3 {
   font-family: var(--font-display);
   font-size: var(--text-xl);
+  font-weight: 600;
   margin: 0;
 }
 .pipeline-play-btn {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   padding: 6px 16px;
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   background: transparent;
   border-radius: var(--radius-full);
   cursor: pointer;
+  transition: all var(--duration-fast);
 }
-.pipeline-play-btn:hover { background: var(--color-accent); color: white; }
+.pipeline-play-btn:hover { border-color: var(--color-text); color: var(--color-text); }
 
 .pipeline-stages {
   display: flex;
@@ -418,7 +426,7 @@ An animated, step-by-step visualization of data flowing through a processing pip
   border-radius: var(--radius-sm);
   transition: background var(--duration-fast);
 }
-.pipeline-stage:hover { background: var(--color-surface-warm); }
+.pipeline-stage:hover { background: var(--color-bg-hover); }
 .pipeline-stage.active {
   background: var(--color-accent-light);
 }
@@ -432,19 +440,20 @@ An animated, step-by-step visualization of data flowing through a processing pip
 }
 
 .stage-node {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: var(--stage-color, var(--color-accent));
+  background: var(--color-text);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+  transition: transform var(--duration-fast);
 }
 .pipeline-stage:hover .stage-node {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-md);
+  transform: scale(1.08);
+}
+.pipeline-stage.active .stage-node {
+  background: var(--color-accent);
 }
 .stage-num {
   color: white;
@@ -483,8 +492,8 @@ An animated, step-by-step visualization of data flowing through a processing pip
 
 .inspector-tabs {
   display: flex;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface-warm);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-alt);
 }
 .inspector-tab {
   flex: 1;
@@ -494,15 +503,17 @@ An animated, step-by-step visualization of data flowing through a processing pip
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
   cursor: pointer;
   border-bottom: 2px solid transparent;
+  transition: all var(--duration-fast);
 }
+.inspector-tab:hover { color: var(--color-text-secondary); }
 .inspector-tab.active {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
-  font-weight: 600;
+  color: var(--color-text);
+  border-bottom-color: var(--color-text);
+  font-weight: 500;
 }
 .inspector-content {
   background: var(--color-bg-code);
@@ -711,30 +722,30 @@ A visual layer that highlights which parts of the architecture changed between t
 /* Diff highlight states — applied to architecture diagram nodes */
 .diff-changed {
   animation: diffPulse 2s ease-in-out infinite;
-  outline: 2px solid var(--color-accent);
+  outline: 1.5px solid var(--color-text);
   outline-offset: 3px;
 }
 .diff-added {
   animation: diffPulse 2s ease-in-out infinite;
-  outline: 2px dashed var(--color-success);
+  outline: 1.5px dashed var(--color-success);
   outline-offset: 3px;
 }
 .diff-removed {
-  opacity: 0.4;
+  opacity: 0.3;
   text-decoration: line-through;
 }
 .diff-affected-path {
-  stroke: var(--color-accent) !important;
-  stroke-width: 3px !important;
-  stroke-dasharray: 8 4;
+  stroke: var(--color-text) !important;
+  stroke-width: 2px !important;
+  stroke-dasharray: 6 4;
   animation: dashFlow 1s linear infinite;
 }
 @keyframes diffPulse {
   0%, 100% { outline-offset: 3px; }
-  50% { outline-offset: 6px; }
+  50% { outline-offset: 5px; }
 }
 @keyframes dashFlow {
-  to { stroke-dashoffset: -12; }
+  to { stroke-dashoffset: -10; }
 }
 
 /* Change summary cards */
@@ -750,18 +761,16 @@ A visual layer that highlights which parts of the architecture changed between t
   gap: var(--space-3);
   padding: var(--space-4);
   border-radius: var(--radius-sm);
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
+  background: var(--color-bg-alt);
 }
 .diff-card.changed {
-  background: var(--color-accent-light);
-  border-left-color: var(--color-accent);
+  border-left-color: var(--color-text);
 }
 .diff-card.added {
-  background: var(--color-success-light);
   border-left-color: var(--color-success);
 }
 .diff-card.removed {
-  background: var(--color-error-light);
   border-left-color: var(--color-error);
 }
 .diff-card-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
@@ -836,3 +845,155 @@ Map the changed files to your module collaboration graph. For each changed file:
 4. What downstream modules consume this file's output?
 
 This mapping is what turns a raw git diff into an actionable understanding of "what broke and why."
+
+---
+
+## Advanced Visualization Patterns
+
+These visualization types use D3.js loaded via CDN. They are more powerful than the basic flow diagrams and should be used when the data warrants them. The rule is: **effective, not flashy**. Every visualization must answer a specific question the learner has.
+
+### When to Use Each Pattern
+
+| Pattern | Best For | NOT For |
+|---|---|---|
+| Force-directed graph | Module dependency map, import relationships, "who calls who" | Sequential pipelines, hierarchical data |
+| Sankey diagram | Data flow volume, pipeline stages with branching/merging | Simple linear A→B→C flows (use Pipeline Tracer instead) |
+| Chord diagram | Mutual dependencies, cross-module call frequency matrix | One-directional flows, hierarchical data |
+| Collapsible tree | File trees, JSON/YAML schema, class inheritance | Circular dependencies, data flow |
+| Mini data table | CSV column profiles, config file summaries | Large datasets (show sample only) |
+
+### CDN Loading Pattern
+
+All D3 visualizations in the course use the same loading pattern. Include once at the bottom of the HTML:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+```
+
+### Force-Directed Dependency Graph
+
+**Purpose**: Show which modules/files depend on which others. Nodes are files, edges are import/call relationships. The physics simulation naturally clusters tightly-coupled modules together — this is the "aha" moment.
+
+**Data format:**
+```javascript
+const graphData = {
+  nodes: [
+    { id: "pipeline_runner.py", group: "core", fileType: "py" },
+    { id: "llm_client.py", group: "core", fileType: "py" },
+    { id: "config.yaml", group: "config", fileType: "yaml" },
+    { id: "formatter.py", group: "utils", fileType: "py" }
+  ],
+  links: [
+    { source: "pipeline_runner.py", target: "llm_client.py", type: "imports" },
+    { source: "pipeline_runner.py", target: "config.yaml", type: "reads" },
+    { source: "pipeline_runner.py", target: "formatter.py", type: "imports" }
+  ]
+};
+```
+
+**Styling rules:**
+- Node size: 8px default, 12px for files with 3+ connections
+- Node color: use file-type dot colors from design-system.md (`--ft-python`, `--ft-json`, etc.)
+- Edge color: `var(--color-border)` for normal imports, `var(--color-accent)` for the primary data flow path
+- Edge style: solid for imports, dashed for config reads
+- On hover: highlight all connected edges and dim everything else
+- On click: `sendPrompt('Explain [filename] in detail')` or jump to that file's Package Anatomy Card
+- Labels: filename only (no path), 12px, positioned to avoid overlap
+- Keep the simulation gentle: `forceCharge(-120)`, `forceLink().distance(80)`
+
+### Sankey Data Flow Diagram
+
+**Purpose**: Show how data flows through the system with volume. Left side is input sources, right side is output destinations, middle bands show transformation stages. Band width represents relative data volume or importance.
+
+**When to use instead of Pipeline Tracer**: When the flow branches or merges (e.g., multiple input files converge into one processor, or one processor fans out to multiple outputs). Pipeline Tracer is for linear flows; Sankey is for complex flows.
+
+**Data format:**
+```javascript
+const sankeyData = {
+  nodes: [
+    { name: "Raw chapters (input)" },
+    { name: "LLM processor" },
+    { name: "Table extractor" },
+    { name: "Validator" },
+    { name: "CER document (output)" },
+    { name: "CSV export (output)" }
+  ],
+  links: [
+    { source: 0, target: 1, value: 10 },
+    { source: 1, target: 2, value: 8 },
+    { source: 1, target: 3, value: 2 },
+    { source: 2, target: 4, value: 6 },
+    { source: 2, target: 5, value: 2 },
+    { source: 3, target: 4, value: 2 }
+  ]
+};
+```
+
+**Styling rules:**
+- Node rectangles: 20px wide, height proportional to flow volume
+- Node color: `var(--color-text)` (near-black) — the bands carry the color, not the nodes
+- Band color: accent blue at 25% opacity for the primary flow, `var(--color-border)` at 15% for secondary flows
+- Band on hover: raise opacity to 60% and show a tooltip with the data shape at that stage
+- Labels: 13px, positioned outside the node rectangles
+- Load via: `https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js`
+
+### Collapsible Tree (for JSON/YAML/file structure)
+
+**Purpose**: Let the learner explore a hierarchical structure by expanding and collapsing nodes. Superior to a flat code block for JSON schemas, YAML configs, and file trees.
+
+**Styling rules:**
+- Use the file-type dot colors for leaf nodes
+- Folders/objects get a subtle triangle toggle (▶ / ▼)
+- Expand the first two levels by default, collapse deeper levels
+- On hover: show a tooltip with the field's purpose (populated from Phase 1 analysis)
+- Values (strings, numbers) shown in mono font, keys in regular font
+- CSS-only implementation preferred (no D3 needed) — use `<details>` / `<summary>` with custom styling
+- Max visible depth without scrolling: 3 levels. Deeper nesting collapses automatically
+
+### Mini Data Table (for CSV/tabular data)
+
+**Purpose**: Give a quick profile of a CSV or data file — column names, types, sample values, and which code consumes it.
+
+**Structure:**
+```html
+<div class="data-profile">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Type</th>
+        <th>Sample</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>chapter_id</code></td>
+        <td><span class="type-badge str">str</span></td>
+        <td>"ch04"</td>
+        <td>Primary key, referenced by pipeline_runner.py</td>
+      </tr>
+      <!-- more rows -->
+    </tbody>
+  </table>
+</div>
+```
+
+**Styling rules:**
+- Table: full width, 1px border-bottom on rows, no outer border
+- Header: `var(--color-text-tertiary)`, uppercase, 11px mono, letter-spacing 0.08em
+- Type badges: tiny pills (font-size 10px, padding 2px 6px, border-radius full)
+  - `str` → blue-gray, `int` → green, `float` → amber, `bool` → purple, `date` → teal
+- Sample values: mono font, truncated at 30 chars with `...`
+- Notes column: regular font, `var(--color-text-secondary)`
+- Show max 8 rows. If more columns exist, add a "and N more columns" footer
+- Below the table: a one-liner like "Consumed by: `pipeline_runner.py` → `process_chapter()`"
+
+### Rules for All Advanced Visualizations
+
+1. **Always provide a text fallback.** Below every D3 visualization, include a brief text summary of what the diagram shows. Screen readers and users who can't interact with the diagram should still get the key insight.
+2. **Responsive handling**: On mobile (< 768px), replace force-directed graphs with a simple indented list. Replace Sankey with a numbered step list. D3 layouts don't work well on small screens.
+3. **Loading**: D3 scripts load from CDN. Include a tiny CSS spinner placeholder that disappears when the visualization renders. Never show a blank space while loading.
+4. **Interaction budget**: Each visualization gets at most 2 interaction types (e.g., hover + click, or drag + click). More than that creates confusion. Pick the two that answer the learner's most likely questions.
+5. **Color budget**: Max 3 colors per visualization (excluding grays). Use the file-type dot colors from design-system.md for file nodes, and accent blue for highlighted paths. Everything else is gray/black.
+

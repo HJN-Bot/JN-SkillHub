@@ -59,7 +59,7 @@ The most important teaching element. Shows real code from the project on the lef
   gap: 0;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
   margin: var(--space-8) 0;
 }
 .translation-code {
@@ -70,20 +70,20 @@ The most important teaching element. Shows real code from the project on the lef
   font-size: var(--text-sm);
   line-height: 1.7;
   position: relative;
-  overflow-x: hidden;  /* NO horizontal scrollbar — ever */
+  overflow-x: hidden;
 }
 .translation-code pre,
 .translation-code code {
-  white-space: pre-wrap;       /* wrap long lines instead of scrolling */
-  word-break: break-word;      /* break mid-word if needed */
+  white-space: pre-wrap;
+  word-break: break-word;
   overflow-x: hidden;
 }
 .translation-english {
-  background: var(--color-surface-warm);
+  background: var(--color-bg-alt);
   padding: var(--space-6);
   font-size: var(--text-sm);
   line-height: 1.7;
-  border-left: 3px solid var(--color-accent);
+  border-left: 1px solid var(--color-border-light);
 }
 .translation-label {
   position: absolute;
@@ -192,14 +192,14 @@ window.checkQuiz = function(sectionId) {
 .quiz-option {
   display: flex; align-items: center; gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border-light);
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   cursor: pointer; width: 100%;
   transition: border-color var(--duration-fast), background var(--duration-fast);
 }
-.quiz-option:hover { border-color: var(--color-accent-muted); }
-.quiz-option.selected { border-color: var(--color-accent); background: var(--color-accent-light); }
+.quiz-option:hover { border-color: var(--color-border); }
+.quiz-option.selected { border-color: var(--color-text); background: var(--color-bg-alt); }
 .quiz-option.correct { border-color: var(--color-success); background: var(--color-success-light); }
 .quiz-option.incorrect { border-color: var(--color-error); background: var(--color-error-light); }
 .quiz-option-radio {
@@ -208,8 +208,8 @@ window.checkQuiz = function(sectionId) {
   transition: all var(--duration-fast);
 }
 .quiz-option.selected .quiz-option-radio {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
+  border-color: var(--color-text);
+  background: var(--color-text);
   box-shadow: inset 0 0 0 3px white;
 }
 .quiz-feedback {
@@ -629,7 +629,7 @@ Same HTML/CSS/JS pattern as Multiple-Choice Quizzes, but with longer scenario de
 ```
 
 **Variants:**
-- `callout-accent`: vermillion left border, light accent background (for CS insights)
+- `callout-accent`: accent blue left border, light tint background (for CS insights)
 - `callout-info`: teal left border, light info background (for "good to know")
 - `callout-warning`: red left border, light error background (for common mistakes)
 
@@ -657,10 +657,10 @@ Grid of cards highlighting engineering patterns, tech stack components, or key c
   gap: var(--space-4);
 }
 .pattern-card {
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border-radius: var(--radius-md);
   padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal);
 }
 .pattern-card:hover {
@@ -719,7 +719,7 @@ For annotating config files, permissions, or settings:
   border-radius: var(--radius-sm);
   transition: border-color var(--duration-fast);
 }
-.badge-item:hover { border-color: var(--color-accent-muted); }
+.badge-item:hover { border-color: var(--color-accent-hover); }
 .badge-code {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -748,7 +748,7 @@ The most important accessibility feature for non-technical learners. Any technic
 **CSS:**
 ```css
 .term {
-  border-bottom: 1.5px dashed var(--color-accent-muted);
+  border-bottom: 1.5px dashed var(--color-accent-hover);
   cursor: pointer;    /* NOT cursor: help — pointer feels clickable and inviting */
   position: relative;
 }
@@ -927,12 +927,12 @@ Use instead of paragraphs listing "this folder does X, that folder does Y." Much
 .file-tree { font-family: var(--font-mono); font-size: var(--text-sm); }
 .ft-folder, .ft-file {
   padding: var(--space-2) var(--space-3);
-  border-left: 2px solid var(--color-border-light);
+  border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-4);
 }
-.ft-folder > .ft-name { color: var(--color-accent); font-weight: 600; }
-.ft-folder > .ft-name::before { content: '📁 '; }
-.ft-file > .ft-name::before { content: '📄 '; }
+.ft-folder > .ft-name { color: var(--color-text); font-weight: 600; }
+.ft-folder > .ft-name::before { content: '📁 '; font-size: 14px; }
+.ft-file > .ft-name::before { content: ''; }  /* use file-type-dot instead */
 .ft-desc {
   color: var(--color-text-secondary);
   font-family: var(--font-body);
@@ -979,9 +979,9 @@ For listing components, features, or concepts visually. Replaces bullet-point pa
 .icon-row {
   display: flex; align-items: center; gap: var(--space-4);
   padding: var(--space-4);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
 }
 .icon-row p { margin: 0; color: var(--color-text-secondary); font-size: var(--text-sm); }
 .icon-circle {
@@ -1028,17 +1028,17 @@ For sequences that would otherwise be a numbered paragraph list. Visual, scannab
 .step-card {
   display: flex; align-items: flex-start; gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  background: var(--color-surface);
+  background: var(--color-bg-surface);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-accent);
-  box-shadow: var(--shadow-sm);
+  border-left: 2px solid var(--color-border);
 }
 .step-num {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--color-accent);
-  color: white; font-weight: 700;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--color-text);
+  color: white; font-weight: 600;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
   flex-shrink: 0;
 }
 .step-body p { margin: var(--space-1) 0 0; color: var(--color-text-secondary); font-size: var(--text-sm); }
