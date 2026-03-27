@@ -1,6 +1,6 @@
 ---
 name: jianan-presentation-system
-description: "Jianan's end-to-end presentation creation system for enterprise AI project pitches. Use this skill whenever Jianan asks to create a presentation, slide deck, pitch deck, or PPT — especially for R·Agent, AI PoC demos, executive presentations, or any technical project requiring stakeholder buy-in. Also trigger when Jianan asks to draft oral scripts, speaker notes, or bilingual (Chinese+English) presentation content. This skill captures both the VISUAL DESIGN SYSTEM (layout, color, typography, component patterns) and the CONTENT LOGIC SYSTEM (narrative structure, slide-to-speech mapping, bilingual strategy). Use even for partial requests like 'help me design one slide' or 'write the oral script for this section'."
+description: "Jianan's end-to-end presentation creation system for enterprise AI project pitches. Use this skill whenever Jianan asks to create a presentation, slide deck, pitch deck, or PPT — especially for R·Agent, AI PoC demos, executive presentations, or any technical project requiring stakeholder buy-in. Also trigger when Jianan asks to draft oral scripts, speaker notes, or bilingual (Chinese+English) presentation content, create animated diagrams (Manim 3D architecture flows, HTML CSS particle animations), generate GIFs for PPT embedding, or produce explainer animations. This skill captures the VISUAL DESIGN SYSTEM (layout, color, typography, component patterns), the CONTENT LOGIC SYSTEM (narrative structure, slide-to-speech mapping, bilingual strategy), and the ANIMATION SYSTEM (Manim 3D scenes, HTML CSS animations, GIF export workflow). Use even for partial requests like 'help me design one slide', 'write the oral script for this section', 'make an architecture animation', or 'turn this into a GIF for my PPT'."
 ---
 
 # Jianan Presentation System
@@ -15,6 +15,7 @@ A comprehensive skill for creating enterprise-grade presentations matching Jiana
 | Content logic & narrative structure | [references/content-logic.md](references/content-logic.md) |
 | Slide-type templates with specifications | [references/slide-templates.md](references/slide-templates.md) |
 | Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
+| Animation workflow (Manim / HTML / GIF export) | [references/animation-workflow.md](references/animation-workflow.md) |
 
 ---
 
@@ -103,7 +104,12 @@ When asked to create a presentation:
 4. **Produce deliverables**:
    - **PPTX file** (LAYOUT_WIDE 13.3"×7.5"): editable in PowerPoint — titles, bullets, tables, charts as native elements
    - **HTML files** for complex diagrams: funnel architectures, color-coded comparison tables, flow diagrams with rounded connectors — screenshot and embed into PPTX as images
+   - **HTML CSS animations** for node-relation flows with SVG offset-path particles — record/screenshot to GIF
+   - **Manim 3D animations** for architecture data flows, layer-traversal effects — render to MP4 then convert to GIF
+   - **GIF files** for all animated content — embed into PPTX slides via addImage/addMedia
    - **Companion oral script** in Markdown (Chinese + English versions)
+
+   > Animation type decision: data flow across layers → **Manim 3D**; node network with particle connections → **HTML CSS**; static diagram → **PPTX native**. See [references/animation-workflow.md](references/animation-workflow.md).
 5. **QA every slide**: Convert to image, check for alignment, text overflow, spacing issues, container padding.
 
 ---
