@@ -1,13 +1,18 @@
-# Slide Layout Library — Jianan Presentation System
+# Slide Layout Library — Commercial Template Resource
 
-Layout archetypes extracted from a 165-slide commercial template and translated to Jianan's brand system. Use these as the **structural skeleton** — always apply Jianan's colors, fonts, and visual rules on top.
+> **使用说明（重要）**：
+> 这个文件是从商业模板提炼的**布局资源库**，不是默认参考。
+> 优先使用 `visual-style.md`（基于 Jianan 真实 PPT）和 `slide-templates.md`。
+> 只有当那两个文件没有覆盖所需布局时，才从这里挑选合适的原型。
+> 商业模板里有一些布局 Jianan 原始 PPT 里也用了（如甘特图、TOC 编号列表），
+> 这些是认可的模式；其他布局按需判断是否适用。
 
-**Quick color substitution rule:**
-| Template color | Jianan equivalent |
-|----------------|------------------|
+**颜色替换规则（以 visual-style.md 为唯一权威）：**
+| Template color | Jianan 对应颜色 |
+|----------------|-----------------|
 | Blue `#0070C0` | Orange `#E87722` |
-| Dark blue panels | Black `#1a1a1a` or teal `#0A7E8C` |
-| Gray accent | Teal `#0A7E8C` |
+| Dark blue panels | Black `#1a1a1a` 或 Teal `#009999` |
+| Gray accent | Teal `#009999` |
 | White text on color | White `#FFFFFF` |
 
 ---
@@ -111,7 +116,7 @@ Layout archetypes extracted from a 165-slide commercial template and translated 
 - Section title "目录｜Contents": `x=7.4", y=1.1", size=44pt Bold`
 - Numbers "01─": `x=7.5", y=2.6"` — 32pt, Orange `#E87722`; spacing ~1.17" between items
 - Chinese title: `x=8.6", y=2.54"` — 18pt Bold Black; same y as number
-- English subtitle: `x=8.6", y=2.92"` — 14pt Regular Teal `#0A7E8C`
+- English subtitle: `x=8.6", y=2.92"` — 14pt Regular Teal `#009999`
 
 **Jianan adaptation:** Replace left photo with a dark/orange color block for the "no-photo" version.
 
@@ -164,7 +169,7 @@ Layout archetypes extracted from a 165-slide commercial template and translated 
 **Key measurements:**
 - Giant number: `x=-0.5", y=0.15", size=400-450pt, Bold` — Orange `#E87722`, partially clipped
 - Section title: `x=6.5", y=1.3", size=40pt Bold Black`
-- English subtitle: `x=6.5", y=2.5", size=20pt` — Teal `#0A7E8C`
+- English subtitle: `x=6.5", y=2.5", size=20pt` — Teal `#009999`
 - Thin horizontal rule: `x=6.5", y=3.2", w=6"` — 0.5pt Orange
 - Description text: `x=6.5", y=3.5"` — 14pt Regular
 
@@ -308,7 +313,7 @@ Layout archetypes extracted from a 165-slide commercial template and translated 
 - Step block: `w=2.47", h=2.86"` Freeform/Rounded Rectangle
 - Step header accent bar: `w=2.47", h=0.45"` at top of each block, colored
 - Connector arrow area: `h=0.91"` between top-bar and block body
-- Colors: alternate Orange (#E87722) → Teal (#0A7E8C) → Dark → Orange pattern
+- Colors: alternate Orange (#E87722) → Teal (#009999) → Dark → Orange pattern
 - Step number: 28pt Bold White inside colored header bar
 - Step title: 14pt Bold below number
 - Description: 12pt Regular, Gray, inside block
@@ -390,7 +395,7 @@ Layout archetypes extracted from a 165-slide commercial template and translated 
 When adapting any layout to Jianan's brand:
 
 1. **Primary accent = Orange `#E87722`**: Slide titles, section numbers, primary headers, KPI numbers, left-side challenge boxes
-2. **Secondary accent = Teal `#0A7E8C`**: English subtitles, check marks, right-side evidence labels, secondary cards
+2. **Secondary accent = Teal `#009999`**: English subtitles, check marks, right-side evidence labels, secondary cards
 3. **Text = Near-black `#1a1a1a`**: All body text, chart labels
 4. **Background = White `#FFFFFF`**: All content areas (not dark-bg slides)
 5. **Borders = 1-2pt, use the element's own accent color**: Cards, boxes, panels

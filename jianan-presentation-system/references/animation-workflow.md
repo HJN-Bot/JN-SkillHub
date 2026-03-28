@@ -27,13 +27,26 @@ Layer 3 动图
 | **HTML/CSS 动效 GIF** | 节点流动、循环流程、粒子连线 | HTML offset-path → GIF | GIF 嵌入 PPTX |
 | **Manim 3D 动效 GIF** | 架构数据流、3D 层级、抽象概念 | Manim ThreeDScene → GIF | GIF 嵌入 PPTX |
 
-**决策树：**
+**决策树（含环境降级）：**
 ```
 需要动效？
 ├── 否 → 数据图表用 pptxgenjs 原生；复杂布局用 HTML 截图
-└── 是 → 节点网络/循环流程 → HTML/CSS GIF
-         架构层级/数据穿越/3D → Manim GIF
+└── 是 →
+    ├── 节点网络 / 循环流程 / 粒子连线
+    │   → HTML/CSS GIF（只需浏览器 + QuickTime 或 Puppeteer）
+    │
+    └── 架构层级 / 数据穿越 / 3D 场景
+        ├── 有 Manim 环境 → Manim GIF（最佳效果）
+        └── 没有 Manim   → HTML/CSS 平面替代方案（见下方降级模板）
 ```
+
+### Manim 降级：用 HTML/CSS 替代 3D 架构动画
+
+当没有 Manim 环境时，用这个 HTML 方案替代三层架构流动效果：
+- 三个垂直排列的节点卡片（HAND / BRAIN / UI）
+- SVG 虚线连接 + offset-path 粒子流动
+- 节点接收数据时 pulse 动效
+- 参考：[html-animation-guide.md](html-animation-guide.md) 三节点模板，颜色改为 `#38bdf8 / #c084fc / #34d399`
 
 ---
 
@@ -465,7 +478,7 @@ slide.addChart(pres.ChartType.bar, [
 ], {
   x: 0.5, y: 1.2, w: 6.0, h: 4.5,
   barDir: 'col',          // 竖柱：col；横柱：bar
-  chartColors: ['E87722','0A7E8C'],   // 橙+青
+  chartColors: ['E87722','009999'],   // 橙+青
   showLegend: true, legendPos: 'b',
   showValue: true, dataLabelFontSize: 11,
 });
@@ -483,14 +496,14 @@ slide.addChart(pres.ChartType.pie, [
   { name: '分布', labels: ['A','B','C'], values: [40,35,25] }
 ], {
   x: 3.5, y: 1.5, w: 4.5, h: 4.5,
-  chartColors: ['E87722','0A7E8C','1a1a1a'],
+  chartColors: ['E87722','009999','1a1a1a'],
   showPercent: true,
 });
 
 // 堆叠柱图（工作量构成）
 slide.addChart(pres.ChartType.barStacked, dataRows, {
   barGrouping: 'stacked',
-  chartColors: ['E87722','0A7E8C','888888'],
+  chartColors: ['E87722','009999','888888'],
 });
 ```
 
@@ -510,7 +523,7 @@ const QUARTERS     = ['Q1','Q2','Q3','Q4'];
 QUARTERS.forEach((q, i) => {
   slide.addShape(pres.ShapeType.rect, {
     x: LABEL_W + i * Q_W, y: GANTT_TOP, w: Q_W, h: ROW_H,
-    fill: { color: i % 2 === 0 ? 'E87722' : '0A7E8C' },
+    fill: { color: i % 2 === 0 ? 'E87722' : '009999' },
     line: { color: 'FFFFFF', width: 1 },
   });
   slide.addText(q, {
@@ -524,7 +537,7 @@ QUARTERS.forEach((q, i) => {
 const tasks = [
   ['项目组A - Task 01', 0, 2, 'E87722'],
   ['项目组A - Task 02', 1, 2, 'F5A559'],
-  ['项目组B - Task 01', 2, 2, '0A7E8C'],
+  ['项目组B - Task 01', 2, 2, '009999'],
 ];
 
 tasks.forEach(([label, startQ, spanQ, color], rowIdx) => {

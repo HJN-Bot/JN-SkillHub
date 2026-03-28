@@ -269,7 +269,7 @@ PPT 嵌入推荐尺寸：           6" × 5"（竖）/ 10" × 5.6"（横）
 ```css
 :root {
   --color-a: #E87722;   /* Jianan PPT橙 */
-  --color-b: #0A7E8C;   /* Jianan PPT深青 */
+  --color-b: #009999;   /* Jianan PPT深青 */
   --color-c: #1a1a1a;   /* 深色 */
 }
 ```
