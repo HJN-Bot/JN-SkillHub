@@ -17,6 +17,7 @@ A comprehensive skill for creating enterprise-grade presentations matching Jiana
 | Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
 | Animation workflow (Manim / HTML / GIF export) | [references/animation-workflow.md](references/animation-workflow.md) |
 | HTML/CSS 动图完整制作指南（模板+录制+PPT嵌入） | [references/html-animation-guide.md](references/html-animation-guide.md) |
+| Slide layout archetypes (cover/TOC/section/content/Gantt/etc.) | [references/slide-layout-library.md](references/slide-layout-library.md) |
 
 ---
 
