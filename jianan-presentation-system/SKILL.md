@@ -1,6 +1,6 @@
 ---
 name: jianan-presentation-system
-description: "Jianan's end-to-end presentation creation system for enterprise AI project pitches. Use this skill whenever Jianan asks to create a presentation, slide deck, pitch deck, or PPT — especially for R·Agent, AI PoC demos, executive presentations, or any technical project requiring stakeholder buy-in. Also trigger when Jianan asks to draft oral scripts, speaker notes, or bilingual (Chinese+English) presentation content, create animated diagrams (Manim 3D architecture flows, HTML CSS particle animations), generate GIFs for PPT embedding, or produce explainer animations. This skill captures the VISUAL DESIGN SYSTEM (layout, color, typography, component patterns), the CONTENT LOGIC SYSTEM (narrative structure, slide-to-speech mapping, bilingual strategy), and the ANIMATION SYSTEM (Manim 3D scenes, HTML CSS animations, GIF export workflow). Use even for partial requests like 'help me design one slide', 'write the oral script for this section', 'make an architecture animation', or 'turn this into a GIF for my PPT'."
+description: "Jianan's end-to-end presentation creation system for enterprise AI project pitches. Use this skill whenever Jianan asks to create a presentation, slide deck, pitch deck, or PPT — especially for R·Agent, AI PoC demos, executive presentations, or any technical project requiring stakeholder buy-in. Also trigger when Jianan asks to draft oral scripts, speaker notes, or bilingual (Chinese+English) presentation content, create animated diagrams (Manim 3D architecture flows, HTML/CSS particle animations with SVG offset-path), generate GIFs for PPT embedding via QuickTime+FFmpeg or Puppeteer, or produce explainer animations. Also trigger for: '做个流程动图', '节点流动的GIF', '把架构图做成动图', '循环流程GIF', '做个能嵌PPT的动图'. This skill captures the VISUAL DESIGN SYSTEM (layout, color, typography, component patterns), the CONTENT LOGIC SYSTEM (narrative structure, slide-to-speech mapping, bilingual strategy), and the ANIMATION SYSTEM (Manim 3D scenes, HTML CSS animations, GIF export workflow). Use even for partial requests like 'help me design one slide', 'write the oral script for this section', 'make an architecture animation', or 'turn this into a GIF for my PPT'."
 ---
 
 # Jianan Presentation System
@@ -16,6 +16,7 @@ A comprehensive skill for creating enterprise-grade presentations matching Jiana
 | Slide-type templates with specifications | [references/slide-templates.md](references/slide-templates.md) |
 | Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
 | Animation workflow (Manim / HTML / GIF export) | [references/animation-workflow.md](references/animation-workflow.md) |
+| HTML/CSS 动图完整制作指南（模板+录制+PPT嵌入） | [references/html-animation-guide.md](references/html-animation-guide.md) |
 
 ---
 
