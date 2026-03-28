@@ -1,23 +1,58 @@
 ---
 name: jianan-presentation-system
-description: "Jianan's end-to-end presentation creation system for enterprise AI project pitches. Use this skill whenever Jianan asks to create a presentation, slide deck, pitch deck, or PPT — especially for R·Agent, AI PoC demos, executive presentations, or any technical project requiring stakeholder buy-in. Also trigger when Jianan asks to draft oral scripts, speaker notes, or bilingual (Chinese+English) presentation content, create animated diagrams (Manim 3D architecture flows, HTML/CSS particle animations with SVG offset-path), generate GIFs for PPT embedding via QuickTime+FFmpeg or Puppeteer, or produce explainer animations. Also trigger for: '做个流程动图', '节点流动的GIF', '把架构图做成动图', '循环流程GIF', '做个能嵌PPT的动图'. This skill captures the VISUAL DESIGN SYSTEM (layout, color, typography, component patterns), the CONTENT LOGIC SYSTEM (narrative structure, slide-to-speech mapping, bilingual strategy), and the ANIMATION SYSTEM (Manim 3D scenes, HTML CSS animations, GIF export workflow). Use even for partial requests like 'help me design one slide', 'write the oral script for this section', 'make an architecture animation', or 'turn this into a GIF for my PPT'."
+description: "Jianan's end-to-end presentation creation system: Startup Intake + 3-layer workflow. TRIGGER for any presentation, slide deck, pitch deck, PPT, oral script, speaker notes, bilingual content, animated diagrams, data charts, Gantt charts, GIFs for PPT, or content beautification/translation. Layers: (1) Content Beautify — optimize/translate MD scripts, extract GitHub repos into content; (2) PPT Design — generate fully editable PPTX with native shapes/charts/text using pptxgenjs; (3) Animation — static charts (pptxgenjs native), Gantt/timeline, HTML/CSS particle flow GIFs, Manim 3D architecture GIFs. Also trigger for: '帮我做PPT', '优化这个稿子', '翻译成英文', '帮我做甘特图', '节点流动GIF', '架构动画', '把GitHub项目做成动图', '做个能嵌PPT的动图', '起始交互'."
 ---
 
 # Jianan Presentation System
 
-A comprehensive skill for creating enterprise-grade presentations matching Jianan's proven visual style and content logic. Produces two synchronized deliverables: **PPT slides** and **companion oral scripts** (in both Chinese and English).
+End-to-end presentation creation: from raw notes to fully editable PPTX + companion oral scripts + embedded GIF animations.
+
+## Workflow Architecture
+
+```
+启动 → Startup Intake（起始交互层）
+         ↓
+         ├── Layer 1: Content Beautify（内容美化/优化/翻译）
+         ├── Layer 2: PPT Design（设计生成可编辑 PPTX）
+         └── Layer 3: Animation（静态图表 + 动效 GIF）
+```
+
+Each layer can be used independently or in sequence.
 
 ## Quick Reference
 
 | Need | Read |
 |------|------|
-| Visual design rules (colors, layout, components, diagrams) | [references/visual-style.md](references/visual-style.md) |
-| Content logic & narrative structure | [references/content-logic.md](references/content-logic.md) |
-| Slide-type templates with specifications | [references/slide-templates.md](references/slide-templates.md) |
-| Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
-| Animation workflow (Manim / HTML / GIF export) | [references/animation-workflow.md](references/animation-workflow.md) |
-| HTML/CSS 动图完整制作指南（模板+录制+PPT嵌入） | [references/html-animation-guide.md](references/html-animation-guide.md) |
-| Slide layout archetypes (cover/TOC/section/content/Gantt/etc.) | [references/slide-layout-library.md](references/slide-layout-library.md) |
+| **[START HERE]** 起始交互问卷 + Session Brief | [references/startup-intake.md](references/startup-intake.md) |
+| Layer 1: 内容美化/翻译/GitHub提炼 | [references/content-beautify.md](references/content-beautify.md) |
+| Layer 2: Visual design rules (colors, layout, components) | [references/visual-style.md](references/visual-style.md) |
+| Layer 2: Content logic & narrative structure | [references/content-logic.md](references/content-logic.md) |
+| Layer 2: Slide-type templates with specifications | [references/slide-templates.md](references/slide-templates.md) |
+| Layer 2: Slide layout archetypes (13 types with measurements) | [references/slide-layout-library.md](references/slide-layout-library.md) |
+| Layer 2: Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
+| Layer 3: Animation workflow (charts / Gantt / HTML / Manim / GIF) | [references/animation-workflow.md](references/animation-workflow.md) |
+| Layer 3: HTML/CSS 动图完整制作指南 | [references/html-animation-guide.md](references/html-animation-guide.md) |
+
+---
+
+## PPTX Editability — Iron Rules
+
+**All deliverables must be fully editable in PowerPoint. No exceptions.**
+
+| Element | Must be | Implementation |
+|---------|---------|---------------|
+| Slide titles | Native text box | pptxgenjs `addText()` |
+| Body text / bullets | Native text box | pptxgenjs `addText()` |
+| Tables | Native table | pptxgenjs `addTable()` |
+| Data charts (bar/line/pie) | Native chart | pptxgenjs `addChart()` |
+| Gantt chart bars | Native shapes | pptxgenjs `addShape()` |
+| Simple flow diagrams | Native shapes + text | pptxgenjs `addShape()` + `addText()` |
+| Complex HTML diagrams | Embedded image (acceptable) | Screenshot → `addImage()` |
+| Animated GIFs | Embedded media | `addImage()` with .gif |
+
+**Fonts**: All text must use explicit `fontSize` matching the hierarchy below. Never leave font size unset.
+
+**Speaker Notes**: Always add oral script as `addNotes()` for every slide.
 
 ---
 
@@ -98,20 +133,45 @@ When in doubt about how a diagram should look, reference these specific slides f
 
 ## Creation Workflow
 
-When asked to create a presentation:
+### Step 0: Startup Intake（每次必做）
 
-1. **Read ALL four reference files** before starting any content creation.
-2. **Determine slide count and narrative arc** using the content-logic guide.
-3. **For each slide**: select the appropriate slide-type template, populate with content, and write the companion oral script.
-4. **Produce deliverables**:
-   - **PPTX file** (LAYOUT_WIDE 13.3"×7.5"): editable in PowerPoint — titles, bullets, tables, charts as native elements
-   - **HTML files** for complex diagrams: funnel architectures, color-coded comparison tables, flow diagrams with rounded connectors — screenshot and embed into PPTX as images
-   - **HTML CSS animations** for node-relation flows with SVG offset-path particles — record/screenshot to GIF
-   - **Manim 3D animations** for architecture data flows, layer-traversal effects — render to MP4 then convert to GIF
-   - **GIF files** for all animated content — embed into PPTX slides via addImage/addMedia
-   - **Companion oral script** in Markdown (Chinese + English versions)
+Run the startup questionnaire from [references/startup-intake.md](references/startup-intake.md).
+Output a **Session Brief** and wait for confirmation before proceeding.
 
-   > Animation type decision: data flow across layers → **Manim 3D**; node network with particle connections → **HTML CSS**; static diagram → **PPTX native**. See [references/animation-workflow.md](references/animation-workflow.md).
+### Step 1 (Layer 1): Content Beautification
+
+If user provides MD draft / oral notes / GitHub link:
+- Run content diagnosis → optimize → output refined MD
+- Translate to English or produce bilingual version if needed
+- See [references/content-beautify.md](references/content-beautify.md)
+
+### Step 2 (Layer 2): PPT Design
+
+1. Read layout-library + visual-style + content-logic before starting
+2. Determine slide count and narrative arc
+3. For each slide: pick layout archetype → populate native elements → add speaker notes
+4. **Output**: `.js` script using pptxgenjs → run → produce `.pptx` file
+
+**Deliverables checklist per slide:**
+- [ ] Title: native text box, 32-40pt Bold Orange
+- [ ] Body: native text boxes, 12-14pt Regular
+- [ ] Tables: `addTable()` — never screenshots
+- [ ] Charts: `addChart()` — never manual rectangles
+- [ ] Speaker notes: `addNotes()` with full oral script
+
+### Step 3 (Layer 3): Animation
+
+For each slide needing visual enhancement:
+
+| Need | Tool | Output |
+|------|------|--------|
+| Bar / line / pie chart | pptxgenjs `addChart()` | Native PPTX (editable) |
+| Gantt / timeline | pptxgenjs `addShape()` grid | Native PPTX (editable) |
+| Complex static diagram | HTML → screenshot | Image embedded in PPTX |
+| Node flow / particle animation | HTML/CSS → GIF | GIF embedded in PPTX |
+| Architecture layer traversal | Manim → GIF | GIF embedded in PPTX |
+
+> See [references/animation-workflow.md](references/animation-workflow.md) for all code templates.
 5. **QA every slide**: Convert to image, check for alignment, text overflow, spacing issues, container padding.
 
 ---

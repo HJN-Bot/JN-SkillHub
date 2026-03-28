@@ -1,17 +1,39 @@
 # Animation Workflow for Presentations
 
-## 三种动画产出类型速判
+## Layer 3 动图能力总览
 
-| 类型 | 适用场景 | 最终嵌入方式 |
-|------|---------|------------|
-| **Manim 3D动画** | 架构数据流、系统层级、抽象概念演示 | 渲染MP4 → 转GIF → 嵌入PPT |
-| **HTML CSS动画** | 节点关系图、粒子流动、交互式展示 | 浏览器截图/录屏 → GIF → 嵌入PPT |
-| **静态图（PPTX原生）** | 流程图、漫画/对比图、简单架构 | 直接在PPTX中绘制 |
+动图分两大类：**静态数据可视化**（看数据/结构）和**动态流程动效**（看流转/过程）。
 
-**决策规则：**
-- 有数据流动感、层级穿越感 → **Manim**
-- 节点之间有粒子连线、循环动效 → **HTML**
-- 只需要清晰布局、无动效 → **PPTX原生**
+```
+Layer 3 动图
+├── 静态数据可视化（PPTX 原生 / HTML 截图）
+│   ├── 图表类：柱状图、折线图、饼图、散点图
+│   ├── 甘特图 / 时间轴
+│   ├── 对比表格 / 热力表
+│   └── KPI 仪表盘
+│
+└── 动态流程动效（GIF 嵌入 PPT）
+    ├── HTML/CSS 节点流（粒子沿路径流动，循环动效）
+    └── Manim 3D（架构层级穿越，数据包流动，3D 场景）
+```
+
+## 五种产出类型速判
+
+| 类型 | 适用场景 | 工具 | 最终形式 |
+|------|---------|------|---------|
+| **PPTX 原生图表** | 柱图/折线/饼图/散点，数据可修改 | pptxgenjs `addChart()` | PPTX 原生，可编辑 |
+| **PPTX 原生甘特** | 项目时间轴，季度计划 | pptxgenjs 矩形组合 | PPTX 原生，可编辑 |
+| **HTML 静态截图** | 复杂表格、对比图、无动效框图 | HTML+CSS → 截图 | 图片嵌入 PPTX |
+| **HTML/CSS 动效 GIF** | 节点流动、循环流程、粒子连线 | HTML offset-path → GIF | GIF 嵌入 PPTX |
+| **Manim 3D 动效 GIF** | 架构数据流、3D 层级、抽象概念 | Manim ThreeDScene → GIF | GIF 嵌入 PPTX |
+
+**决策树：**
+```
+需要动效？
+├── 否 → 数据图表用 pptxgenjs 原生；复杂布局用 HTML 截图
+└── 是 → 节点网络/循环流程 → HTML/CSS GIF
+         架构层级/数据穿越/3D → Manim GIF
+```
 
 ---
 
@@ -427,15 +449,117 @@ slide.addMedia({
 
 ---
 
+## 类型C：静态数据可视化（pptxgenjs 原生图表）
+
+### 原则：能原生就原生，数据必须可修改
+
+所有数据图表优先使用 pptxgenjs `addChart()`，生成 PowerPoint 原生图表对象，用户可在 PPT 中直接修改数据。
+
+### 常用图表类型速查
+
+```javascript
+// 柱状图（工作量对比、阶段分布）
+slide.addChart(pres.ChartType.bar, [
+  { name: '完成', labels: ['Q1','Q2','Q3','Q4'], values: [65,72,80,85] },
+  { name: '目标', labels: ['Q1','Q2','Q3','Q4'], values: [70,75,80,90] }
+], {
+  x: 0.5, y: 1.2, w: 6.0, h: 4.5,
+  barDir: 'col',          // 竖柱：col；横柱：bar
+  chartColors: ['E87722','0A7E8C'],   // 橙+青
+  showLegend: true, legendPos: 'b',
+  showValue: true, dataLabelFontSize: 11,
+});
+
+// 折线图（趋势、准确率变化）
+slide.addChart(pres.ChartType.line, dataRows, {
+  x: 0.5, y: 1.2, w: 6.0, h: 4.0,
+  chartColors: ['E87722'],
+  lineSize: 2,
+  showMarker: true,
+});
+
+// 饼图（占比分布）
+slide.addChart(pres.ChartType.pie, [
+  { name: '分布', labels: ['A','B','C'], values: [40,35,25] }
+], {
+  x: 3.5, y: 1.5, w: 4.5, h: 4.5,
+  chartColors: ['E87722','0A7E8C','1a1a1a'],
+  showPercent: true,
+});
+
+// 堆叠柱图（工作量构成）
+slide.addChart(pres.ChartType.barStacked, dataRows, {
+  barGrouping: 'stacked',
+  chartColors: ['E87722','0A7E8C','888888'],
+});
+```
+
+### 甘特图（pptxgenjs 矩形组合）
+
+甘特图无原生 Chart 类型，使用 Rounded Rectangle 矩形拼装。这是原生可编辑形状。
+
+```javascript
+// 甘特图结构：行标签 + 季度格子 + 彩色进度条
+const GANTT_TOP    = 1.5;   // 表格起始 Y
+const ROW_H        = 0.45;  // 每行高度
+const LABEL_W      = 1.8;   // 左侧标签列宽
+const Q_W          = 2.7;   // 每个季度列宽（13.33 - 1.8 - 0.5*2 ≈ 10.8 / 4 = 2.7）
+const QUARTERS     = ['Q1','Q2','Q3','Q4'];
+
+// 季度表头
+QUARTERS.forEach((q, i) => {
+  slide.addShape(pres.ShapeType.rect, {
+    x: LABEL_W + i * Q_W, y: GANTT_TOP, w: Q_W, h: ROW_H,
+    fill: { color: i % 2 === 0 ? 'E87722' : '0A7E8C' },
+    line: { color: 'FFFFFF', width: 1 },
+  });
+  slide.addText(q, {
+    x: LABEL_W + i * Q_W, y: GANTT_TOP, w: Q_W, h: ROW_H,
+    align: 'center', valign: 'middle',
+    bold: true, fontSize: 13, color: 'FFFFFF',
+  });
+});
+
+// 任务行示例：[任务名, 开始Q(0-based), 跨越Q数, 颜色]
+const tasks = [
+  ['项目组A - Task 01', 0, 2, 'E87722'],
+  ['项目组A - Task 02', 1, 2, 'F5A559'],
+  ['项目组B - Task 01', 2, 2, '0A7E8C'],
+];
+
+tasks.forEach(([label, startQ, spanQ, color], rowIdx) => {
+  const y = GANTT_TOP + ROW_H * (rowIdx + 1);
+  // 行背景（白/浅灰交替）
+  slide.addShape(pres.ShapeType.rect, {
+    x: 0.5, y, w: LABEL_W + Q_W * 4, h: ROW_H,
+    fill: { color: rowIdx % 2 === 0 ? 'FFFFFF' : 'F9F9F9' },
+    line: { color: 'EEEEEE', width: 0.5 },
+  });
+  // 任务标签
+  slide.addText(label, {
+    x: 0.5, y, w: LABEL_W - 0.1, h: ROW_H,
+    fontSize: 11, valign: 'middle', color: '1a1a1a',
+  });
+  // 进度条
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: LABEL_W + startQ * Q_W + 0.1, y: y + 0.07,
+    w: Q_W * spanQ - 0.2, h: ROW_H - 0.14,
+    rectRadius: 0.05,
+    fill: { color },
+    line: { color: 'FFFFFF', width: 0.5 },
+  });
+});
+```
+
+---
+
 ## 动画制作触发词
 
 以下需求需启动此动画工作流：
 
-- 「帮我做一个架构动画」
-- 「把这个流程做成动图」
+- 「帮我做一个架构动画」「把这个流程做成动图」
+- 「帮我做甘特图」「项目时间轴」「季度计划图」
+- 「帮我做柱状图 / 折线图 / 饼图」「数据可视化」
 - 「参考这个HTML，帮我做类似效果」
-- 「我要嵌入GIF到PPT」
-- 「做一个数据流动画」
-- 「三层架构可视化」
-- 「做粒子流动效果」
-- 「帮我渲染Manim」
+- 「做粒子流动效果」「节点流转动图」
+- 「帮我渲染Manim」「3D架构动画」
