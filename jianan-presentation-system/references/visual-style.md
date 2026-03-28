@@ -1,5 +1,7 @@
 # Visual Style Guide — Jianan Presentation System
 
+> **⚑ AUTHORITATIVE SOURCE (P1)**: This file is the single source of truth for all colors, typography, and layout patterns. All other reference files defer to this document. When any conflict exists between this file and any other file, this file wins.
+
 This document captures the complete visual design system extracted from Jianan's R·Agent presentation (18 slides). Every color, spacing, component, and layout pattern is documented for faithful reproduction.
 
 ---
@@ -40,6 +42,8 @@ This document captures the complete visual design system extracted from Jianan's
 
 **CRITICAL: 12pt is the absolute minimum for any visible text on a slide.** Never go below 12pt — information density is achieved through structured components, NOT by shrinking fonts.
 
+> **10pt Exception (Progressive Roadmap Matrix only)**: When all four conditions are met — (1) N×M matrix with N≥4 columns and M≥3 rows, (2) splitting would break cross-column comparative value, (3) cell text is already maximally compressed, (4) presenter will guide verbally — 10pt is permitted. This exception applies exclusively to Template 10 (slide-templates.md). Do NOT generalize it to other slide types.
+
 | Element | Font | Size | Weight | Color |
 |---------|------|------|--------|-------|
 | Slide title | Arial Black / Impact | 32-40pt | Bold | Orange `#E87722` |
@@ -60,7 +64,7 @@ This document captures the complete visual design system extracted from Jianan's
 - **Title can be multi-line**: Up to 2 lines is acceptable (see Slide 5 "User Pain Points" wrapping)
 - **Header hierarchy is critical**: Section headers (Chapter Scope, Technical Challenges, Process Flow, Quality Gate) MUST be 18pt — visually larger than 12-14pt body text. Bold alone is NOT enough to establish hierarchy; the size difference must be obvious.
 - **Number emphasis**: KPI metrics use 28-36pt bold number + 12pt label beneath. Never go above 36pt for metrics — the original PPT uses proportional emphasis, not enormous numbers.
-- **12pt rule enforcement**: Challenge descriptions, table cells, bullet items, workflow labels, metric labels — ALL use 12pt minimum. The ONLY exceptions below 12pt are: tag pills (9pt bold), source footnotes (10pt), and slide page numbers (12pt).
+- **12pt rule enforcement**: Challenge descriptions, table cells, bullet items, workflow labels, metric labels — ALL use 12pt minimum. The ONLY exceptions below 12pt are: tag pills (9pt bold), source footnotes (10pt), slide page numbers (12pt), and Progressive Roadmap Matrix cell content (10pt — see exception block above).
 - **Bilingual on-slide text**: Chinese and English coexist. Headers can be English-only; detail content often Chinese. Technical terms always in English.
 
 ---
