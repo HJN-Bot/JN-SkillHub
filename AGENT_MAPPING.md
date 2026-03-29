@@ -102,3 +102,20 @@
 ```
 
 This repo is the shared private skill source for Jianan's multi-agent system.
+
+
+---
+
+## Cost / Trigger Policy
+
+| Skill | Cost Class | Trigger Mode | Confirmation Rule |
+|---|---|---|---|
+| `jianan-presentation-system` | Free / Low | Ask-First | Mention the skill when task strongly matches PPT/deck/roadshow structure |
+| `design-front` | Free / Low | Ask-First | Mention when task is clearly design/front-end expression oriented |
+| `codebase-to-course` | Free / Low | Ask-First | Mention when task is educational/codebase explanation oriented |
+| `claw-vibe-project` | Free / Low | Ask-First | Mention when task is clearly long-lived project/session workflow work |
+| `video-post-editor` | Medium | Ask-First | Mention before using for post-production / subtitles / edit workflow |
+| `ai-morphing-video` | Medium / High | Explicit-Only or Ask-First | Prefer explicit confirmation before using |
+
+### Policy Note
+These skills should not be forcibly applied to every relevant task. Instead, agents should detect likely fit and ask Jianan whether to use the linked skill workflow.
