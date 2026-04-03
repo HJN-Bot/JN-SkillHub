@@ -207,6 +207,84 @@ constraints:
 
 ---
 
+
+
+## Harness Review Mode（新增治理模式）
+
+当用户提到以下意图时，除了正常的项目制 vibe coding 管理外，还要进入 **Harness Review Mode**：
+- 改一块流程却损害其他部分
+- normalize / marker / refine / output 互相污染
+- 想审查现有 CER / PTR / LLM pipeline
+- 想判断某条后处理链哪里越权、哪里缺 contract
+- 想把现有项目约束成 harness engineering 风格
+- 提到 “pipeline review”“harness review”“post-processing 破坏”“阶段契约”“Q-gate”“source fidelity”
+
+### Harness Review Mode 的目标
+这不是让你直接重写整个项目，而是先对现有项目做工程治理视角的审查。
+
+你需要重点判断：
+1. 现在是否存在真实的 stage separation
+2. raw / normalized / refined / output 是否混在一起
+3. normalize 是否越权修改语义或 marker
+4. refine / polish 是否覆盖 source-preserving fields
+5. 是否缺少 Q-gate / invariant / replay artifacts
+6. 先修哪三处最能止血
+
+### Harness Review Mode 的固定输出结构
+当进入该模式时，输出尽量遵循：
+
+#### A. Pipeline health summary
+一句话诊断当前管道问题。
+
+#### B. Effective stage map
+推断当前真实存在的阶段，而不是只看命名。
+
+#### C. Main risk findings
+列出关键风险，并尽量打标签：
+- `RAW_IMMUTABILITY_MISSING`
+- `STAGE_BOUNDARY_WEAK`
+- `FIELD_MIXING_RISK`
+- `NORMALIZE_SCOPE_CREEP`
+- `MARKER_FIDELITY_AT_RISK`
+- `REFINE_DRIFT_UNCHECKED`
+- `OUTPUT_LAYER_OVERREACH`
+- `NO_QGATE`
+- `NO_REPLAY_ARTIFACTS`
+
+#### D. Invariant review
+检查这些不变量是否存在：
+- raw text immutable
+- marker stability
+- source fidelity preserved
+- refine isolation
+- output is a view, not the truth
+
+#### E. Minimal repair plan
+优先给 3–5 条最小修复动作，先止血，不要默认大重构。
+
+#### F. Optional next-state harness recommendation
+必要时再给出更完整的 harness engineering 方向。
+
+### Harness Review Mode 的约束
+- 优先把问题归因到 stage / field / contract，而不是先怪 prompt
+- 不要把“显示更好看”和“source-safe”混在一起
+- 如果流程太混乱无法审查，要直接说 stage boundary 不成立
+- 如果项目还没形成治理结构，可以建议未来接 `codebase-to-course` 做教学可视化，把当前问题转成可讲解、可传递的架构知识
+
+### 与 `codebase-to-course` 的组合拳
+当用户希望：
+- 不只修 pipeline，还要把问题讲清楚
+- 给团队做教学可视化
+- 把当前项目抽成课程 / 图解 / onboarding 资料
+
+则可以采用组合拳：
+1. `claw-vibe-project` 负责项目治理、harness review、约束落地
+2. `codebase-to-course` 负责把代码结构、stage contract、错误模式、治理思路转成教学可视化材料
+
+也就是说：
+- `claw-vibe-project` = 修项目 / 管项目 / 约束项目
+- `codebase-to-course` = 讲项目 / 教项目 / 可视化项目
+
 ## Evals 复用系统
 
 项目级 `evals/` 目录结构：
