@@ -229,3 +229,121 @@ When producing oral scripts, always deliver TWO files:
 | Opening | "各位领导早上好" | "Good morning, everyone" |
 | Closing | "就差领导的一个Go" | "We just need the Go decision" |
 | Transitions | More colloquial bridges | Cleaner, more structured bridges |
+
+---
+
+## 7. Cold Open Voice Discipline (NEW in v2)
+
+The Cold Open is **not** narrated in Jianan's standard "factual + three-signal" voice. The first 30 seconds need a different register — short, vivid, slightly destabilizing. Below is the voice rulebook for each Cold Open archetype.
+
+### General Cold Open Voice Rules
+
+**DO**:
+- Open with a sentence ≤12 words / ≤25 Chinese characters
+- Use short, declarative sentences. No subordinate clauses.
+- Land the first concrete number within 90 seconds
+- Pause briefly (1-2 seconds) after the first sentence — let it land
+- Address the audience as collaborators, not subordinates ("我们"，not "各位领导")
+
+**DON'T**:
+- Open with "各位领导早上好，今天我跟大家分享..." (immediate momentum kill)
+- Open with thanks or acknowledgements (move those to the close)
+- Open with "今天我要讲三件事" (agenda openers reduce attention)
+- Use hedge words in the Cold Open: "可能"，"也许"，"我觉得" — these dissolve the hook
+- Self-introduce before the hook lands (introduce yourself ONLY after the audience leans in)
+
+### Voice by Archetype
+
+#### Painful Status Quo
+- Tone: **specific, concrete, slightly somber**
+- Pacing: slow at first ("Last Wednesday at 11pm..." 上周三晚上11点...) then accelerate as the pattern reveals
+- The specificity is the voice — exact times, exact people, exact counts
+- **Do not soften with humor** — the audience must feel the pain
+
+#### Inevitable Future
+- Tone: **certain, almost prophetic, no hedging**
+- Pacing: deliberate. Each clause gets weight.
+- Avoid "I think" / "我认为" — replace with "Within five years..." / "未来五年..."
+- After the bold prediction, **pause 2 seconds before** the "the question isn't whether — it's who" reframe
+
+#### Counterintuitive Insight
+- Tone: **conspiratorial, like sharing a secret**
+- Pacing: faster on the conventional wisdom setup, slow down on the reveal
+- Use a credibility marker before the insight: "We spent three months learning that..." / "做了47个 evals 才想明白..."
+- The "wrong target" / "wrong frame" is the moment of pause — let it sit
+
+#### Loaded Question
+- Tone: **direct, slightly playful, inviting**
+- Pacing: read the question naturally, then pause and **wait** — eye contact with the room
+- Do not answer the question yourself. Let the audience mentally answer it before you continue
+- Bridge sentence after the pause: "We asked ourselves the same thing three months ago." / "我们三个月前问过自己同样的问题。"
+
+### Bilingual Treatment of Cold Opens
+
+The Cold Open is the **only** part of the script where the language choice should be deliberate, not defaulted:
+
+- **Chinese-default audience**: Cold Open in Chinese, with at most ONE English term (a product name or technical concept). Don't fragment the hook with code-switching.
+- **Bilingual audience**: Cold Open can be in English if the topic is technical. Chinese works better if the topic is emotional or domain-specific (regulatory, clinical).
+- **External investor audience**: Cold Open in the language of the investor's primary working language. Don't show off bilingual skill in the Cold Open — it dilutes the hook.
+
+---
+
+## 8. Pause Notation in Scripts (NEW in v2)
+
+Most presenters fill silence within 2 seconds. The Wow Moment requires 5-10 seconds of silence. Without explicit notation, the speaker will unconsciously fill the gap and kill the moment.
+
+### The `[PAUSE]` Markers
+
+Every script must use these markers:
+
+| Marker | Meaning | Where used |
+|---|---|---|
+| `[PAUSE 2s]` | Brief breath; sentence weight | After Cold Open opening line; after any thesis sentence |
+| `[PAUSE 5s]` | Hold silence; let result land | After the Wow Moment Reveal |
+| `[PAUSE 8-10s]` | Maximum hold; for the single most important moment | After the t-shirt sentence on the Wow Moment slide |
+| `[PAUSE — wait for question]` | Loaded Question pause; audience may visibly engage | After Loaded Question Cold Open |
+| `[PAUSE — eye contact]` | Hold silence while making eye contact | Before the Ask in Beat 5 |
+
+### Example Wow Moment Script
+
+```markdown
+## 【Slide N】The Moment (约1分钟 + 停顿)
+
+[SETUP — 1 sentence, ~10 seconds]
+"这种跨文档比对工作，我们团队过去每个 CER 项目要花 8 小时。"
+
+[CLICK — reveal side-by-side screenshot]
+"同样的任务，让系统跑一遍。"
+
+[PAUSE 5s — DO NOT EXPLAIN]
+[SCRIPT INSTRUCTION: 默数到8再开口。Resist the urge to fill the silence.]
+
+[BRIDGE — only after pause completes]
+"我们来看一下这是怎么做到的。"
+
+---
+```
+
+### Why this matters
+
+The pause is not "missing content" — the pause **is** the content. The audience needs time to:
+1. Read the slide fully
+2. Compare before and after
+3. Realize the implication
+4. Form an emotional response
+
+Steps 3 and 4 cannot happen if the speaker is already talking. The pause is what converts "interesting" into "wow."
+
+### Anti-pattern: filling the pause with breathing words
+
+Speakers nervous about silence tend to fill it with:
+- "So as you can see..."
+- "What this means is..."
+- "And the implication is..."
+
+All of these **reduce** the impact. The slide already says what it means. The speaker's job in the pause is to **trust the slide**.
+
+If the speaker absolutely cannot hold the pause, the fallback is:
+- Walk slowly across the stage (2-3 steps) — physical movement reads as deliberate pause, not nervous silence
+- Take a sip of water — buys 4-5 seconds and reads as confident
+- NEVER fill the gap with verbal content

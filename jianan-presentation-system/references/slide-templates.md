@@ -379,151 +379,37 @@ RIGHT: Slide-13 Information Card
 
 ---
 
-## Template 10: Progressive Roadmap Matrix（多阶段战略矩阵）
+## Template 10: Roadmap Matrix Slide
 
-**Purpose**: 展示多阶段战略路径，同时在每个阶段横向评估多个维度（价值/技术/资源）
-**Used in**: Slide 18 (Function Plan — V1 Intern Level → V5 Expert Auditor Level)
-**Layout**: Pattern G (Matrix Table with progression header)
+**Purpose**: Show long-term vision across multiple dimensions
+**Used in**: Slide 18 (Function Plan)
+**Layout**: Pattern G (Matrix Table)
 
----
-
-### 设计意图与取舍原则
-
-**为什么用矩阵？**
-这张 slide 的核心信息是「5 个阶段的战略是完整的、可落地的」。矩阵结构让听众可以：
-- **横向读**（比较）：同一维度（如 ROI）在不同阶段如何递进
-- **纵向读**（评估）：某一阶段的 ROI + 技术成本 + 资源需求是否成立
-
-这种双向可读性是矩阵结构独有的——如果拆成 5 张单独的 slide，比较感就消失了。
-
-**为什么 ROI / Tech & Cost / Required Resources 这三行？**
-这是"落地框架"的三个必答问题：
-- ROI → 值不值做？（说服决策者）
-- Tech & Cost → 难不难、贵不贵？（说服技术团队）
-- Required Resources → 需要谁配合？（明确责任方）
-
-三行覆盖了「一个阶段是否可以推进」的全部判断依据。
-
-**字体例外规则（10pt，仅此模板）**
-
-> 这是 Jianan Presentation System 中唯一允许低于 12pt 的内容型 slide。
-
-满足以下**所有**条件时，允许使用 10pt：
-1. 内容是 N×M 矩阵（N ≥ 4 列，M ≥ 3 行）
-2. 拆开会破坏横向比较价值
-3. 每个单元格的文字**已经最大限度精简**（不是堆砌）
-4. **演讲者会在现场逐步讲解**，slide 本身不需要独立传达全部信息
-
-**本质是**：为了信息的完整性和比较性，主动牺牲一点可读性，用演讲托底。不是妥协，是设计决策。
-
----
-
-### 结构规范
-
+### Structure
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│ TITLE (32-36pt Bold Orange)                          [LOGO]        │
-├──────┬──────────────┬────────────────┬────────────┬────────────────┤
-│      │   V1         │   V2           │   V3       │   V4     V5   │
-│      │ Intern Level │ Entry Level    │ Sr. Level  │ Mgr    Expert │
-│      │ [pill badge] │ [pill badge]   │            │        Level  │
-│      │              ──────────────────────────────────────→       │
-├──────┼──────────────┼────────────────┼────────────┼───────────────┤
-│ ROI  │ A. 指标...   │ A. 指标...     │ A. ...     │ A. ...  A. . │
-│      │ B. 成本...   │ B. ...         │ B. ...     │        B. .  │
-├──────┼──────────────┼────────────────┼────────────┼───────────────┤
-│ Tech │ API 调用...  │ Tech: RAG+     │ ...        │ ...           │
-│ &    │ 成本: ~1M/月 │ 成本: ~5M/月   │            │               │
-│ Cost │              │                │            │               │
-├──────┼──────────────┼────────────────┼────────────┼───────────────┤
-│ Req. │ BU: 文档支持 │ BU: Reg 注册   │ BU: M&S    │               │
-│ Res. │ IT: API Key  │ IT: 注册包+    │ IT: 本地   │ IT: 工作站+   │
-│      │              │ Expert Support │ 服务器     │ GPU + 日志    │
-└──────┴──────────────┴────────────────┴────────────┴───────────────┘
-  FOOTNOTE: 缩写说明，10pt Gray（RAG* = Retrieval-Augmented Generation 等）
+TOP: Maturity level labels with connecting arrow
+  Intern Level → Entry Level → Senior Level → Manager Level → Expert Auditor Level
+  V1            V2             V3              V4              V5
+
+MATRIX ROWS:
+  | Dimension | V1 | V2 | V3 | V4 | V5 |
+  |-----------|----|----|----|----|-----|
+  | Features  | .. | .. | .. | .. | ..  |
+  | ROI       | .. | .. | .. | .. | ..  |
+  | Tech&Cost | .. | .. | .. | .. | ..  |
+  | Resources | .. | .. | .. | .. | ..  |
+
+COLUMN COLORS:
+  V1: White/light    V2: Light orange
+  V3: Teal           V4: Dark teal
+  V5: Dark/gradient
+
+ROW LABEL COLUMN:
+  Bold labels in black rounded pills: "ROI", "Tech & Cost", "Required Resources"
+
+FOOTNOTE: 
+  Explanation of abbreviations (e.g., "RAG*: Retrieval-Augmented Generation")
 ```
-
----
-
-### 视觉规范
-
-**列标题（版本 badge）**
-- 版本号标签（V1-V5）：圆角 pill，14pt Bold White
-- 颜色随阶段递进：V1 浅色（灰白边框）→ V2/V3 橙色 → V4/V5 深橙/深色
-- 顶部连接箭头：横跨所有列，用橙色渐变或单色线 + 箭头，表明方向
-- 职级标签（Intern/Entry...）：14pt Bold Black，列标题区域
-
-**行标题**
-- 左侧行标签（ROI / Tech & Cost / Required Resources）
-- 格式：14pt Bold，深色圆角矩形（fill = `#1a1a1a`，text = White）或 Orange pill
-- 行高均等，视觉对齐强调矩阵的规整感
-
-**单元格内容**
-- 字号：**10pt**（此模板专用例外）
-- 格式：A. B. C. 字母列表（不用 bullet ●，因为空间更紧凑）
-- 关键数字/指标：加粗，如 `**~1M/月**`、`**70-80%**`
-- 每格 2-4 条，超过 4 条必须压缩
-
-**整体对齐**
-- 列宽均等（5列时每列约 2.4"，左侧标签列约 1.2"）
-- 行高均等
-- 单元格 padding：≥ 0.1"（比标准 0.15" 稍小，为密度服务）
-- 网格线：0.5pt，颜色 `#DDDDDD`（浅，不抢主视觉）
-
----
-
-### pptxgenjs 实现要点
-
-```javascript
-// 矩阵用 addTable 实现，不用手动拼矩形
-// 行标签列作为 table 第一列，样式单独设置
-
-const versions = ['', 'V1\nIntern', 'V2\nEntry', 'V3\nSenior', 'V4\nManager', 'V5\nExpert'];
-const PHASE_COLORS = ['', 'EEEEEE', 'F5A559', 'E87722', 'C45E00', '1a1a1a'];
-
-// 表头行
-const headerRow = versions.map((v, i) => ({
-  text: v,
-  options: {
-    fill: PHASE_COLORS[i] || 'E87722',
-    color: i === 0 ? '1a1a1a' : 'FFFFFF',
-    bold: true, fontSize: 12, align: 'center', valign: 'middle',
-  }
-}));
-
-// 内容行（ROI / Tech & Cost / Required Resources）
-const dataRows = [
-  [
-    { text: 'ROI', options: { fill: '1a1a1a', color: 'FFFFFF', bold: true, fontSize: 12 } },
-    { text: 'A. 准确率 up to 99%\nB. 1~5M/D/project', options: { fontSize: 10 } },
-    // ... 其余 4 列
-  ],
-  // Tech & Cost 行...
-  // Required Resources 行...
-];
-
-slide.addTable([headerRow, ...dataRows], {
-  x: 0.4, y: 1.0, w: 12.5, h: 6.0,
-  colW: [1.2, 2.26, 2.26, 2.26, 2.26, 2.26],
-  rowH: [0.55, 1.75, 1.75, 1.75],  // 表头矮，三内容行均等
-  border: { pt: 0.5, color: 'DDDDDD' },
-  fontFace: 'Arial',
-});
-```
-
----
-
-### 使用这个模板的判断条件
-
-✅ 用 Template 10 当：
-- 要展示 4-6 个阶段/版本的完整对比
-- 每个阶段都有相同的评估维度（ROI、技术、资源等）
-- 演讲者会在现场讲解，slide 辅助而非独立传达
-
-❌ 不要用 Template 10 当：
-- 只有 2-3 个阶段（用 Template 13 Before/After 比较）
-- 信息量不大（用普通 3-column 卡片即可）
-- 没有演讲搭配（会议室留存文件，不适合 10pt）
 
 ---
 
@@ -541,3 +427,180 @@ slide.addTable([headerRow, ...dataRows], {
 | Phased timeline / plan | Template 8 | Horizontal chevron flow |
 | Reusability / methodology | Template 9 | Funnel + stable/variable cards |
 | Long-term roadmap matrix | Template 10 | Multi-row, multi-column progression table |
+| **Cold Open hook** (NEW v2) | **Template 11** | Single sentence or single image, minimal chrome |
+| **Wow Moment** (NEW v2) | **Template 12** | Before/after split + t-shirt sentence |
+| **Why Us matrix** (NEW v2) | **Template 13** | Three-column comparison table |
+
+---
+
+## Template 11: Cold Open Slide (NEW in v2)
+
+**Purpose**: The opening hook. Single slide that captures attention in the first 5-10 seconds before any content begins.
+
+**Visual rules**:
+- NO logo, NO agenda, NO presenter name, NO date
+- NO slide number visible
+- Background: warm off-white (#faf9f7) OR full-bleed photograph
+- Maximum text: ONE sentence (≤12 English words / ≤25 Chinese characters)
+- The sentence is set at hero size: 44-72pt, centered or strongly anchored
+
+**Three layout variants**:
+
+### 11A — Pure Sentence (most common)
+```
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│                                                      │
+│                                                      │
+│                                                      │
+│           [ONE SENTENCE — 44-60pt bold]              │
+│                                                      │
+│                                                      │
+│                                                      │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
+Used for Inevitable Future, Counterintuitive Insight, Loaded Question archetypes.
+
+### 11B — Image + Caption
+```
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│       [FULL-BLEED PHOTOGRAPH — 80% of slide]         │
+│       (a real moment: late-night office, paper       │
+│        stack, screen with version number visible)    │
+│                                                      │
+├──────────────────────────────────────────────────────┤
+│  [ONE SHORT CAPTION — 24pt — bottom strip]           │
+└──────────────────────────────────────────────────────┘
+```
+Used for Painful Status Quo archetype. The photo IS the hook.
+
+### 11C — Single Number
+```
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│                                                      │
+│             [HERO NUMBER — 120pt+ bold]              │
+│                                                      │
+│           [ONE LABEL — 18pt — gray]                  │
+│                                                      │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
+Used when a single shocking statistic is the hook itself.
+
+**Failure modes**:
+- Adding a slide title bar (kills the hook)
+- Using stock photography that looks generic
+- Sentence ends up >12 words (means it's not actually a hook — it's a topic)
+
+---
+
+## Template 12: Wow Moment Slide (NEW in v2)
+
+**Purpose**: The single most important slide in the deck. The undeniable proof point. Three-act choreography: Setup → Reveal → Pause.
+
+**Visual rules**:
+- NO logo, NO title bar, NO bullet points
+- Two side-by-side panels (BEFORE | AFTER)
+- ONE sentence centered between them — the t-shirt line
+- Real artifacts only — actual screenshots, real timestamps, real numbers
+
+**Layout**:
+```
+┌────────────────────────────────┬────────────────────────────────┐
+│                                │                                │
+│       BEFORE                   │       AFTER                    │
+│       (gray label, 14pt)       │       (orange label, 14pt)     │
+│                                │                                │
+│   [SCREENSHOT or VISUAL of     │   [SCREENSHOT or VISUAL of     │
+│    the old / manual process]   │    the new / AI-driven         │
+│                                │    process]                    │
+│                                │                                │
+│   [TIMESTAMP or METRIC]        │   [TIMESTAMP or METRIC]        │
+│   "8 hours" — 32pt orange      │   "4 minutes" — 32pt teal      │
+│                                │                                │
+└────────────────────────────────┴────────────────────────────────┘
+                          ↓
+        ┌────────────────────────────────────────┐
+        │                                        │
+        │    [T-SHIRT SENTENCE — 36-44pt bold]   │
+        │   "Same task. 8 hours → 4 minutes."    │
+        │                                        │
+        └────────────────────────────────────────┘
+```
+
+**Critical discipline**:
+- The t-shirt sentence is the ONLY explanatory text on the slide
+- The sentence must pass the "audience texts a friend" test — would they send this exact sentence?
+- The slide stays on screen during the 5-10 second pause AFTER the speaker reveals it
+
+**Companion oral script structure**:
+1. SETUP (~10s): one sentence anchoring the "before" state
+2. CLICK to reveal the slide
+3. ONE bridge sentence: "Here's the same task, run by the system."
+4. `[PAUSE 5-10s]` — speaker stays silent; slide stays up
+5. BRIDGE to next slide: "Let me show you how this works."
+
+**Failure modes**:
+- Multiple Wow Moments in one deck (pick the strongest, demote others)
+- Explaining HOW during the Reveal (architecture goes on the next slide)
+- Stock images instead of real artifacts
+- Speaker fills the pause (kills the moment)
+
+---
+
+## Template 13: Why Us / Why Now Matrix Slide (NEW in v2)
+
+**Purpose**: The unfair-advantage close. Demonstrates that competitors structurally cannot replicate your position within the relevant time horizon.
+
+**Visual rules**:
+- Three-column comparison table (sometimes 4 columns if a strong second competitor adds credibility)
+- The "Us" column is visually distinguished — orange header, bold checkmarks
+- Last row converts qualitative advantages into time/cost units
+
+**Layout**:
+```
+┌────────────────────────────────────────────────────────────────┐
+│  WHY THIS TEAM                                                 │
+│  (slide title, 32-40pt bold orange)                            │
+└────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────┬──────────────┬──────────────┬──────────────┐
+│ CAPABILITY           │ COMPETITOR A │ COMPETITOR B │     US       │
+│ (header row, 14pt    │  (gray bg)   │  (gray bg)   │ (orange bg)  │
+│  bold, white text)   │              │              │              │
+├──────────────────────┼──────────────┼──────────────┼──────────────┤
+│ Capability 1         │      ✓       │      ✗       │      ✓       │
+│ (technical axis)     │              │              │              │
+├──────────────────────┼──────────────┼──────────────┼──────────────┤
+│ Capability 2         │      ✗       │      ✓       │      ✓       │
+│ (domain axis)        │              │              │              │
+├──────────────────────┼──────────────┼──────────────┼──────────────┤
+│ Capability 3         │      ✗       │      ✗       │      ✓       │
+│ (rare combination)   │              │              │              │
+├──────────────────────┼──────────────┼──────────────┼──────────────┤
+│ Time-to-replicate    │  6 months    │   2 years    │   0 (now)    │
+│ (bottom row, bold)   │              │              │              │
+└──────────────────────┴──────────────┴──────────────┴──────────────┘
+```
+
+**Design rules**:
+- The "Us" column is the ONLY column with all checkmarks — this is the visual win
+- Choose 3-5 capability rows; more becomes noise
+- The third capability is the genuinely rare combination — list it last
+- The bottom row converts the visual advantage into measurable time/cost — this is what executives anchor on
+- Cell colors: green checkmark `#10B981` / red X `#EF4444` / orange highlight on "Us" column header
+
+**Pairing with "Why Now"**:
+This slide is often paired with a separate "Why Now" timeline slide. The narrative flow:
+1. Why Us slide → "we are the only team that can do this"
+2. Why Now slide → "and the window is closing"
+3. Bridge to the Ask: "Therefore: act."
+
+**Failure modes**:
+- Strawman competitors that the audience knows aren't real threats (damages credibility more than the win helps)
+- Generic capabilities like "great engineers" — every team says this
+- Forgetting the bottom row (qualitative advantage doesn't convert without it)
+- Using this slide as ego — focus on **structural** advantage, not on how smart the team is
