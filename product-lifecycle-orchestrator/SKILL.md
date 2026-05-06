@@ -26,10 +26,24 @@ Plus: `web_search` for market context, category state, and recent launches befor
 
 ---
 
+## Project Archetypes & Quality Emphasis
+
+Different project types demand different quality focus. PLO adjusts gate strictness per archetype:
+
+| Archetype | Example | Path | Dominant Risk | Quality Emphasis |
+|-----------|---------|------|---------------|-----------------|
+| **Enterprise Automation** | CER | B2B | Data loss, wrong output, compliance | Evals ⬆⬆⬆, TDD ⬆⬆⬆, Audit trail, Error handling |
+| **ToB SaaS/Tool** | Client project | B2B | Misalignment, scope creep | Stakeholder checkpoints, Constraint docs |
+| **ToC Product** | Consumer app | ToC | No adoption, bad UX | Product-sense-review ⬆⬆⬆, Activation metrics, Market positioning |
+| **Internal Sharing** | Team slide deck, PPT | Personal | Low quality, off-brand | Aesthetic ⬆⬆⬆, Speed, Presentation polish |
+| **Personal Tool** | CLI, automation | Personal | Abandonment, over-engineering | Speed, MVP scope, Taste drift check |
+
+---
+
 ## Path A: B2B / Stakeholder-Driven
 
 ```
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
 ```
 
 ### Phase 1: Stakeholder & Constraint
@@ -64,7 +78,7 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 | Skill | What It Does |
 |-------|-------------|
 | `grill-me` | Aesthetic direction exploration (choose extreme tone before converging) |
-| `product-sense-review` | Product personality, UX risk, launch blocker, and user psychology review; mandatory at prototype/screenshot stage |
+| `product-sense-review` | Product personality, UX risk, launch blocker, and user psychology review |
 | **Output-type skill matrix:** | |
 | Web / Landing page | `open-design` (React + Tailwind) |
 | Slide deck | `frontend-slides` (scroll-snap HTML pages) |
@@ -75,7 +89,7 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 
 ### Phase 4: Development
 **Goal:** Build, test, review, iterate.
-**When to exit:** Code passes all quality gates.
+**When to exit:** Code passes all quality gates. Gates are stricter for enterprise projects.
 
 | Skill | What It Does |
 |-------|-------------|
@@ -86,23 +100,54 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 | MAE pipeline | Multi-step code → test → review → fix workflows |
 
 **Quality Gates (NON-NEGOTIABLE):**
-1. **TDD Gate:** Tests written before implementation. Tests pass before Phase 4 exit.
-2. **Evals Gate:** LLM output quality scored (LLM-as-judge). Score ≥ threshold before merge.
-3. **Code Review Gate:** Self-review checklist: duplication, security, permissions, error handling.
-4. **Type Safety Gate:** mypy/pyright passes in CI (once typed state dataclass is implemented).
-5. **CI/CD Gate:** GitHub Actions: push → test → evals → review → merge.
 
-### Phase 5: Delivery
-**Goal:** Publish, notify, document.
-**When to exit:** Deliverable is accessible, stakeholders are notified, documentation exists, deployment verified.
+| Gate | Enterprise (CER-type) | Standard B2B |
+|------|----------------------|-------------|
+| **TDD** | Tests before every function. ≥90% coverage target. Integration tests for all external APIs. | Tests before implementation. Core paths covered. |
+| **Evals** | LLM-as-judge on every output batch. Score ≥ 0.85. Trace replay for regression. | LLM-as-judge on critical outputs. Score ≥ 0.75. |
+| **Code Review** | Duplication, security, permissions, error handling, audit trail, data integrity. | Duplication, security, permissions, error handling. |
+| **Type Safety** | mypy/pyright strict mode in CI. | mypy/pyright passes in CI. |
+| **CI/CD** | GitHub Actions: push → test → evals → review → merge. Block merge on any failure. | GitHub Actions: push → test → review → merge. |
+
+### Phase 5: Delivery & Deploy
+**Goal:** Deploy, verify, document, notify stakeholders.
+**When to exit:** Deliverable is live and smoke-tested, stakeholders are notified, documentation exists.
+
+#### Step 1: Choose Deploy Target
+
+| Target | Best For | Pattern |
+|--------|----------|---------|
+| **Vercel** | Frontend apps (React/Next.js), landing pages, slide decks | `vercel --prod` or GitHub integration auto-deploy |
+| **Supabase** | Backend (DB + Auth + Edge Functions), API services | `supabase db push` + Edge Function deploy |
+| **npm** | CLI tools, libraries, local packages | `npm publish` or `npm link` for local dev |
+
+#### Step 2: Data Storage Strategy
+
+| Storage Need | Solution | When to Use |
+|-------------|----------|-------------|
+| Relational data | Supabase (PostgreSQL) | Structured app data, user accounts, audit trails |
+| File/blob storage | Supabase Storage | Uploads, generated assets, media |
+| Key-value / cache | Supabase KV / Redis | Session state, rate limiting, temp data |
+| Local-only | SQLite / JSON files | Personal tools, offline-first, no server needed |
+| Audit trail | Supabase DB + timestamp columns | CER-type enterprise: every state change logged |
+
+#### Step 3: Deploy & Verify
+
+```
+1. DEPLOY: Push to target (Vercel auto-deploy / supabase db push / npm publish)
+2. SMOKE TEST: Hit key endpoints/pages, verify they return 200 + expected content
+3. DATA CHECK: Confirm DB migrations applied, storage buckets accessible
+4. ENV CHECK: Verify environment variables loaded correctly on deployed instance
+5. STAKEHOLDER NOTIFY: Send Feishu/Discord notification with live URL + changelog
+```
 
 | Skill | What It Does |
 |-------|-------------|
-| `github` | Release management, tag, changelog |
-| `feishu-write-shared` | Write to Feishu Wiki with structured format |
+| `github` | Release management, tag, changelog, trigger CI deploy |
+| `feishu-write-shared` | Write deployment docs to Feishu Wiki |
 | `airtable-dashboard` | Sync task status to Dashboard |
 | `feishu-agent-workflow` | Route deliverables to correct Feishu space |
-| Deployment verification | Confirm the deliverable is live and accessible; smoke-test key paths |
+| Deployment verification | Smoke-test, data check, env check → confirm live |
 
 ### Phase 6: Review & Evolve
 **Goal:** Extract lessons, update skills, close the loop.
@@ -159,8 +204,26 @@ Same skill matrix as Path A Phase 3, with ToC additions:
 | `product-sense-review` | **MANDATORY** before launch — review personality, trust signals, activation friction |
 | `web_search` | Pull UX patterns from top consumer apps in the same category |
 
-### Phase 5-7: Same as Path A Phases 4-6
-(Development → Delivery → Review & Evolve, identical skill mapping. `product-sense-review` recommended as pre-launch gate.)
+### Phase 5: Development
+Same as Path A Phase 4, with ToC emphasis:
+
+| Quality Gate | ToC Emphasis |
+|-------------|-------------|
+| TDD | Core user flows covered; edge cases for activation/first-run |
+| Evals | UX copy, error messages, onboarding text quality |
+| Code Review | Privacy, permissions, data minimization |
+
+### Phase 6: Delivery & Deploy
+Same as Path A Phase 5. ToC additions:
+
+| Extra ToC Step | What It Does |
+|----------------|-------------|
+| Activation smoke test | Walk through first-run experience as new user |
+| Analytics hook | Confirm event tracking fires for key activation events |
+| Market positioning check | Final `product-sense-review` against live product |
+
+### Phase 7: Review & Evolve
+Same as Path A Phase 6. Extra: review activation/retention metrics if available.
 
 ---
 
@@ -188,8 +251,39 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 |-------|-------------|
 | `grill-me` | "What's the smallest useful version? What's tempting but unnecessary?" |
 
-### Phase 3-7: Same as Path A Phases 2-6
-(Architecture → Design → Development → Delivery → Review, identical skill mapping)
+### Phase 3: Technical Architecture
+Same as Path A Phase 2 (includes `superpower` + `agent-skill`).
+
+### Phase 4: Design & UX
+Same skill matrix as Path A Phase 3. Personal emphasis:
+
+| Personal Emphasis | What It Means |
+|-------------------|---------------|
+| **Aesthetic quality** | For internal sharing / presentation: `impeccable-design` or `jianan-presentation-system` strongly recommended |
+| **Speed over polish** | For quick tools: `design-front` minimum viable, skip full design system |
+| **Taste drift check** | `grill-me`: "Am I building this because it's cool or because I need it?" |
+
+### Phase 5: Development
+Same as Path A Phase 4, with personal emphasis:
+
+| Quality Gate | Personal Emphasis |
+|-------------|-------------------|
+| TDD | Core logic tested; UI/visual can be manual |
+| Evals | Only if output is customer-facing or data-critical |
+| Code Review | Self-review OK; focus on maintainability for future-you |
+
+### Phase 6: Delivery & Deploy
+Same as Path A Phase 5. Personal emphasis:
+
+| Deploy Target | Personal Use |
+|--------------|-------------|
+| Vercel | Internal sharing pages, slide decks, personal sites |
+| Supabase | Personal tools with persistence |
+| npm / local | CLI tools, scripts, `npm link` for local use |
+| No deploy | If it's a one-off script or local-only tool, skip deployment |
+
+### Phase 7: Review & Evolve
+Same as Path A Phase 6. Extra: personal projects should log "would I use this again?" as a lightweight metric.
 
 ---
 
@@ -200,12 +294,70 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 | 1 | Stakeholder & Constraint | User Pull & Emotional Job | Feature Fusion |
 | 2 | Architecture (+superpower +agent-skill) | Activation & Trust | Scope Definition |
 | 3 | Design & UX | Architecture (+superpower +agent-skill) | Architecture (+superpower +agent-skill) |
-| 4 | Development | Design & UX (+ToC gates) | Design & UX |
-| 5 | Delivery | Development | Development |
-| 6 | Review & Evolve | Delivery | Delivery |
+| 4 | Development (Enterprise gates) | Design & UX (+ToC gates) | Design & UX (Aesthetic emphasis) |
+| 5 | Delivery & Deploy (Vercel/Supabase/npm) | Development (ToC emphasis) | Development (Speed emphasis) |
+| 6 | Review & Evolve | Delivery & Deploy (+activation check) | Delivery & Deploy (Lightweight) |
 | 7 | — | Review & Evolve | Review & Evolve |
 
-> Note: B2B merges Stakeholder+Constraint into Phase 1, so it uses 6 phases (1-6). ToC and Personal use full 7 phases. All paths converge on Architecture (Phase 2/3) and remain shared through Review.
+> B2B uses 6 phases. ToC and Personal use full 7 phases. All paths converge on Architecture (Phase 2/3) and share the same deploy strategy in Delivery.
+
+---
+
+## Delivery & Deploy Reference (Shared)
+
+All paths use this deployment strategy. Pick the right target(s) for the project:
+
+### Vercel (Frontend)
+```
+Best for: React/Next.js apps, landing pages, slide decks, internal sharing pages
+Pattern: Push to GitHub → Vercel auto-deploy, or `vercel --prod`
+Verify: Open live URL, check key pages/API routes return 200
+```
+
+### Supabase (Backend + Data)
+```
+Best for: Database, auth, edge functions, file storage, API backend
+Pattern: `supabase db push` for schema, Edge Function deploy for APIs
+Data: PostgreSQL (structured data), Storage (files/blobs), Auth (user management)
+Verify: Query a known table, hit an edge function endpoint, check storage bucket
+```
+
+### npm (CLI / Library)
+```
+Best for: CLI tools, shared libraries, local packages
+Pattern: `npm publish` for distribution, `npm link` for local dev
+Verify: `npx <package>` or import from linked package, run key commands
+```
+
+### Deployment Verification Checklist
+```
+☐ Deploy command completed without errors
+☐ Smoke test: key pages/endpoints return 200
+☐ Data check: DB schema applied, storage accessible
+☐ ENV check: environment variables loaded (no undefined/missing)
+☐ Auth check: login/signup flow works (if applicable)
+☐ Stakeholder/channel notification sent with live URL
+```
+
+---
+
+## Data Storage Decision Tree
+
+```
+Does this project need persistent data?
+  ├─ No → Skip storage, use in-memory or local files
+  └─ Yes → What kind?
+       ├─ Relational (users, tasks, structured records)
+       │   └─ Supabase PostgreSQL
+       ├─ Files / media (uploads, generated assets)
+       │   └─ Supabase Storage
+       ├─ Key-value / cache (sessions, rate limits, temp state)
+       │   └─ Supabase KV or in-memory Redis
+       ├─ Audit trail (CER-type: every state change logged)
+       │   └─ Supabase DB + created_at/updated_at/actor columns
+       └─ Local-only (personal tools, no server)
+           └─ SQLite or JSON files
+```
 
 ---
 
