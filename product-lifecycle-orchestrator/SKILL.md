@@ -66,6 +66,10 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
 | `superpower` | Identify the system's unique strengths and comparative advantages; define what makes this architecture special vs alternatives |
 | `agent-skill` | Map required capabilities to available agents and skills; define which agent owns which subsystem and which skills they need |
 | `web_search` | Research tech choices, benchmarks, and architectural patterns |
+
+**Methodology references (external libraries to consult during architecture design):**
+- [`obra/superpowers`](https://github.com/obra/superpowers) — Jesse Vincent's agentic development methodology: brainstorming → plan → subagent-dev → TDD → verify → review → ship. Core principles: design before code, evidence before claims, TDD as non-negotiable.
+- [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) — Addy Osmani's 20 production-grade engineering skills: DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP. Use as a reference for skill design patterns and quality gate structures.
 | `context7-cli` / `get-api-docs` | Pull external API docs and integration specs |
 | `codebase-to-course` | Understand existing codebases that will be extended or referenced (if applicable) |
 | `claw-vibe-project` | Long-term project coordination, session management |
@@ -393,6 +397,8 @@ Recommended external libraries to check first:
 - `deanpeters/Product-Manager-Skills` — broad PM skill packs, OpenClaw/Codex compatible.
 - `RefoundAI/lenny-skills` — product taste, design review, tradeoff, behavioral design, AI evals.
 - `heurilens/ux-heuristics-checklist` — UX heuristics and AI audit prompts.
+- [`obra/superpowers`](https://github.com/obra/superpowers) — Agentic development methodology (brainstorming → plan → subagent-dev → TDD → verify → review → ship).
+- [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) — 20 production-grade engineering skills (DEFINE → PLAN → BUILD → VERIFY → REVIEW → SHIP).
 
 ---
 
@@ -452,8 +458,8 @@ The inspiration database is fed by the content pipeline. Every high-signal item 
 | `airtable-dashboard` | Andrew workspace | ✅ ready |
 | `context7-cli` | ok-skills | ✅ ready |
 | `get-api-docs` | ok-skills | ✅ ready |
-| `superpower` | JN-SkillHub | ⚠️ to be created |
-| `agent-skill` | JN-SkillHub | ⚠️ to be created |
+| `superpower` | 📚 External: [`obra/superpowers`](https://github.com/obra/superpowers) | Reference methodology |
+| `agent-skill` | 📚 External: [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) | Reference methodology |
 
 ---
 
