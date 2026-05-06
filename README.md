@@ -12,6 +12,7 @@ Jianan 的私有 SkillHub。这里放长期维护、可跨 Agent 复用的自定
 | `design-front` | 高质量前端设计与视觉实现 | Rex | 着陆页、产品页、视觉设计、前端展示 |
 | `codebase-to-course` | 将代码库讲解为课程/教程/交互页面 | Andrew | 框架梳理、代码教学、系统理解 |
 | `claw-vibe-project` | 项目制 vibe coding、session/harness/changelog/skills 管理 | Andrew / Rex | 项目初始化、长期开发、会话协作 |
+| `product-lifecycle-orchestrator` | **PLO**: 全流程产品生命周期编排器，模式检测 → 7-phase 路由 → skill 映射 | SAM | T2+ 项目强制入口，门控分级执行 |
 
 ## Principles
 
@@ -31,5 +32,6 @@ Jianan 的私有 SkillHub。这里放长期维护、可跨 Agent 复用的自定
 - 前端设计 / 页面美化 / landing page
 - 框架梳理 / codebase 讲解 / interactive course
 - vibe coding / 项目制 session 管理
+- T2+ 产品/设计/发布项目 → PLO 门控路由
 
 See: `AGENT_MAPPING.md`

@@ -39,6 +39,7 @@ They are important because many of them encode Jianan's working style and histor
 | `agent-council` | Rex | multi-agent discussion / council pattern |
 | `agent-development` | Andrew | agent creation / development workflow |
 | `agent-orchestrator` | Rex | orchestrating multiple agents |
+| `product-lifecycle-orchestrator` | SAM (router) | full-cycle product development orchestrator (PLO); mode detection → 7-phase routing → skill mapping → attention tracking |
 | `architecture-designer` | Andrew / Rex | architecture design |
 | `bird` | Lulu | content / light creative usage |
 | `blogwatcher` | Lulu / Andrew | content radar / blog monitoring |
@@ -127,6 +128,10 @@ The same skill may be callable by all, but should still have a preferred owner t
 ---
 
 ## Priority Mapping (Short Version)
+
+### SAM
+- Core: `product-lifecycle-orchestrator` (PLO — mandatory T2+ entry)
+- Supporting: all skill routing, agent coordination, attention tracking
 
 ### Andrew
 - Core: `codebase-to-course`, `claw-vibe-project`
