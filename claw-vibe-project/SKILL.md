@@ -438,3 +438,234 @@ runtime:
 4. 询问用户：改代码 or 改文档？
 5. 更新对应内容，写 CHANGELOG [DRIFT FIX] 条目
 ```
+
+---
+
+## Git Commit 规范（Conventional Commits）
+
+**强制规则：所有 AI 生成的 commit 必须遵循 Conventional Commits 格式。**  
+本框架与 `conventional-commits` skill 联动，自动驱动版本号和 CHANGELOG 生成。
+
+### 格式
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### 必须知道的 type 映射
+
+| Type | 用途 | SemVer 影响 |
+|------|------|-----------|
+| `feat` | 新功能 | MINOR ↑ |
+| `fix` | Bug 修复 | PATCH ↑ |
+| `refactor` | 重构（无行为变化） | 无 |
+| `test` | 添加/修改测试 | 无 |
+| `docs` | 文档变更 | 无 |
+| `harness` | harness/ 红线变更 | **需注明 [HARNESS CHANGE]** |
+| `ci` | CI/CD 流程变更 | 无 |
+| `chore` | 杂项维护 | 无 |
+
+**BREAKING CHANGE** 用 `feat!:` 或 footer `BREAKING CHANGE:` 标注 → MAJOR ↑
+
+### Scope 推荐（按模块命名）
+
+使用项目实际的模块名作为 scope，例如 `feat(auth):` / `fix(pipeline):` / `refactor(harness):`
+
+### Commit 写作规则
+
+- 用**祈使句**（imperative）：`add`，不是 `added` / `adds`
+- 首字母小写，末尾无句号
+- description 控制在 72 字以内
+- 一个 commit 只做一件事
+
+### 与 CHANGELOG 的关系
+
+| CHANGELOG 条目 | 对应 commit type |
+|---------------|----------------|
+| `### 变动摘要 > 新增` | `feat:` |
+| `### 变动摘要 > 修改` | `fix:` / `refactor:` |
+| `### 关键决策` | commit body |
+| `[HARNESS CHANGE]` | `harness:` |
+| `[DRIFT FIX]` | `refactor(drift):` |
+
+> **AI 的行为约定**：每次 session 收尾生成 CHANGELOG 条目时，同步生成对应的 git commit message 草稿，供用户一键使用。
+
+---
+
+## Evals 双轨设计
+
+项目的 eval 分为两条轨道，目的和评判人不同，不可混用：
+
+### 轨道一：用户验收 Eval（User Evals）
+
+**目标**：验证功能是否对用户有效，测的是"用户看到的结果"。  
+**评判人**：Jianan（产品视角），不是 CI 系统。  
+**触发时机**：Sprint 完成、交付 Demo 前、漂移检测时。
+
+```
+evals/
+└── user/
+    ├── acceptance.json     # 功能验收测试集
+    ├── ux-scenarios.json   # 用户场景流程测试
+    └── regression.json     # 历史通过的功能不能退化
+```
+
+**User Eval 条目格式**：
+
+```json
+{
+  "id": "ue-001",
+  "description": "用户完成登录并看到 Dashboard",
+  "scenario": "用户输入正确邮箱密码，点击登录",
+  "expected_outcome": "跳转到 Dashboard，显示用户名",
+  "acceptance_criteria": [
+    "页面无错误信息",
+    "显示正确的用户名",
+    "加载时间 < 2s"
+  ],
+  "tags": ["auth", "happy-path"],
+  "type": "user_acceptance"
+}
+```
+
+### 轨道二：内部质量 Eval（Internal Evals）
+
+**目标**：验证代码/架构是否健康，测的是"工程质量指标"。  
+**评判人**：AI + CI 系统，无需用户参与。  
+**触发时机**：每次 harness 变更后、每次重构后、每周漂移检测。
+
+```
+evals/
+└── internal/
+    ├── smoke.json          # 核心路径冒烟（每次 session 结束跑）
+    ├── contracts.json      # harness 接口契约验证
+    ├── invariants.json     # 架构不变量检查（raw immutable 等）
+    └── quality.json        # 代码质量断言（无 patch_ 函数等）
+```
+
+**Internal Eval 条目格式**：
+
+```json
+{
+  "id": "ie-001",
+  "description": "raw text 字段不可被 normalize 阶段修改",
+  "check_type": "invariant",
+  "assertion": "evals/internal/invariants/raw_immutability",
+  "severity": "critical",
+  "tags": ["harness", "stage-boundary"],
+  "auto_run": true
+}
+```
+
+### 双轨触发规则
+
+| 事件 | 跑 User Eval | 跑 Internal Eval |
+|------|-------------|-----------------|
+| Session 结束 | `evals/user/smoke.json` | `evals/internal/smoke.json` |
+| 修改 harness/ | 否 | **全量 internal** |
+| 完成新功能 | **对应 acceptance** | `smoke.json` |
+| 漂移检测 | **全量 user** | **全量 internal** |
+| Sprint Review | **全量 user** | 选跑 contracts |
+
+### Eval 设计原则
+
+- **User Evals 测行为，不测实现**：断言用户看到的结果，不断言函数调用顺序
+- **Internal Evals 测约束，不测逻辑**：断言架构红线是否被维持
+- **Eval 是规格说明书**：先写 eval，再写代码（配合 TDD 协议）
+- **不要用 Internal Eval 替代 User Eval**：CI 全绿不代表用户需求被满足
+
+---
+
+## TDD 协议
+
+**铁律：无 failing test，不写 production code。**
+
+本协议与 `test-driven-development` skill 联动，适用于所有新功能和 bug fix。
+
+### Red-Green-Refactor 循环
+
+```
+RED   → 先写一个 failing test，描述「应该做什么」
+VERIFY RED → 确认 test 真的失败（不是报错）
+GREEN → 写最少的代码让 test pass
+VERIFY GREEN → 确认 test pass，其他 test 仍 pass
+REFACTOR → 清理代码，保持绿灯
+```
+
+### 与 claw-vibe-project 的集成
+
+| TDD 阶段 | 对应 claw-vibe-project 操作 |
+|---------|--------------------------|
+| 写 failing test | 在 `evals/user/` 或 `harness/contracts/` 新建 eval |
+| 确认 RED | 三层扫描前检查 eval 状态 |
+| GREEN 后 | 更新 CHANGELOG `### 变动摘要` |
+| REFACTOR 后 | 触发三层架构扫描 |
+
+### 例外情况（需用户明确批准）
+
+- 纯配置文件改动
+- 一次性脚本（明确标注后可跳过）
+- **不得**以「已手测」为由跳过——手测不是 TDD
+
+### 开场扫描补充项
+
+在三层架构风险扫描中，额外检查：
+- 上次 Session 遗留的 RED 状态 eval 是否已变绿
+- 是否有无对应 test 的新函数/新模块
+
+---
+
+## 版本管理策略
+
+**版本号遵循 Semantic Versioning（semver），由 conventional commits 驱动。**
+
+### 版本号规则
+
+```
+MAJOR.MINOR.PATCH
+
+MAJOR: 有 BREAKING CHANGE（不向后兼容）
+MINOR: 有 feat: commit
+PATCH: 有 fix: commit
+```
+
+版本号在 `PROJECT.md` 的 `## 当前版本` 字段维护。
+
+### Branch 命名策略
+
+| 分支类型 | 命名 | 用途 |
+|---------|------|------|
+| 主线 | `main` | 随时可发布状态 |
+| 功能 | `feat/<feature-name>` | 新功能开发 |
+| 修复 | `fix/<issue-id>-<desc>` | Bug 修复 |
+| Harness | `harness/<change-desc>` | harness 红线变更 |
+| Release | `release/v<version>` | 发布准备 |
+
+### Release 流程
+
+```
+1. 确认所有 User Eval 通过
+2. 确认所有 Internal Eval（contracts）通过
+3. 用 conventional commits 确定版本号
+4. 更新 PROJECT.md 版本字段
+5. 在 CHANGELOG 追加 [RELEASE vX.Y.Z] 条目
+6. 打 git tag：git tag -a vX.Y.Z -m "Release vX.Y.Z"
+```
+
+### AI 的版本管理职责
+
+- 每次 session 收尾时，**提示用户**当前累积的 commit types 对版本号的影响
+- 如有 `feat:` → 提示 MINOR 待 bump
+- 如有 BREAKING CHANGE → 明确警告 MAJOR
+- **不自动 bump 版本**——版本 bump 需用户显式确认
+
+### 与 OpenClaw 的协同
+
+在 `mode: openclaw` 下：
+- **INK** 负责更新 CHANGELOG 和版本字段
+- **AUX** 在 release 前跑全量 eval
+- **LENS** 做最终 diff review 后才允许 tag

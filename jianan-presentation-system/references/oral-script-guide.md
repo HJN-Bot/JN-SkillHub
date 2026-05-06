@@ -219,6 +219,7 @@ When producing oral scripts, always deliver TWO files:
 - English version tends to be slightly more formal and concise
 - Strategic emphasis sections match the Chinese bold sections
 - Maintains the same rhetorical devices adapted for English
+- For full-English executive scripts or English polishing, also load [english-oral-script-style.md](english-oral-script-style.md).
 
 ### Key Differences Between Versions
 | Aspect | Chinese Version | English Version |

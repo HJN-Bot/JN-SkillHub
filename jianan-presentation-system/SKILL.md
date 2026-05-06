@@ -26,6 +26,7 @@ A comprehensive skill for creating high-persuasion presentations matching Jianan
 | Objection handling & R·Agent objection library | [references/objection-handling.md](references/objection-handling.md) |
 | Slide-type templates with specifications | [references/slide-templates.md](references/slide-templates.md) |
 | Oral script writing rules | [references/oral-script-guide.md](references/oral-script-guide.md) |
+| English executive oral script style & landing lines | [references/english-oral-script-style.md](references/english-oral-script-style.md) |
 
 ---
 
@@ -155,7 +156,7 @@ When asked to create a presentation:
 7. **Produce deliverables**:
    - **PPTX file** (LAYOUT_WIDE 13.3"×7.5"): editable in PowerPoint — titles, bullets, tables, charts as native elements
    - **HTML files** for complex diagrams: funnel architectures, color-coded comparison tables, flow diagrams with rounded connectors — screenshot and embed into PPTX as images
-   - **Companion oral script** in Markdown (Chinese + English versions), with `[PAUSE 5s]` markers at Wow Moment
+   - **Companion oral script** in Markdown (Chinese + English versions), with `[PAUSE 5s]` markers at Wow Moment. For English executive scripts, use `oral-script-guide.md` plus `english-oral-script-style.md`.
    - **Backup slides** for top 3-5 objections (hidden from main flow)
 8. **QA every slide**: convert to image, check for alignment, text overflow, spacing issues, container padding.
 

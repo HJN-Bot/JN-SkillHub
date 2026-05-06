@@ -1,3 +1,8 @@
+---
+name: impactable
+description: Help Lulu improve impact, expression, and presentation quality for content/design tasks.
+---
+
 # impactable
 
 ## Purpose
