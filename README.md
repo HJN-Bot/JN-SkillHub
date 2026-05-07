@@ -13,6 +13,7 @@ Jianan 的私有 SkillHub。这里放长期维护、可跨 Agent 复用的自定
 | `codebase-to-course` | 将代码库讲解为课程/教程/交互页面 | Andrew | 框架梳理、代码教学、系统理解 |
 | `claw-vibe-project` | 项目制 vibe coding、session/harness/changelog/skills 管理 | Andrew / Rex | 项目初始化、长期开发、会话协作 |
 | `product-lifecycle-orchestrator` | **PLO**: 全流程产品生命周期编排器，模式检测 → 7-phase 路由 → skill 映射 | SAM | T2+ 项目强制入口，门控分级执行 |
+| `qt-wiki-framework` | **QT**: Question-Driven Thinking — 7 个必答问题替换拍脑袋决策 | Andrew / SAM | 产品想法进入时的决策前置检查，与 PLO 协同使用 |
 
 ## Principles
 

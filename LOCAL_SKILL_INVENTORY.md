@@ -40,6 +40,7 @@ They are important because many of them encode Jianan's working style and histor
 | `agent-development` | Andrew | agent creation / development workflow |
 | `agent-orchestrator` | Rex | orchestrating multiple agents |
 | `product-lifecycle-orchestrator` | SAM (router) | full-cycle product development orchestrator (PLO); mode detection → 7-phase routing → skill mapping → attention tracking |
+| `qt-wiki-framework` | Andrew / SAM | Question-Driven Thinking (QT); 7 mandatory questions per phase replacing gut-feeling decisions; pairs with PLO |
 | `architecture-designer` | Andrew / Rex | architecture design |
 | `bird` | Lulu | content / light creative usage |
 | `blogwatcher` | Lulu / Andrew | content radar / blog monitoring |
