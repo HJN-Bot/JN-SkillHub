@@ -434,6 +434,7 @@ The inspiration database is fed by the content pipeline. Every high-signal item 
 
 | Skill | Location | Status |
 |-------|----------|--------|
+| `grill-with-docs` | JN-SkillHub | ✅ ready |
 | `grill-me` | Andrew workspace | ✅ ready |
 | `product-sense-review` | Andrew workspace | ✅ ready |
 | `open-design` | Andrew workspace (ok-skills) | ✅ ready |
@@ -448,6 +449,9 @@ The inspiration database is fed by the content pipeline. Every high-signal item 
 | `first-principles-decomposer` | JN-SkillHub | ✅ ready |
 | `test-driven-development` | ok-skills | ✅ ready |
 | `subagent-driven-development` | ok-skills | ✅ ready |
+| `tdd` | 📚 External: mattpocock/skills | Reference methodology |
+| `diagnose` | 📚 External: mattpocock/skills | Reference methodology |
+| `improve-codebase-architecture` | 📚 External: mattpocock/skills | Reference methodology |
 | `github-pr` | JN-SkillHub | ✅ ready |
 | `github` | JN-SkillHub | ✅ ready |
 | `eight-d-optimization` | Andrew workspace | ✅ ready |
