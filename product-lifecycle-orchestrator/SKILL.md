@@ -77,6 +77,8 @@ Common B2B AI work packages: Input/Ingestion, Parsing & Mapping, Generation, Ver
 
 For detailed enterprise templates and CER/PTR examples, read `references/b2b-enterprise.md`. For meeting/RACI/RAID planning, use `templates/b2b-enterprise-meeting-plan.md`.
 
+When the user provides a feature roadmap, Gantt chart, or vertical task list, read `references/workflow-architecture-workpackage.md` and use `templates/feature-roadmap-to-capability-package.md` to convert it into capability packages.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
