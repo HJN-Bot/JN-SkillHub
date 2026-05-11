@@ -79,6 +79,14 @@ For detailed enterprise templates and CER/PTR examples, read `references/b2b-ent
 
 When the user provides a feature roadmap, Gantt chart, or vertical task list, read `references/workflow-architecture-workpackage.md` and use `templates/feature-roadmap-to-capability-package.md` to convert it into capability packages.
 
+When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`).
+
+When ROI, saving, transfer effort, or BA/User validation is needed, use `templates/roi-assumption.md`.
+
+When quality, regression, SME review, or user acceptance is needed, use `templates/evals-qa-plan.md`.
+
+After meaningful PLO usage, use `references/hermes-evolution.md` and `templates/hermes-evolution-log.md` to record gaps and decide whether to propose a controlled patch.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
