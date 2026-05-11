@@ -162,6 +162,8 @@ When quality, regression, SME review, or user acceptance is needed, use `templat
 
 After meaningful PLO usage, use `references/hermes-evolution.md` and `templates/hermes-evolution-log.md` to record gaps and decide whether to propose a controlled patch.
 
+When PLO planning becomes concrete implementation, read `references/development-handoff.md` to decide whether to hand off to `claw-vibe-project`, `spec`, `plan`, `build`, `test`, `review`, `ship`, or a repo-specific workflow such as CER/LEFA.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
