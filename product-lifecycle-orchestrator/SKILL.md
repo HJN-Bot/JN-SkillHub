@@ -168,6 +168,8 @@ When quality, regression, SME review, or user acceptance is needed, use `templat
 
 After meaningful PLO usage, use `references/hermes-evolution.md` and `templates/hermes-evolution-log.md` to record gaps and decide whether to propose a controlled patch.
 
+For lightweight monitoring of real-world skill effectiveness, use `references/skill-usage-monitoring.md` and `templates/skill-usage-monitoring-log.md`. This records usage, Jianan feedback, scores, repeated gaps, and active project maintenance items.
+
 When PLO planning becomes concrete implementation, read `references/development-handoff.md` to decide whether to hand off to `claw-vibe-project`, `spec`, `plan`, `build`, `test`, `review`, `ship`, or a repo-specific workflow such as CER/LEFA.
 
 
