@@ -36,6 +36,13 @@ If the company computer has slash workflow skills, prefer:
 
 with `claw-vibe-project` for long-running project governance.
 
+## Phase Boundary
+
+- PLO Phase 1/2: determine what to build and why
+- PLO Phase 3: convert the work into workflow / architecture / work package views
+- PLO Phase 4/5: define quality gates and delivery expectations, but do not micromanage implementation
+- Code development: route into the development-stage skill chain
+
 ## Handoff Decision Tree
 
 ### 1. Requirements are still unclear
@@ -108,6 +115,20 @@ For CER/PTR development:
 For CER/LEFA implementation:
 
 `PLO planning → CER LEFA workflow → spec/plan/build/test/review/ship`
+
+## Which Reference To Load Next
+
+After handoff, load:
+
+- `references/development-skill-routing.md`
+
+That file defines:
+
+- development stages
+- trigger situations
+- preferred skills
+- expected outputs
+- anti-patterns for each stage
 
 ## Handoff Checklist
 

@@ -72,9 +72,15 @@ If using Copilot or another coding agent on a company computer:
 
    “Use `product-lifecycle-orchestrator` as the entry skill. First route this task by project type and phase. Load only the relevant references/templates. For CER/PTR, prioritize B2B Enterprise, workflow→architecture→work package mapping, ROI, Evals/QA, and Hermes evolution logging.”
 
+   Short development routing sentence:
+
+   “If this has become real development work rather than project framing, identify the current stage first: discover/define, plan, build, verify/debug, review, or ship; then load `references/development-handoff.md` and `references/development-skill-routing.md` and use the narrowest matching skills.”
+
 4. For CER/PTR, start with these files:
    - `SKILL.md`
    - `references/b2b-enterprise.md`
+   - `references/development-handoff.md`
+   - `references/development-skill-routing.md`
    - `references/workflow-architecture-workpackage.md`
    - `templates/b2b-enterprise-meeting-plan.md`
    - `templates/feature-roadmap-to-capability-package.md`
@@ -214,6 +220,8 @@ When PLO planning becomes concrete implementation, read `references/development-
 **Goal:** Build, test, review, iterate.
 **When to exit:** Code passes all quality gates. Gates are stricter for enterprise projects.
 
+Do not treat PLO as the step-by-step development executor. PLO defines the work package, quality gates, and delivery expectations, then hands off execution to the development-stage skill chain. On company computers, use `references/development-handoff.md` for the boundary and `references/development-skill-routing.md` for stage routing.
+
 | Skill | What It Does |
 |-------|-------------|
 | `coding-agent` | Code generation and iteration |
@@ -231,6 +239,12 @@ When PLO planning becomes concrete implementation, read `references/development-
 | **Code Review** | Duplication, security, permissions, error handling, audit trail, data integrity. | Duplication, security, permissions, error handling. |
 | **Type Safety** | mypy/pyright strict mode in CI. | mypy/pyright passes in CI. |
 | **CI/CD** | GitHub Actions: push → test → evals → review → merge. Block merge on any failure. | GitHub Actions: push → test → review → merge. |
+
+Preferred execution chain after PLO handoff:
+
+```
+spec → plan → build/test → review → ship
+```
 
 ### Phase 5: Delivery & Deploy
 **Goal:** Deploy, verify, document, notify stakeholders.
