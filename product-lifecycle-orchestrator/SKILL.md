@@ -75,6 +75,8 @@ B2B work needs explicit role-lane routing. These lanes can run inside any B2B ph
 
 Common B2B AI work packages: Input/Ingestion, Parsing & Mapping, Generation, Verification/Evals, Review & Usability, Transfer/Reuse, Platform/Audit/Permissions.
 
+For detailed enterprise templates and CER/PTR examples, read `references/b2b-enterprise.md`. For meeting/RACI/RAID planning, use `templates/b2b-enterprise-meeting-plan.md`.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
