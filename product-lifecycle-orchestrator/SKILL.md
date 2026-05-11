@@ -1,6 +1,6 @@
 ---
 name: product-lifecycle-orchestrator
-description: Full-cycle product development orchestrator (PLO). Detects project mode (B2B vs ToC vs Personal), routes to the correct 7-phase path, maps each phase to available skills, integrates search + inspiration matching, and tracks attention distribution. SAM's mandatory entry point for any T2+ project or task.
+description: Full-cycle product lifecycle orchestrator (PLO). Use as the single entry point for T2+ product, design, content, automation, and release work. Detects mode (B2B Enterprise Automation vs B2B Content/Influence vs ToC Consumer vs Personal/Internal), routes to the correct lifecycle path, maps phases to role-lanes and skills, enforces quality gates, and records evolution hooks.
 aliases: [PLO, product-lifecycle, lifecycle-orchestrator]
 ---
 
@@ -12,17 +12,31 @@ SAM reads this skill to route every project through the correct development life
 
 ## Pre-flight: Mode Detection
 
-Before entering any phase, determine which path applies.
+Before entering any phase, determine the mode. PLO is the single input interface; paths are routed internally.
+
+### Step 1 — Main Mode
 
 | Question | B2B Answer | ToC Answer | Personal Answer |
 |----------|------------|------------|-----------------|
-| Who makes the decisions? | A client, boss, or external stakeholder | End users / market behavior | I make all decisions |
-| Where does key information live? | Internal docs, meetings, stakeholder conversations | User behavior, onboarding, retention, reviews | Public tools, my own experimentation |
-| What is the dominant risk? | Misalignment, veto, compliance, ROI | Activation, trust, emotion, habit, conversion | Scope creep, taste drift, maintenance burden |
+| Who makes the decisions? | Client, boss, customer, partner, internal stakeholder | End users / market behavior | I make all decisions |
+| Where does key information live? | Internal docs, meetings, stakeholder conversations, enterprise constraints | User behavior, onboarding, retention, reviews | Public tools, my own experimentation |
+| What is the dominant risk? | Misalignment, veto, compliance, ROI, resource conflict | Activation, trust, emotion, habit, conversion | Scope creep, taste drift, maintenance burden |
 
-**If ≥2 B2B answers → B2B Path. If ≥2 ToC answers → ToC Path. Otherwise → Personal Path.**
+**If ≥2 B2B answers → B2B. If ≥2 ToC answers → ToC. Otherwise → Personal/Internal.**
 
-Plus: `web_search` for market context, category state, and recent launches before committing to a path.
+### Step 2 — B2B Sub-mode
+
+If B2B, choose the sub-mode:
+
+| Question | Enterprise Automation | Content / Influence |
+|----------|----------------------|---------------------|
+| Primary deliverable | Working system, workflow, automation, AI tool, integration | Decision/influence artifact: deck, brief, memo, whitepaper, case study, playbook |
+| Success metric | Quality, cycle time, ROI, compliance, adoption by team | Stakeholder understanding, decision, buy-in, influence, reusable narrative |
+| Dominant risk | Wrong output, data loss, quality regression, delivery failure | Weak audience fit, weak proof, unclear ask, no follow-up action |
+
+**System/process deliverable → B2B Enterprise Automation. Decision/influence artifact → B2B Content/Influence.**
+
+Plus: use `web_search` or other verified research only when market/category/external framework context is needed; save useful references into the relevant skill/reference file.
 
 ---
 
@@ -32,8 +46,9 @@ Different project types demand different quality focus. PLO adjusts gate strictn
 
 | Archetype | Example | Path | Dominant Risk | Quality Emphasis |
 |-----------|---------|------|---------------|-----------------|
-| **Enterprise Automation** | CER | B2B | Data loss, wrong output, compliance | Evals ⬆⬆⬆, TDD ⬆⬆⬆, Audit trail, Error handling |
-| **ToB SaaS/Tool** | Client project | B2B | Misalignment, scope creep | Stakeholder checkpoints, Constraint docs |
+| **Enterprise Automation** | CER / PTR automation | B2B Enterprise | Data loss, wrong output, compliance, resource conflict | Evals ⬆⬆⬆, TDD ⬆⬆⬆, Audit trail, SME review, ROI |
+| **ToB SaaS/Tool** | Client/internal platform | B2B Enterprise | Misalignment, scope creep | Stakeholder checkpoints, Constraint docs, RACI/RAID |
+| **B2B Content / Influence** | boss brief, whitepaper, internal sharing, case study, playbook | B2B Content | Weak audience/action fit, insufficient proof, no decision | Audience fit, narrative clarity, evidence, review loop, impact follow-up |
 | **ToC Product** | Consumer app | ToC | No adoption, bad UX | Product-sense-review ⬆⬆⬆, Activation metrics, Market positioning |
 | **Internal Sharing** | Team slide deck, PPT | Personal | Low quality, off-brand | Aesthetic ⬆⬆⬆, Speed, Presentation polish |
 | **Personal Tool** | CLI, automation | Personal | Abandonment, over-engineering | Speed, MVP scope, Taste drift check |
@@ -45,6 +60,21 @@ Different project types demand different quality focus. PLO adjusts gate strictn
 ```
 Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
 ```
+
+## B2B Operating Layer: Role Lanes
+
+B2B work needs explicit role-lane routing. These lanes can run inside any B2B phase.
+
+| Lane | Use When | Core Question | Minimum Output |
+|------|----------|---------------|----------------|
+| **AI Product Manager** | User needs, pain points, priority, ROI, acceptance | What pain/job should this AI/product solve? | user needs, pain→feature map, priority, acceptance criteria, ROI assumptions |
+| **AI Product Architect** | Workflow, architecture, Agent/LLM design, reuse, work packages | How should the product/system be structured? | workflow map, architecture map, work package map, evals/reuse design |
+| **Project Execution Manager** | Resources, meetings, owners, timeline, risk, boss decisions | How will this become executable? | RACI, RAID, meeting plan, two-week plan, decision list |
+
+**Do not confuse the maps:** Workflow Map = how users/business work; Architecture Map = system layers and design logic; Work Package Map = executable deliverables for the team. Development packages should usually be vertical capability slices that cut across layers, not pure architecture layers.
+
+Common B2B AI work packages: Input/Ingestion, Parsing & Mapping, Generation, Verification/Evals, Review & Usability, Transfer/Reuse, Platform/Audit/Permissions.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
@@ -167,6 +197,52 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
 - Rate each skill used in this project (1-5). Log to skill's SKILL.md metadata.
 - If score ≤2 for ≥3 uses → trigger search for replacement.
 - If score ≥4 for ≥3 uses → promote to recommended list.
+
+---
+
+## Path A2: B2B Content / Influence
+
+Use this path when the primary deliverable is not a working system but a stakeholder-facing artifact: boss brief, executive update, internal sharing, methodology article, whitepaper, case study, sales/customer enablement, playbook, or Feishu wiki.
+
+```
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
+```
+
+### Phase 1: Audience & Objective
+**Goal:** Know who the artifact is for and what action/decision it should trigger.
+**When to exit:** Primary audience, stakeholder level, desired decision/action, and constraints are written.
+
+Outputs: audience map, communication objective, decision/action target, constraints.
+
+### Phase 2: Message & Evidence
+**Goal:** Define the one-line thesis and proof.
+**When to exit:** Core thesis, evidence library, data points, counterarguments, and answer logic exist.
+
+Outputs: thesis, proof points, evidence table, objection/answer list.
+
+### Phase 3: Narrative Architecture
+**Goal:** Choose the structure that fits the audience and decision.
+**When to exit:** Narrative arc, section outline, message hierarchy, and each section's job are clear.
+
+Common structures: problem→solution→ask, fact→gap→decision, before→after→ROI, case→method→reuse, risk→mitigation→resource.
+
+### Phase 4: Asset Production
+**Goal:** Produce the artifact in the right format.
+**When to exit:** Draft artifact exists: deck, memo, one-pager, article, wiki, playbook, or case study.
+
+Recommended skills: `jianan-presentation-system`, `frontend-slides`, `impeccable-design`, `excalidraw-handnote-style`, writing/content skills.
+
+### Phase 5: Review & Stakeholder Fit
+**Goal:** Make the artifact decision-ready.
+**When to exit:** Accuracy, evidence, tone, stakeholder fit, and actionability are reviewed.
+
+Review gates: audience fit, one-line message clarity, evidence strength, objection handling, next-action clarity.
+
+### Phase 6: Delivery & Impact Loop
+**Goal:** Deliver, capture feedback, and convert learning into reusable assets.
+**When to exit:** Artifact delivered, feedback captured, follow-up action recorded, reusable pattern/template identified.
+
+Outputs: delivery note, feedback summary, follow-up task, template/skill evolution note.
 
 ---
 
@@ -293,17 +369,17 @@ Same as Path A Phase 6. Extra: personal projects should log "would I use this ag
 
 ## Phase Summary (All Paths)
 
-| Phase | B2B | ToC | Personal |
-|-------|-----|-----|----------|
-| 1 | Stakeholder & Constraint | User Pull & Emotional Job | Feature Fusion |
-| 2 | Architecture (+superpower +agent-skill) | Activation & Trust | Scope Definition |
-| 3 | Design & UX | Architecture (+superpower +agent-skill) | Architecture (+superpower +agent-skill) |
-| 4 | Development (Enterprise gates) | Design & UX (+ToC gates) | Design & UX (Aesthetic emphasis) |
-| 5 | Delivery & Deploy (Vercel/Supabase/npm) | Development (ToC emphasis) | Development (Speed emphasis) |
-| 6 | Review & Evolve | Delivery & Deploy (+activation check) | Delivery & Deploy (Lightweight) |
-| 7 | — | Review & Evolve | Review & Evolve |
+| Phase | B2B Enterprise Automation | B2B Content / Influence | ToC | Personal |
+|-------|---------------------------|--------------------------|-----|----------|
+| 1 | Stakeholder & Constraint | Audience & Objective | User Pull & Emotional Job | Feature Fusion |
+| 2 | Pain → AI Feature / Architecture | Message & Evidence | Activation & Trust | Scope Definition |
+| 3 | Product Architecture / Work Packages | Narrative Architecture | Architecture (+superpower +agent-skill) | Architecture (+superpower +agent-skill) |
+| 4 | Development / Execution Planning | Asset Production | Design & UX (+ToC gates) | Design & UX (Aesthetic emphasis) |
+| 5 | Delivery & Quality Gates | Review & Stakeholder Fit | Development (ToC emphasis) | Development (Speed emphasis) |
+| 6 | Review & Evolve | Delivery & Impact Loop | Delivery & Deploy (+activation check) | Delivery & Deploy (Lightweight) |
+| 7 | — | — | Review & Evolve | Review & Evolve |
 
-> B2B uses 6 phases. ToC and Personal use full 7 phases. All paths converge on Architecture (Phase 2/3) and share the same deploy strategy in Delivery.
+> PLO remains one input interface. B2B splits internally into Enterprise Automation and Content/Influence. ToC and Personal use full 7 phases. All paths share architecture, delivery, and skill-evolution principles but apply different gates.
 
 ---
 
@@ -418,6 +494,23 @@ Query: "problem_type = {type}" → Return top 3 matches with source links
 The inspiration database is fed by the content pipeline. Every high-signal item from the pipeline gets tagged with `phase` + `problem_type` on ingestion.
 
 ---
+
+
+## Hermes / Skill Evolution Operating Loop
+
+Hermes-style evolution is implemented as a controlled loop, not uncontrolled self-editing:
+
+1. **Observe** — record which PLO path, phase, role lane, and templates were used.
+2. **Detect Pattern** — if the same gap appears 2–3 times, generate a dry-run recommendation.
+3. **Patch Proposal** — propose edits to the relevant path/reference/skill with source examples.
+4. **Human Confirmation** — ask Jianan before writing.
+5. **Write + Verify** — update skill/reference, log evidence, and test on the next real task.
+
+Recommended patch targets:
+- repeated CER/PTR architecture confusion → B2B Enterprise / AI Product Architect reference
+- repeated boss brief/content framing → B2B Content / Influence reference
+- repeated resource/meeting planning → Project Execution Manager reference
+- repeated pain-to-AI-feature work → AI Product Manager reference
 
 ## Skill Evolution Rules
 
