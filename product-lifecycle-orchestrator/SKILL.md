@@ -10,6 +10,81 @@ SAM reads this skill to route every project through the correct development life
 
 ---
 
+## Scope & Execution Notes
+
+### Use PLO for
+
+Use this skill for T2+ work that needs lifecycle thinking, stakeholder alignment, product/design decisions, architecture, delivery, or reusable assets:
+
+- **B2B Enterprise Automation**: CER/PTR, internal AI workflow, document automation, compliance/quality systems, cross-team platform work.
+- **B2B Content / Influence**: boss brief, executive update, whitepaper, case study, internal sharing, methodology article, playbook, Feishu wiki.
+- **ToC Consumer Products**: apps, user-facing tools, activation/retention/trust/UX-heavy products.
+- **Personal / Internal Tools**: personal automation, internal utilities, prototypes, sharing pages, experiments.
+
+### Do not use PLO for
+
+Skip or only lightly reference PLO for:
+
+- T0/T1 simple asks that can be answered directly.
+- One-off edits with no product/project lifecycle.
+- Pure implementation tasks where architecture, stakeholder, delivery, and reuse are already clear.
+- Sensitive external writes unless the user confirms.
+
+### Execution Rules
+
+1. **Start with routing**
+   - First identify: B2B Enterprise / B2B Content / ToC / Personal.
+   - Then identify phase and role lane.
+
+2. **Load references only when needed**
+   - Keep `SKILL.md` as the entry router.
+   - Load only the relevant `references/*` and `templates/*` for the task.
+   - Do not load every file by default.
+
+3. **Keep two views separate**
+   - Vertical progress view: who does what in the next 1–2 weeks.
+   - Horizontal capability package view: what product/system capabilities need to exist.
+
+4. **Prefer templates for execution**
+   - If the user has meeting notes, roadmap, Gantt, or feature tasks, convert them through templates instead of free-form rewriting.
+
+5. **Enterprise AI requires quality gates**
+   - For CER/PTR-like work, always consider Evals/QA, SME review, user acceptance, and traceability.
+
+6. **Use Hermes evolution after real use**
+   - After meaningful PLO usage, fill `templates/hermes-evolution-log.md`.
+   - Record gaps; do not patch skill immediately from a single occurrence.
+
+### Company Computer / Copilot Global Use
+
+If using Copilot or another coding agent on a company computer:
+
+1. Pull or copy the full folder:
+   `product-lifecycle-orchestrator/`
+
+2. Put it where the agent can access global/project skills, for example:
+   - global skills folder, if supported;
+   - project `.github/copilot-instructions.md` references;
+   - project docs / prompt library;
+   - local agent workspace skills folder.
+
+3. Use this instruction when starting a task:
+
+   “Use `product-lifecycle-orchestrator` as the entry skill. First route this task by project type and phase. Load only the relevant references/templates. For CER/PTR, prioritize B2B Enterprise, workflow→architecture→work package mapping, ROI, Evals/QA, and Hermes evolution logging.”
+
+4. For CER/PTR, start with these files:
+   - `SKILL.md`
+   - `references/b2b-enterprise.md`
+   - `references/workflow-architecture-workpackage.md`
+   - `templates/b2b-enterprise-meeting-plan.md`
+   - `templates/feature-roadmap-to-capability-package.md`
+   - `templates/roi-assumption.md`
+   - `templates/evals-qa-plan.md`
+   - `templates/hermes-evolution-log.md`
+
+5. After each substantial use, write one evolution log entry. This lets Hermes-style self-improvement accumulate without polluting the skill package.
+
+
 ## Pre-flight: Mode Detection
 
 Before entering any phase, determine the mode. PLO is the single input interface; paths are routed internally.
