@@ -39,7 +39,7 @@ They are important because many of them encode Jianan's working style and histor
 | `agent-council` | Rex | multi-agent discussion / council pattern |
 | `agent-development` | Andrew | agent creation / development workflow |
 | `agent-orchestrator` | Rex | orchestrating multiple agents |
-| `product-lifecycle-orchestrator` | SAM (router) | full-cycle product development orchestrator (PLO); mode detection → 7-phase routing → skill mapping → attention tracking |
+| `product-lifecycle-orchestrator` | SAM (router) | full-cycle product lifecycle router; B2B/ToC/Personal routing → references/templates → development handoff → Hermes evolution logging |
 | `architecture-designer` | Andrew / Rex | architecture design |
 | `bird` | Lulu | content / light creative usage |
 | `blogwatcher` | Lulu / Andrew | content radar / blog monitoring |
@@ -89,6 +89,20 @@ These are community or imported skills that are especially useful to Jianan's op
 | `remotion-best-practices` | Lulu | video rendering workflow |
 | `prompt-engineering-patterns` | Andrew | reusable prompting structures |
 | `context7-cli` | Rex / Andrew | external docs / context retrieval |
+| `spec` | Rex / Andrew | development define/spec stage |
+| `plan` | Rex / Andrew | development planning stage |
+| `build` | Rex | development implementation stage |
+| `test` | Rex | verification/debug stage |
+| `review` | Rex | code/quality review stage |
+| `ship` | Rex | release/go-no-go stage |
+| `verification-before-completion` | Rex / Andrew | completion evidence gate |
+| `systematic-debugging` | Rex / Andrew | structured debugging |
+| `executing-plans` | Rex | execute planned implementation |
+| `writing-plans` | Rex / Andrew | write actionable plans |
+| `api-and-interface-design` | Rex / Andrew | API/interface contract design |
+| `ci-cd-and-automation` | Rex | CI/CD and automation |
+| `documentation-and-adrs` | Rex / Andrew | docs and ADRs |
+| `git-workflow-and-versioning` | Rex | branch/version workflow |
 | `get-api-docs` | Rex / Andrew | API docs retrieval |
 | `find-skills` | Andrew | discover matching skills |
 | `opencli` | Rex | CLI-centered workflows |
@@ -104,6 +118,17 @@ These are community or imported skills that are especially useful to Jianan's op
 | `xlsx` | Andrew / Rex | spreadsheet artifacts |
 
 ---
+
+
+## Development Routing Policy
+
+For T2+ product/project work, start with `product-lifecycle-orchestrator` (PLO). When planning becomes concrete implementation, hand off through:
+
+`PLO → references/development-handoff.md → references/development-skill-routing.md → spec/plan/build/test/review/ship`
+
+Use `claw-vibe-project` for long-running repo governance, session handoff, harness, changelog, and eval reuse.
+
+Do not assume methodology names inside PLO are installed local skills on every machine. On each machine, inspect available skills and prefer local installed workflow skills.
 
 ## Recommended Operating Policy
 

@@ -15,10 +15,19 @@
 
 **Routing flow:**
 1. Task arrives → Sam reads PLO
-2. Mode Detection: B2B / ToC / Personal (3 questions + web_search)
-3. Route to correct path (A/B/C)
-4. Execute phases 1→7 with skill mapping per phase
-5. Track attention per phase tag
+2. Mode Detection: B2B Enterprise / B2B Content / ToC / Personal
+3. Load only relevant references/templates
+4. For CER/PTR: map vertical workstreams to horizontal capability packages, ROI, and Evals/QA
+5. When work becomes implementation: hand off via `references/development-handoff.md` + `references/development-skill-routing.md` to spec/plan/build/test/review/ship
+6. After meaningful use: record Hermes evolution log
+
+
+**Development handoff rule (added 2026-05-11):**
+- PLO is not the step-by-step development executor.
+- PLO defines work package, quality gates, and delivery expectations.
+- Real development routes through `development-handoff.md` then `development-skill-routing.md`.
+- Preferred development chain on company computer: `spec → plan → build/test → review → ship`.
+- Use `claw-vibe-project` for long-running repo/project governance.
 
 **Gate rule (confirmed 2026-05-07):**
 - T0/T1: skip PLO, lightweight review only
