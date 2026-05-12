@@ -160,7 +160,7 @@ For detailed enterprise templates and CER/PTR examples, read `references/b2b-ent
 
 When the user provides a feature roadmap, Gantt chart, or vertical task list, read `references/workflow-architecture-workpackage.md` and use `templates/feature-roadmap-to-capability-package.md` to convert it into capability packages.
 
-When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`).
+When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`). If the asset is a video, social cover, AI-generated visual, product/system promo, or image-to-video task, use `ai-video-production-pack` as the Asset Production skill pack.
 
 When ROI, saving, transfer effort, or BA/User validation is needed, use `templates/roi-assumption.md`.
 

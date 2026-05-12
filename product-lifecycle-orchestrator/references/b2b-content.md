@@ -70,6 +70,26 @@ Outputs:
 - visual/diagram needs
 - version owner
 
+
+## Video / Visual Asset Production
+
+When the artifact is an internal sharing video, explainer, product/system promo, social cover, or AI-generated visual asset, route Asset Production through `ai-video-production-pack`.
+
+Default split:
+
+| Need | Route | Minimum Output |
+|---|---|---|
+| Company sharing / methodology explainer | `ai-video-production-pack` → internal-sharing-video + storyboard-core | scene plan, visual language lock, per-scene prompt notes |
+| Software/system product ad | product-system-ad | JSON-style sequence prompt, hero shot, negative constraints |
+| Xiaohongshu / video cover | social-cover | 3 title options, 3 subtitle options, one core visual hook |
+| Viral/reversal opening | hook-reversal | 12s hook structure, conflict/turn/payoff |
+| Animate existing image/screenshot | image-to-video | first-frame prompt, motion level, anti-warp constraints |
+
+Rules:
+- Do not pollute formal B2B videos with short-drama tropes unless the user asks for a viral/social tone.
+- Use generated video for atmosphere/metaphor; use real screenshots or HTML/motion graphics for exact UI and text.
+- For internal sharing, prefer light-tech, credible, controlled motion over dark cyberpunk or chaotic particles.
+
 ### Phase 5 — Review & Stakeholder Fit
 
 Review gates:
