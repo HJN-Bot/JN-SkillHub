@@ -1,6 +1,6 @@
 ---
 name: ai-video-production-pack
-description: Route and produce AI-assisted video assets: internal sharing/explainer videos, product/system ads, Xiaohongshu/short-video covers, reversal/hook openings, and image-to-video prompts for Jimeng/Seedance/Kling/Runway-style tools. Use when the user wants to make a video, storyboard scenes, generate video prompts, create covers, animate screenshots/images, or improve video visual language.
+description: Route and produce AI-assisted video assets: internal sharing/explainer videos, product/system ads, Xiaohongshu/short-video covers, reversal/hook openings, HTML/Remotion scene templates, and image-to-video prompts for Jimeng/Seedance/Kling/Runway-style tools. Use when the user wants to make a video, storyboard scenes, generate video prompts, create covers, animate screenshots/images, improve video visual language, or absorb beautiful HTML template aesthetics into video scenes.
 ---
 
 # AI Video Production Pack
@@ -26,12 +26,15 @@ Core rule: first route the video type, then use the narrowest production lane. D
 | strong opening, reversal, before/after story, viral short intro, ordinary-person-to-AI-power contrast | Hook / Reversal | `references/hook-reversal.md` |
 | user already has a first frame/image/screenshot and wants it animated | Image-to-Video Director | `references/image-to-video.md` |
 | 30s+ multi-shot video, scene list, storyboard, visual consistency | Storyboard Core | `references/storyboard-core.md` |
+| HTML/Remotion scenes, exact text/UI, architecture diagrams, slide-like video frames, template aesthetics | HTML Scene Template Selection | `references/html-scene-template-selection.md` |
 
 ## 2. Default Workflow
 
 ```text
 brief → route → lock visual language → storyboard → per-shot prompts → reference images/first frames → image-to-video prompts → review → assembly notes
 ```
+
+When the video uses exact text/UI/architecture diagrams or the user asks for better HTML aesthetics, read `references/html-scene-template-selection.md`. Use `beautiful-html-templates` as a visual reference while preserving Jianan's high-density AIPM/CER/PLO content logic.
 
 Minimum outputs:
 - video lane and target platform;

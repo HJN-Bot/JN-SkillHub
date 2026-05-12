@@ -1,6 +1,6 @@
 ---
 name: frontend-slides
-description: Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. Helps non-designers discover their aesthetic through visual exploration rather than abstract choices.
+description: Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, create slides for a talk/pitch, improve HTML aesthetics/color/template quality, or preserve high-density consulting-style content in a polished deck. Helps non-designers discover their aesthetic through visual previews rather than abstract choices.
 ---
 
 # Frontend Slides Skill
@@ -13,7 +13,9 @@ Create zero-dependency, animation-rich HTML presentations that run entirely in t
 2. **Show, Don't Tell** — People don't know what they want until they see it. Generate visual previews, not abstract choices.
 3. **Distinctive Design** — Avoid generic "AI slop" aesthetics. Every presentation should feel custom-crafted.
 4. **Production Quality** — Code should be well-commented, accessible, and performant.
-5. **Viewport Fitting (CRITICAL)** — Every slide MUST fit exactly within the viewport. No scrolling within slides, ever. This is non-negotiable.
+5. **Density Preservation for Jianan** — For AIPM/CER/PLO/internal-sharing work, preserve the richer consulting-style content density. Use better visual systems without flattening the substance into empty slogan slides.
+6. **Template-System Absorption** — When the user asks for nicer HTML aesthetics, template inspiration, or mentions `beautiful-html-templates`, read `references/beautiful-html-templates.md` and apply its template-selection + visual-system rules.
+7. **Viewport Fitting (CRITICAL)** — Every slide MUST fit exactly within the viewport. No scrolling within slides, ever. This is non-negotiable.
 
 ---
 
