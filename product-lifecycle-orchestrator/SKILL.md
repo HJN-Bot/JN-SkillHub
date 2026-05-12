@@ -13,8 +13,9 @@ SAM reads this skill to route every project through the correct development life
 
 ## Durable Links
 
-- Feishu PLO doc: https://my.feishu.cn/wiki/E9smwGHCvioNCBkAPHucjbvenQO
+- Feishu PLO doc: https://my.feishu.cn/wiki/HaEfw1Ig2iRf9mkndeXc1bZcn7r
 - GitHub PLO skill: https://github.com/HJN-Bot/JN-SkillHub/tree/main/product-lifecycle-orchestrator
+- Legacy Feishu PLO doc: https://my.feishu.cn/wiki/E9smwGHCvioNCBkAPHucjbvenQO
 - Architecture × Matt fusion reference: `references/architecture-execution-fusion.md`
 - Video production pack Feishu doc: https://my.feishu.cn/wiki/RC3awSJ4eiAaBRkXanzcH9nPnUc
 
