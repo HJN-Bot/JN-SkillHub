@@ -54,13 +54,19 @@ Skip or only lightly reference PLO for:
    - Vertical progress view: who does what in the next 1–2 weeks.
    - Horizontal capability package view: what product/system capabilities need to exist.
 
-4. **Prefer templates for execution**
-   - If the user has meeting notes, roadmap, Gantt, or feature tasks, convert them through templates instead of free-form rewriting.
+4. **Maintain Project State for T2+ work**
+   - For any T2+ or multi-turn project, create/update `templates/project-state.md` before deep execution.
+   - Grill-me / stakeholder questions must write into Project State, not remain as chat-only context.
+   - At each phase change or major artifact change, update: audience, goal, hook, proof/muscle, framework, output format, open questions, current phase, next gate, scale-evaluation notes.
 
-5. **Enterprise AI requires quality gates**
+5. **Prefer templates for execution**
+   - If the user has meeting notes, roadmap, Gantt, or feature tasks, convert them through templates instead of free-form rewriting.
+   - If the task is content/influence/video, keep the Project State as the source of truth before editing HTML, video, or narrative assets.
+
+6. **Enterprise AI requires quality gates**
    - For CER/PTR-like work, always consider Evals/QA, SME review, user acceptance, and traceability.
 
-6. **Use Hermes evolution after real use**
+7. **Use Hermes evolution after real use**
    - After meaningful PLO usage, fill `templates/hermes-evolution-log.md`.
    - Record gaps; do not patch skill immediately from a single occurrence.
 
@@ -95,6 +101,7 @@ If using Copilot or another coding agent on a company computer:
    - `templates/feature-roadmap-to-capability-package.md`
    - `templates/roi-assumption.md`
    - `templates/evals-qa-plan.md`
+   - `templates/project-state.md`
    - `templates/hermes-evolution-log.md`
 
 5. After each substantial use, write one evolution log entry. This lets Hermes-style self-improvement accumulate without polluting the skill package.
@@ -169,7 +176,7 @@ For detailed enterprise templates and CER/PTR examples, read `references/b2b-ent
 
 When the user provides a feature roadmap, Gantt chart, or vertical task list, read `references/workflow-architecture-workpackage.md` and use `templates/feature-roadmap-to-capability-package.md` to convert it into capability packages.
 
-When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`). If the asset is a video, social cover, AI-generated visual, product/system promo, or image-to-video task, use `ai-video-production-pack` as the Asset Production skill pack.
+When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, first create/update `templates/project-state.md`, then read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`). If the asset is a video, social cover, AI-generated visual, product/system promo, or image-to-video task, keep Project State as source of truth and use `ai-video-production-pack` as the Asset Production skill pack.
 
 When ROI, saving, transfer effort, or BA/User validation is needed, use `templates/roi-assumption.md`.
 
@@ -177,7 +184,7 @@ When quality, regression, SME review, or user acceptance is needed, use `templat
 
 After meaningful PLO usage, use `references/hermes-evolution.md` and `templates/hermes-evolution-log.md` to record gaps and decide whether to propose a controlled patch.
 
-For lightweight monitoring of real-world skill effectiveness, use `references/skill-usage-monitoring.md` and `templates/skill-usage-monitoring-log.md`. This records usage, Jianan feedback, scores, repeated gaps, and active project maintenance items.
+For lightweight monitoring of real-world skill effectiveness and scale evaluation, use `references/skill-usage-monitoring.md`, `templates/skill-usage-monitoring-log.md`, and the `Scale Evaluation` section in `templates/project-state.md`. This records usage, Jianan feedback, scores, repeated gaps, project-state drift, and active project maintenance items.
 
 When PLO planning becomes concrete implementation, read `references/development-handoff.md` to decide whether to hand off to `claw-vibe-project`, `spec`, `plan`, `build`, `test`, `review`, `ship`, or a repo-specific workflow such as CER/LEFA.
 
