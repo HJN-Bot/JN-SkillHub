@@ -186,28 +186,34 @@ When the task is software development and the agent has Matt Pocock-style skills
 | Internal docs | Read existing specs, contracts, email threads for implicit constraints |
 
 ### Phase 2: Technical Architecture
-**Goal:** Design the system, choose the stack, decompose into work packages, and decide which development protocol should execute each package.
-**When to exit:** Architecture diagram exists, technology decisions are justified, work packages are vertical slices where possible, quality gates are defined, and the PLO → engineering handoff route is clear.
+**Goal:** Design the system, choose the stack, decompose into capability/work packages, and decide which execution protocol should deliver each package.
+**When to exit:** Architecture diagram exists, capability packages are named, agent/skill ownership is mapped, work packages are vertical slices where possible, quality gates are defined, and the PLO → engineering handoff route is clear.
 
-PLO owns the architecture intent and work-package boundaries. It should not make `superpower` or `agent-skill` the default development route. Those are optional external references only. For real software execution, prefer Matt-style engineering skills or the local `spec → plan → build/test → review → ship` chain.
+Use a **two-lane fusion**:
 
-| Skill / Protocol | What It Does |
-|-------|-------------|
-| `grill-with-docs` | Stress-test architecture assumptions against existing domain language and ADRs |
-| `prototype` | Build a throwaway probe when state model, API shape, or UI direction is uncertain |
-| `to-prd` | Convert resolved architecture/product intent into a PRD |
-| `to-issues` | Break work into vertical implementation slices |
-| `zoom-out` | Map unfamiliar modules/callers before committing to a design |
-| `improve-codebase-architecture` | Identify deepening opportunities and refactor slices when the codebase is getting muddy |
-| `web_search` | Research tech choices, benchmarks, and architectural patterns when external context matters |
-| `context7-cli` / `get-api-docs` | Pull external API docs and integration specs |
-| `codebase-to-course` | Understand existing codebases that will be extended or referenced |
-| `claw-vibe-project` | Long-term project coordination and session governance |
-| MAE pipeline | Multi-agent task decomposition and parallel execution |
+1. **Architecture Lens (quality of thinking)** — use `superpower` / `agent-skill` concepts lightly to identify the system's unique capability, capability packages, agent/skill ownership, and architectural tradeoffs.
+2. **Matt-style Execution Chain (quality of shipping)** — immediately convert the architecture intent into concrete artifacts and feedback loops: `grill-with-docs → prototype/to-prd → to-issues → tdd/build → diagnose → review → ship → handoff`.
 
-**Optional methodology references, not default PLO execution skills:**
-- `obra/superpowers` — useful as architecture/development inspiration, but not the primary PLO route.
-- `addyosmani/agent-skills` — useful as quality-gate inspiration, but Matt-style atomic skills now define the PLO development overlay.
+Do not choose between the two. The Architecture Lens prevents shallow or mis-scoped design; the Matt-style chain prevents analysis from stalling before tests, issues, review, and shipping.
+
+| Lane | Skill / Protocol | What It Does | Minimum Output |
+|-------|-------------|-------------|-------------|
+| Architecture Lens | `superpower` (concept) | Identify what capability makes this system special vs a normal implementation | unique capability / leverage point |
+| Architecture Lens | `agent-skill` (concept) | Map which agent/skill owns which capability or subsystem | owner → capability map |
+| Architecture Lens | `web_search` / external docs | Research patterns, APIs, benchmarks, constraints | cited decision notes |
+| Architecture Lens | `context7-cli` / `get-api-docs` | Pull integration/API docs | verified API constraints |
+| Architecture Lens | `codebase-to-course` / `zoom-out` | Understand existing codebase/module context | module/caller map |
+| Execution Chain | `grill-with-docs` | Stress-test architecture assumptions against domain language and ADRs | resolved assumptions / open questions |
+| Execution Chain | `prototype` | Probe uncertain state model, API shape, or UI direction | throwaway proof / decision |
+| Execution Chain | `to-prd` | Convert resolved architecture/product intent into a PRD | PRD with scope/non-goals/acceptance |
+| Execution Chain | `to-issues` | Break work into vertical implementation slices | independently grabbable issues |
+| Execution Chain | `tdd` / local `test` | Build behavior through red-green-refactor | test evidence |
+| Execution Chain | `diagnose` | Reproduce and fix bugs/regressions | root cause + regression test |
+| Execution Chain | `improve-codebase-architecture` | Identify deepening opportunities when the codebase gets muddy | refactor slices |
+| Execution Chain | `review` / `ship` | Verify standards/spec and release readiness | go/no-go + evidence |
+| Governance | `claw-vibe-project` / MAE pipeline | Long-running project context and multi-agent execution | durable state / task split |
+
+For detailed handoff rules, read `references/development-handoff.md`. For Matt-style stage mapping, read `references/development-skill-routing.md` and `references/matt-pocock-engineering-pack.md`. For the combined logic, read `references/architecture-execution-fusion.md`.
 
 ### Phase 3: Design & UX
 **Goal:** Visual language, interaction patterns, motion design.
@@ -390,7 +396,7 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 | `product-sense-review` | Review whether onboarding, feedback, and result screens reduce anxiety and increase next action |
 
 ### Phase 3: Technical Architecture
-Same as Path A Phase 2, but route concrete software execution through Matt-style atomic skills (`prototype`, `grill-with-docs`, `to-prd`, `to-issues`, `tdd`, `diagnose`, `review`) or local `spec → plan → build/test → review → ship`.
+Same as Path A Phase 2: use the Architecture Lens (`superpower` / `agent-skill` concepts) for capability and ownership mapping, then route concrete execution through Matt-style atomic skills (`prototype`, `grill-with-docs`, `to-prd`, `to-issues`, `tdd`, `diagnose`, `review`) or local `spec → plan → build/test → review → ship`.
 
 ### Phase 4: Design & UX
 Same skill matrix as Path A Phase 3, with ToC additions:
@@ -449,7 +455,7 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7
 | `grill-me` | "What's the smallest useful version? What's tempting but unnecessary?" |
 
 ### Phase 3: Technical Architecture
-Same as Path A Phase 2, but route concrete software execution through Matt-style atomic skills (`prototype`, `grill-with-docs`, `to-prd`, `to-issues`, `tdd`, `diagnose`, `review`) or local `spec → plan → build/test → review → ship`.
+Same as Path A Phase 2: use the Architecture Lens (`superpower` / `agent-skill` concepts) for capability and ownership mapping, then route concrete execution through Matt-style atomic skills (`prototype`, `grill-with-docs`, `to-prd`, `to-issues`, `tdd`, `diagnose`, `review`) or local `spec → plan → build/test → review → ship`.
 
 ### Phase 4: Design & UX
 Same skill matrix as Path A Phase 3. Personal emphasis:
@@ -490,7 +496,7 @@ Same as Path A Phase 6. Extra: personal projects should log "would I use this ag
 |-------|---------------------------|--------------------------|-----|----------|
 | 1 | Stakeholder & Constraint | Audience & Objective | User Pull & Emotional Job | Feature Fusion |
 | 2 | Pain → AI Feature / Architecture | Message & Evidence | Activation & Trust | Scope Definition |
-| 3 | Product Architecture / Work Packages | Narrative Architecture | Architecture + Matt-style engineering route | Architecture + lightweight prototype/build route |
+| 3 | Product Architecture / Work Packages | Narrative Architecture | Architecture Lens + Matt-style engineering route | Architecture Lens + lightweight prototype/build route |
 | 4 | Development / Execution Planning | Asset Production | Design & UX (+ToC gates) | Design & UX (Aesthetic emphasis) |
 | 5 | Delivery & Quality Gates | Review & Stakeholder Fit | Development (ToC emphasis) | Development (Speed emphasis) |
 | 6 | Review & Evolve | Delivery & Impact Loop | Delivery & Deploy (+activation check) | Delivery & Deploy (Lightweight) |
@@ -591,8 +597,8 @@ Recommended external libraries to check first:
 - `RefoundAI/lenny-skills` — product taste, design review, tradeoff, behavioral design, AI evals.
 - `heurilens/ux-heuristics-checklist` — UX heuristics and AI audit prompts.
 - `mattpocock/skills` — primary software engineering overlay for PLO: grill, PRD, issue slicing, TDD, diagnose, architecture improvement, review, handoff.
-- [`obra/superpowers`](https://github.com/obra/superpowers) — optional methodology inspiration for agentic development.
-- [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) — optional quality-gate inspiration, not the default PLO dev route.
+- [`obra/superpowers`](https://github.com/obra/superpowers) — Architecture Lens reference for identifying leverage, unique capability, and design-before-code thinking.
+- [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) — Agent/skill ownership and quality-gate reference. Use as thinking layer, not as a replacement for Matt-style execution.
 
 ---
 
@@ -677,8 +683,8 @@ Recommended patch targets:
 | `airtable-dashboard` | Andrew workspace | ✅ ready |
 | `context7-cli` | ok-skills | ✅ ready |
 | `get-api-docs` | ok-skills | ✅ ready |
-| `superpower` | 📚 External: [`obra/superpowers`](https://github.com/obra/superpowers) | Optional reference only, not default route |
-| `agent-skill` | 📚 External: [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) | Optional reference only, not default route |
+| `superpower` | 📚 External: [`obra/superpowers`](https://github.com/obra/superpowers) | Architecture Lens / capability thinking |
+| `agent-skill` | 📚 External: [`addyosmani/agent-skills`](https://github.com/addyosmani/agent-skills) | Architecture Lens / ownership mapping |
 
 ---
 

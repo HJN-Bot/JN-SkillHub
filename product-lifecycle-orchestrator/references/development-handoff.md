@@ -26,7 +26,7 @@ Development workflow owns:
 
 Do not assume every methodology named in PLO is installed as a local skill.
 
-On some machines, older PLO references such as `superpower`, `first-principles-decomposer`, or `agent-skill` may appear in docs, but they are optional methodology references rather than the default development route. For current PLO development handoff, prefer Matt-style atomic skills when available, or local `spec → plan → build/test → review → ship`.
+Use the two-lane fusion consistently: `superpower` / `agent-skill` are Architecture Lens references for capability thinking and agent/skill ownership mapping; Matt-style atomic skills are the execution route for PRD, issues, TDD, diagnosis, review, ship, and handoff. If exact Matt-style skills are unavailable, preserve the same execution semantics with local `spec → plan → build/test → review → ship`.
 
 When working on a concrete machine, first inspect local available skills and route to what actually exists.
 
@@ -57,14 +57,17 @@ Output before coding:
 - non-goals;
 - risks.
 
-### 2. Requirements are clear but implementation plan is unclear
+### 2. Requirements are clear but architecture / ownership / implementation plan is unclear
 Use:
 - PLO Product Architect lane for architecture/work packages;
-- then `plan` if available.
+- Architecture Lens: identify unique capability (`superpower` concept), capability packages, and agent/skill ownership (`agent-skill` concept);
+- then Matt-style execution planning: `grill-with-docs`, `prototype` if uncertain, `to-prd` / `to-issues`, or local `plan`.
 
 Output before coding:
+- unique capability / leverage point;
+- owner → capability map;
 - affected files/modules;
-- implementation steps;
+- vertical slice implementation steps;
 - test/eval strategy;
 - rollback/risk notes.
 
@@ -110,7 +113,7 @@ For CER/PTR planning:
 
 For CER/PTR development:
 
-`claw-vibe-project → spec → plan → test/build → review → ship`
+`PLO Architecture Lens (capability + owner map) → grill-with-docs → to-prd/to-issues or spec/plan → tdd/test/build → diagnose if needed → review → ship → handoff`
 
 For CER/LEFA implementation:
 
