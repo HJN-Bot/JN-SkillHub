@@ -26,7 +26,7 @@ Development workflow owns:
 
 Do not assume every methodology named in PLO is installed as a local skill.
 
-On some machines, `superpower`, `first-principles-decomposer`, `agent-skill`, `coding-agent`, or `github-pr` may be references rather than available local skills.
+On some machines, older PLO references such as `superpower`, `first-principles-decomposer`, or `agent-skill` may appear in docs, but they are optional methodology references rather than the default development route. For current PLO development handoff, prefer Matt-style atomic skills when available, or local `spec → plan → build/test → review → ship`.
 
 When working on a concrete machine, first inspect local available skills and route to what actually exists.
 
