@@ -9,6 +9,13 @@ Use this as the video asset-production layer under PLO B2B Content / Personal / 
 
 Core rule: first route the video type, then use the narrowest production lane. Do not mix Xiaohongshu hooks into formal internal-sharing videos unless the user asks for a more viral tone.
 
+
+## Durable Links
+
+- Feishu doc: https://my.feishu.cn/wiki/RC3awSJ4eiAaBRkXanzcH9nPnUc
+- GitHub skill: https://github.com/HJN-Bot/JN-SkillHub/tree/main/ai-video-production-pack
+- Sharing video application plan: https://github.com/Jianan-Huang0609/auto-stack-sharing/blob/master/sharing-video-20260515/AI_VIDEO_PRODUCTION_PLAN_V1.md
+
 ## 1. Route First
 
 | User intent | Lane | Read next |
