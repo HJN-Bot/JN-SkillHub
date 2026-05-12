@@ -172,6 +172,8 @@ For lightweight monitoring of real-world skill effectiveness, use `references/sk
 
 When PLO planning becomes concrete implementation, read `references/development-handoff.md` to decide whether to hand off to `claw-vibe-project`, `spec`, `plan`, `build`, `test`, `review`, `ship`, or a repo-specific workflow such as CER/LEFA.
 
+When the task is software development and the agent has Matt Pocock-style skills available, read `references/matt-pocock-engineering-pack.md`. Treat it as a vertical engineering plugin inside PLO: PLO owns lifecycle routing and work-package intent; the engineering pack owns narrow execution protocols such as grill, PRD, issue slicing, TDD, diagnosis, architecture improvement, review, prototype, and handoff.
+
 
 ### Phase 1: Stakeholder & Constraint
 **Goal:** Understand who cares, what they want, and what constraints exist (both stated and implicit).
@@ -222,14 +224,19 @@ When PLO planning becomes concrete implementation, read `references/development-
 **Goal:** Build, test, review, iterate.
 **When to exit:** Code passes all quality gates. Gates are stricter for enterprise projects.
 
-Do not treat PLO as the step-by-step development executor. PLO defines the work package, quality gates, and delivery expectations, then hands off execution to the development-stage skill chain. On company computers, use `references/development-handoff.md` for the boundary and `references/development-skill-routing.md` for stage routing.
+Do not treat PLO as the step-by-step development executor. PLO defines the work package, quality gates, and delivery expectations, then hands off execution to the development-stage skill chain. On company computers, use `references/development-handoff.md` for the boundary, `references/development-skill-routing.md` for stage routing, and `references/matt-pocock-engineering-pack.md` when Matt Pocock-style engineering skills are available.
 
 | Skill | What It Does |
 |-------|-------------|
 | `coding-agent` | Code generation and iteration |
-| `test-driven-development` | Write tests before implementation; enforce TDD discipline |
+| `grill-with-docs` / `grill-me` | Resolve ambiguity before implementation; capture shared language and decisions |
+| `to-prd` / `to-issues` | Convert resolved intent into PRD and vertical implementation issues |
+| `prototype` | Build a throwaway probe when architecture, state model, or UI direction is uncertain |
+| `tdd` / `test-driven-development` | Write tests before implementation; enforce red-green-refactor discipline |
+| `diagnose` | Reproduce → minimise → hypothesise → instrument → fix → regression-test for bugs/perf regressions |
+| `improve-codebase-architecture` / `zoom-out` | Reduce architecture entropy; understand module context before refactor |
 | `subagent-driven-development` | Staged multi-subagent implementation for complex features |
-| `github-pr` | PR workflow, review, and merge management |
+| `review` / `github-pr` | PR workflow, two-axis review, and merge management |
 | MAE pipeline | Multi-step code → test → review → fix workflows |
 
 **Quality Gates (NON-NEGOTIABLE):**

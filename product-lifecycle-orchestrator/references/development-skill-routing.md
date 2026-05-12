@@ -262,3 +262,18 @@ Quick examples:
 - do not use many overlapping skills at once without a clear stage owner
 - do not reopen discovery once the task has already entered a verified execution slice unless validation falsifies the path
 - do not skip from build straight to ship without verification and review
+
+## Matt Pocock Pack Overlay
+
+When Matt Pocock-style skills are installed, map PLO development stages to them as follows:
+
+| Development stage | Preferred overlay | Use when |
+|---|---|---|
+| Discover / Define | `grill-with-docs`, `grill-me` | ambiguity, terminology, hidden decisions |
+| Plan | `to-prd`, `to-issues`, `prototype` | PRD/tickets/probe needed before coding |
+| Build | `tdd` | behavior change or bug fix should be test-first |
+| Verify / Debug | `diagnose` | bug/perf/regression needs disciplined root-cause loop |
+| Review | `review`, `improve-codebase-architecture`, `zoom-out` | diff/architecture/context quality needs review |
+| Ship | `triage`, `handoff`, git/pre-commit guardrails | issue state, transfer, release safety |
+
+If exact skills are absent, preserve the method with local equivalents (`spec`, `plan`, `build`, `test`, `review`, `ship`).
