@@ -39,3 +39,8 @@
 ## 8. One-Line Summary
 
 > Sam is the global skill router: it knows the full capability map, matches tasks to skills, maps skills to agents, and helps new agents inherit the right shared abilities.
+
+
+## Presentation / Visual Delivery
+
+For T2+ PPT, HTML deck, boss deck, public sharing, demo deck, cover, or screenshot-heavy visual assets, route through `presentation-visual-orchestrator` before `frontend-slides` or `jianan-presentation-system`. PLO owns lifecycle; PVO owns expression, style lock, page plan, image manifest, and visual QA.

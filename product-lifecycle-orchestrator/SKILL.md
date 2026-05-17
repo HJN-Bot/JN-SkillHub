@@ -18,6 +18,7 @@ SAM reads this skill to route every project through the correct development life
 - Legacy Feishu PLO doc: https://my.feishu.cn/wiki/E9smwGHCvioNCBkAPHucjbvenQO
 - Architecture × Matt fusion reference: `references/architecture-execution-fusion.md`
 - Video production pack Feishu doc: https://my.feishu.cn/wiki/RC3awSJ4eiAaBRkXanzcH9nPnUc
+- Presentation route reference: `references/presentation-route.md`
 
 ## Scope & Execution Notes
 
@@ -178,6 +179,8 @@ When the user provides a feature roadmap, Gantt chart, or vertical task list, re
 
 When the request is a boss brief, executive update, internal sharing, whitepaper, case study, playbook, or stakeholder narrative, first create/update `templates/project-state.md`, then read `references/b2b-content.md` and choose the matching template (`templates/boss-brief.md`, `templates/case-study.md`, or `templates/internal-sharing.md`). If the asset is a video, social cover, AI-generated visual, product/system promo, or image-to-video task, keep Project State as source of truth and use `ai-video-production-pack` as the Asset Production skill pack.
 
+When the deliverable is a PPT, HTML deck, public sharing, boss deck, demo deck, cover, or screenshot-heavy visual asset, read `references/presentation-route.md` and route through `presentation-visual-orchestrator` before execution. PLO owns lifecycle/project state; PVO owns audience belief shift, output engine, style lock, page plan, image manifest, and visual QA.
+
 When ROI, saving, transfer effort, or BA/User validation is needed, use `templates/roi-assumption.md`.
 
 When quality, regression, SME review, or user acceptance is needed, use `templates/evals-qa-plan.md`.
@@ -243,6 +246,7 @@ For detailed handoff rules, read `references/development-handoff.md`. For Matt-s
 | Web / Landing page | `open-design` (React + Tailwind) |
 | Slide deck | `frontend-slides` (scroll-snap HTML pages) |
 | PPT / Roadshow / Pitch | `jianan-presentation-system` |
+| Presentation / deck / sharing assets | `presentation-visual-orchestrator` first, then route to HTML deck / native PPTX / image route |
 | UI components | `design-front` |
 | High-end visual design | `impeccable-design` |
 | Architecture diagrams | `excalidraw-handnote-style` |

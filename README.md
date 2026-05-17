@@ -7,6 +7,7 @@ Jianan 的私有 SkillHub。这里放长期维护、可跨 Agent 复用的自定
 | Skill | Purpose | Primary Agent | Typical Use |
 |---|---|---|---|
 | `jianan-presentation-system` | PPT / 路演 / 口播稿 / 页面结构与美化 | Rex | 路演、汇报、方案表达、双语演讲稿 |
+| `presentation-visual-orchestrator` | **PVO**: 演示视觉总编排，负责受众/叙事/风格/页面计划/图片策略/HTML vs PPTX 路由 | SAM / Rex / Lulu | T2+ PPT、HTML deck、老板汇报、公开分享、配图/截图策略 |
 | `video-post-editor` | 视频后期、字幕、注释、重组、ffmpeg/manim 工作流 | Lulu | 视频成稿、字幕润色、后期编辑 |
 | `ai-morphing-video` | AI 变形视频、视觉变换、风格迁移型视频工作流 | Lulu | AI 视觉短片、风格化视频制作 |
 | `design-front` | 高质量前端设计与视觉实现 | Rex | 着陆页、产品页、视觉设计、前端展示 |

@@ -20,6 +20,7 @@ A comprehensive skill for creating high-persuasion presentations matching Jianan
 | Need | Read |
 |------|------|
 | **Scenario routing & 6 scenario packs (NEW v3)** | [references/scenario-packs.md](references/scenario-packs.md) |
+| **PVO output-engine routing / HTML vs native PPTX vs image route** | [references/pvo-engine-routing.md](references/pvo-engine-routing.md) |
 | Visual design rules (colors, layout, components, diagrams) | [references/visual-style.md](references/visual-style.md) |
 | Content logic & narrative structure (5-Beat + 6-Phase + 3-tier compression) | [references/content-logic.md](references/content-logic.md) |
 | Cold Open / Wow Moment / Why Us archetypes | [references/pitch-archetypes.md](references/pitch-archetypes.md) |
@@ -148,6 +149,7 @@ When in doubt about how a diagram should look, reference these specific slides f
 When asked to create a presentation:
 
 1. **Step 0 — Scenario routing**: confirm audience, length, goal (see above). If ambiguous, ask before proceeding.
+1.5. **PVO engine selection**: for T2+ decks, read `references/pvo-engine-routing.md` and decide native PPTX vs HTML deck vs image/cover route before execution.
 2. **Read ALL six reference files** before starting any content creation. New files in v2: `pitch-archetypes.md` and `objection-handling.md`.
 3. **Pre-deck checklist** (from `content-logic.md` Section 8): complete every box before drafting.
 4. **Workshop the objections** (from `objection-handling.md`): list 5 candidate objections, score them, identify top 3 for in-deck surfacing.

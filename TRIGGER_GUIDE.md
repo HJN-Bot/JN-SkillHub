@@ -43,6 +43,7 @@ Current policy: use this mode very sparingly.
 | Skill | Primary Agent | Trigger Clues | Cost Class | Trigger Mode |
 |---|---|---|---|---|
 | `jianan-presentation-system` | Rex | PPT, slides, pitch, deck, oral script, roadshow, presentation structure | Free / Low | Ask-First |
+| `presentation-visual-orchestrator` | SAM/Rex/Lulu | PVO, deck visual strategy, HTML vs PPTX, style lock, page plan, image manifest, visual QA | T2+ | Ask-First for generation/external writes |
 | `design-front` | Rex | landing page, visual page, frontend design, polished UI, page style, visual expression | Free / Low | Ask-First |
 | `codebase-to-course` | Andrew | explain this codebase, turn repo into course, walkthrough, interactive teaching, architecture explanation | Free / Low | Ask-First |
 | `claw-vibe-project` | Andrew / Rex | vibe coding, project harness, session protocol, changelog, project workflow, startup structure | Free / Low | Ask-First |

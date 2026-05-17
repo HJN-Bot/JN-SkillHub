@@ -19,6 +19,7 @@ These are Jianan-owned, shared private skills and should be treated as the prefe
 | Skill | Recommended Primary Agent | Role |
 |---|---|---|
 | `jianan-presentation-system` | Rex | PPT / deck / oral script / structured presentation workflow |
+| `presentation-visual-orchestrator` | SAM / Rex / Lulu | PVO; presentation expression router; style lock/page plan/image manifest/visual QA; routes HTML deck vs native PPTX vs image assets |
 | `video-post-editor` | Lulu | post-editing / subtitle / annotation / edit workflow |
 | `ai-morphing-video` | Lulu | AI visual transformation / morphing video workflow |
 | `design-front` | Rex | visual frontend / page expression / polished UI |
@@ -163,7 +164,7 @@ The same skill may be callable by all, but should still have a preferred owner t
 - Supporting: `summarize`, `skill-vetter`, `weekly-synthesis`, `brainstorming`, `planning-with-files`
 
 ### Rex
-- Core: `jianan-presentation-system`, `design-front`
+- Core: `presentation-visual-orchestrator` (PVO), `jianan-presentation-system`, `design-front`
 - Supporting: `github`, `github-pr`, `subagent-driven-development`, `test-driven-development`, `pptx`
 
 ### Lulu

@@ -16,6 +16,20 @@ Create zero-dependency, animation-rich HTML presentations that run entirely in t
 5. **Density Preservation for Jianan** — For AIPM/CER/PLO/internal-sharing work, preserve the richer consulting-style content density. Use better visual systems without flattening the substance into empty slogan slides.
 6. **Template-System Absorption** — When the user asks for nicer HTML aesthetics, template inspiration, or mentions `beautiful-html-templates`, read `references/beautiful-html-templates.md` and apply its template-selection + visual-system rules.
 7. **Viewport Fitting (CRITICAL)** — Every slide MUST fit exactly within the viewport. No scrolling within slides, ever. This is non-negotiable.
+8. **Presentation Visual Orchestration** — For T2+ decks, read `references/pvo-routing.md` first. Use PVO artifacts (brief, style lock, page plan, image manifest) before coding.
+9. **Guizang Absorption** — When the user asks for magazine/Swiss/high-aesthetic PPT, image generation, screenshot redesign, or deck style systems, read `references/guizang-absorption.md`.
+
+---
+
+## PVO / Image References
+
+| Need | Read |
+|---|---|
+| PVO-governed HTML deck | `references/pvo-routing.md` |
+| Magazine / Swiss / guizang-style absorption | `references/guizang-absorption.md` |
+| Generated images, screenshots, covers, diagrams | `references/image-manifest-template.md` |
+
+If PVO chooses native editable PPTX instead of HTML, do not force `frontend-slides`; route to `jianan-presentation-system` / native PPTX execution.
 
 ---
 
