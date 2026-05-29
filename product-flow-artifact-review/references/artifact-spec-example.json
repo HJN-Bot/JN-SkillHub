@@ -1,0 +1,41 @@
+{
+  "title": "Example Product Labelled Walkthrough",
+  "subtitle": "Flow continuity, UX issues, and product recommendations",
+  "output_pdf": "/absolute/path/output.pdf",
+  "footer": "Example walkthrough",
+  "summary": [
+    {
+      "label": "Primary risk",
+      "body": "The active task asks users to monitor too many things at once."
+    },
+    {
+      "label": "Product direction",
+      "body": "Reduce live cognitive load and move detailed analysis to the result step."
+    }
+  ],
+  "pages": [
+    {
+      "title": "Active Task",
+      "subtitle": "Keep the screen focused while the user is acting.",
+      "image": "/absolute/path/screenshot.png",
+      "crop": [0, 0, 860, 1600],
+      "callouts": [
+        { "n": 1, "x": 150, "y": 300 },
+        { "n": 2, "x": 420, "y": 800 }
+      ],
+      "issues": [
+        {
+          "n": 1,
+          "title": "Too much status text during the task",
+          "body": "Show only the current step and stable primary action. Move detailed logs to the result page."
+        },
+        {
+          "n": 2,
+          "title": "Motion competes with the user's focus",
+          "body": "Remove decorative motion during the active task unless it directly confirms input or progress."
+        }
+      ],
+      "recommendation": "Design active-task screens around focus, not analysis."
+    }
+  ]
+}
