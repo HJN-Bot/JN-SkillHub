@@ -13,6 +13,7 @@ Jianan 的私有 SkillHub。这里放长期维护、可跨 Agent 复用的自定
 | `design-front` | 高质量前端设计与视觉实现 | Rex | 着陆页、产品页、视觉设计、前端展示 |
 | `codebase-to-course` | 将代码库讲解为课程/教程/交互页面 | Andrew | 框架梳理、代码教学、系统理解 |
 | `claw-vibe-project` | 项目制 vibe coding、session/harness/changelog/skills 管理 | Andrew / Rex | 项目初始化、长期开发、会话协作 |
+| `product-flow-artifact-review` | **产品流程审查**: UX/UI 全流程审查 + 标注 PDF + 设计 QA + 增长建议，5 Lens 审查框架 + 8 类产品适配 | SAM / Andrew / Rex | 产品 review、前端标注、UX 诊断、设计 QA |
 | `product-lifecycle-orchestrator` | **PLO**: 全流程产品生命周期入口，B2B/ToC/Personal 路由 → references/templates → development handoff | SAM | T2+ 项目强制入口；CER/PTR 规划、架构包、ROI、Evals、开发交接 |
 
 ## Principles
