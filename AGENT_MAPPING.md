@@ -6,6 +6,23 @@
 
 ---
 
+### SAM 🧠
+**定位**：主脑 / 全局协调 / 任务编排 / 记忆管理
+
+**Primary skills**
+- `feedback-to-spec-loop`（反馈→PRD→Issue→执行 全流程）
+- `claw-vibe-project`（长周期项目管理）
+
+**Secondary skills**
+- `codebase-to-course`（当需要把流程提炼为教程/文档时）
+
+**Typical triggers**
+- Jianan 给了长段反馈/需求 → 走 feedback-to-spec-loop
+- 需要协调多 Agent 执行一个复杂 PRD
+- 跨 session 的项目需要恢复上下文
+
+---
+
 ## Agent → Skill Priority Mapping
 
 ### Andrew 🌸
@@ -31,6 +48,7 @@
 **定位**：项目推进 / CER / 表达 / 对外沟通 / 方案可视化
 
 **Primary skills**
+- `feedback-to-spec-loop`（PRD → Issues → 任务追踪）
 - `jianan-presentation-system`
 - `design-front`
 
@@ -43,6 +61,7 @@
 - 帮我做一版对外表达
 - 帮我做一页产品方案图
 - 帮我把项目进展讲清楚
+- 把需求拆成 Issues → 走 feedback-to-spec-loop
 
 ---
 
@@ -80,6 +99,7 @@
 
 ## Shared Skills (All Agents Can Use)
 
+- `feedback-to-spec-loop`（跨 Agent 通用反馈→执行闭环）
 - `design-front`
 - `claw-vibe-project`
 - `jianan-presentation-system`（按任务侧重点差异调用）
@@ -116,6 +136,7 @@ This repo is the shared private skill source for Jianan's multi-agent system.
 | `claw-vibe-project` | Free / Low | Ask-First | Mention when task is clearly long-lived project/session workflow work |
 | `video-post-editor` | Medium | Ask-First | Mention before using for post-production / subtitles / edit workflow |
 | `ai-morphing-video` | Medium / High | Explicit-Only or Ask-First | Prefer explicit confirmation before using |
+| `feedback-to-spec-loop` | Free / Low | Auto-Activate | Automatically triggered when Jianan gives multi-part feedback or says "fix all these" / "redo the plan" |
 
 ### Policy Note
 These skills should not be forcibly applied to every relevant task. Instead, agents should detect likely fit and ask Jianan whether to use the linked skill workflow.
