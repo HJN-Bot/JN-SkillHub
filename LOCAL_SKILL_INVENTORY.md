@@ -180,3 +180,11 @@ The same skill may be callable by all, but should still have a preferred owner t
 ## One-line Summary
 
 > JN-SkillHub is the private shared skill layer; legacy local skills and selected ok-skills form the extended operating capability layer for Jianan's multi-agent system.
+
+## writing-book
+- **状态**: ✅ 已安装（v2 — fragment→chapter→EPUB 系统）
+- **路径**: JN-SkillHub/writing-book/
+- **触发词**: 写书、记下这个观点、这块我不懂、整理这次研究、编译成Epub、现在书的状态
+- **依赖**: ebooklib, markdown, pyyaml
+- **种子书**: CER 方法论（books/cer-methodology/）
+- **上次同步**: 2026-05-07

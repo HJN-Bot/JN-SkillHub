@@ -1,0 +1,317 @@
+/* ============================================
+   Tech Book — Epub Stylesheet
+   设计目标：紧凑、可读、代码块清晰、Mono 字体明显
+   ============================================ */
+
+@namespace epub "http://www.idpf.org/2007/ops";
+
+body {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "PingFang SC", serif;
+  font-size: 1em;
+  line-height: 1.65;
+  color: #1a1a1a;
+  background: #ffffff;
+  margin: 0;
+  padding: 1.2em 1em;
+  text-align: justify;
+  hyphens: auto;
+  -epub-hyphens: auto;
+}
+
+/* ===== 标题层级 ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif;
+  font-weight: 600;
+  color: #0d0d0d;
+  line-height: 1.35;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h1 {
+  font-size: 1.7em;
+  margin-top: 0;
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid #1a1a1a;
+  page-break-before: always;
+  break-before: page;
+}
+
+h2 {
+  font-size: 1.35em;
+  border-left: 4px solid #1a1a1a;
+  padding-left: 0.5em;
+}
+
+h3 {
+  font-size: 1.15em;
+  color: #2a2a2a;
+}
+
+h4 {
+  font-size: 1.0em;
+  color: #404040;
+}
+
+/* ===== 段落 ===== */
+p {
+  margin: 0.6em 0;
+  text-indent: 0;
+}
+
+/* 章节首段不缩进，保留紧凑感 */
+h1 + p, h2 + p, h3 + p {
+  margin-top: 0.4em;
+}
+
+/* ===== 强调 ===== */
+strong, b {
+  font-weight: 700;
+  color: #0d0d0d;
+}
+
+em, i {
+  font-style: italic;
+  color: #2a2a2a;
+}
+
+/* ===== 代码块 — 技术书的核心 ===== */
+code {
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", "Source Code Pro", "Consolas", monospace;
+  font-size: 0.88em;
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  color: #b8336a;  /* 行内代码用紫红色，区别于 pre 块 */
+}
+
+pre {
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", "Source Code Pro", "Consolas", monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  background: #1e1e1e;
+  color: #e8e8e8;
+  padding: 0.9em 1.1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1em 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: 1em;
+}
+
+/* ===== 引用块 ===== */
+blockquote {
+  margin: 1.2em 0;
+  padding: 0.6em 1em;
+  border-left: 3px solid #404040;
+  background: #f8f8f8;
+  color: #2a2a2a;
+  font-style: normal;
+}
+
+blockquote p {
+  margin: 0.3em 0;
+}
+
+blockquote p:first-child {
+  margin-top: 0;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== 表格 — 技术书要保留完整 ===== */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.92em;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+th, td {
+  border: 1px solid #c0c0c0;
+  padding: 0.5em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0f0f0;
+  font-weight: 600;
+  color: #0d0d0d;
+  font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif;
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+/* ===== 列表 ===== */
+ul, ol {
+  margin: 0.6em 0;
+  padding-left: 1.6em;
+}
+
+li {
+  margin: 0.3em 0;
+}
+
+li > ul, li > ol {
+  margin: 0.3em 0;
+}
+
+/* ===== 链接 ===== */
+a {
+  color: #1a4d8c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 分隔线 ===== */
+hr {
+  border: none;
+  border-top: 1px solid #c0c0c0;
+  margin: 2em 0;
+}
+
+/* ===== 图片 ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+figure {
+  margin: 1.2em 0;
+  text-align: center;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+figcaption {
+  font-size: 0.88em;
+  color: #606060;
+  margin-top: 0.4em;
+  font-style: italic;
+}
+
+/* ===== 章节首页特殊样式 ===== */
+.chapter-meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78em;
+  color: #808080;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.4em;
+}
+
+.chapter-subtitle {
+  font-size: 1.05em;
+  color: #404040;
+  font-style: italic;
+  margin-top: -0.3em;
+  margin-bottom: 1.5em;
+  border-bottom: 1px dashed #c0c0c0;
+  padding-bottom: 0.6em;
+}
+
+/* ===== 关键金句 ===== */
+.key-phrase {
+  font-family: "Source Han Sans SC", sans-serif;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  margin: 1.5em 2em;
+  padding: 0.8em;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  color: #0d0d0d;
+}
+
+/* ===== 脚注 ===== */
+.footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  text-decoration: none;
+  color: #1a4d8c;
+}
+
+.footnote {
+  font-size: 0.85em;
+  color: #404040;
+  border-top: 1px solid #c0c0c0;
+  padding-top: 0.5em;
+  margin-top: 1.5em;
+}
+
+/* ===== TOC 页面 ===== */
+nav#toc ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav#toc ol ol {
+  padding-left: 1.5em;
+}
+
+nav#toc li {
+  margin: 0.4em 0;
+  line-height: 1.4;
+}
+
+nav#toc a {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+/* ===== 封面 ===== */
+.cover {
+  text-align: center;
+  padding: 4em 1em;
+  page-break-after: always;
+}
+
+.cover .title {
+  font-size: 2.4em;
+  font-weight: 700;
+  margin-bottom: 0.3em;
+  color: #0d0d0d;
+  font-family: "Source Han Sans SC", sans-serif;
+}
+
+.cover .subtitle {
+  font-size: 1.2em;
+  color: #404040;
+  margin-bottom: 2em;
+  font-style: italic;
+}
+
+.cover .author {
+  font-size: 1.0em;
+  color: #606060;
+  margin-top: 3em;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.1em;
+}
