@@ -1,74 +1,195 @@
 ---
 name: feedback-to-spec-loop
-description: Use when turning messy human feedback or a PRD into shipped changes across multiple sessions — when the user gives a long multi-part request, says "fix all these", "redo the plan", "I'll review later", or "remember this", or when resuming work and you need to recall what's done and pending. Keeps a durable in-repo dev-memory, turns raw requirements into a tracked TODO, and writes a small spec per change before coding.
+description: Turn messy human feedback or a PRD into shipped changes across multiple sessions. Bridges Claude's dev-memory-and-todos (memory layer) with Matt's 7 Vibe Coding skills (execution layer). Use when the user gives a long multi-part request, says "fix all these", or when resuming work with cold context.
 ---
 
-# Feedback → TODO → Spec Loop
+# Feedback → TODO → Spec → Delivery Loop
 
-## Overview
-
-A repeatable loop for turning a human's raw words (PRD, scattered chat feedback, "this feels off") into shipped, reviewable changes — TDD-style, but for product work. Two rules:
-
-1. **The user's own words are the source of truth.** Capture them verbatim before you paraphrase or code.
-2. **No change without a tiny spec first.** Each modification point gets a 4-section spec, linked both ways to the TODO, before implementation.
-
-## When to Use
-
-- Long multi-part feedback ("change A, also B, C feels important too").
-- "Redo the plan", "fix all these", "I'll review tomorrow", "remember this".
-- Resuming a multi-session project with cold context.
-
-Not for: trivial one-off edits in a single session.
-
-## The Loop
+## 融合逻辑
 
 ```
-human feedback / PRD
-  └─► 1. CAPTURE verbatim          → dev-memory/TODO.md (📦 archive section)
-  └─► 2. PLAN into roadmap         → north star + per-theme items + priorities
-  └─► 3. SPEC the next change      → Design/specs/<date>-<topic>.md (4 sections)
-  └─► 4. user approves spec
-  └─► 5. IMPLEMENT small + verify  → tsc/build/tests green
-  └─► 6. UPDATE memory + links     → status flips to ✅🧪; user verifies in app
+                    dev-memory-and-todos
+                    ┌─────────────────────┐
+用户原始需求  ──→  │ TODO.md 逐条登记    │  ←─ Claude 写的，你喜欢的 TODO 形式
+                    │ Session-WIP 续跑    │
+                    │ Project-Memory 稳定 │
+                    └──────┬──────────────┘
+                           │ 每条 TODO item
+                           ▼
+                    ┌──────────────────────┐
+                    │  grill-me            │  ←─ Matt：设计树追问，澄清需求边界
+                    │  write-prd           │  ←─ Matt：问题陈述 + 方案 + 模块
+                    │  prd-to-issues       │  ←─ Matt：垂直切片拆 Issue
+                    └──────┬───────────────┘
+                           │ 每个 Issue
+                           ▼
+                    ┌──────────────────────┐
+                    │  4-section Spec      │  ←─ Claude：修改建议/思路/方案/验证
+                    │  Design/specs/       │
+                    │  TODO.md Spec Index  │
+                    └──────┬───────────────┘
+                           │
+                    ┌───────┴───────┐
+                    ▼               ▼
+              ralph-loop    tdd-red-green-refactor
+              (自动循环)     (红绿重构)
+                    │               │
+                    └───────┬───────┘
+                            ▼
+                    ┌──────────────────────┐
+                    │  human-qa            │  ←─ Matt：commit → QA Plan → 回流
+                    │  improve-arch        │  ←─ Matt：周期重构，深化模块
+                    └──────────────────────┘
 ```
 
-## In-repo dev-memory folder
+## 为什么这样融合
 
-`<repo>/Design/dev-memory/` (or `docs/dev-memory/`):
+| 层 | 负责 | 谁写的 | 为什么好用 |
+|----|------|--------|-----------|
+| **记忆层** | 记什么、做到哪了 | Claude（dev-memory-and-todos） | verbatim 归档不丢信息，Session-WIP 跨 session 续跑 |
+| **澄清层** | 需求长什么样 | Matt（grill-me） | 16-50 个问题走完整棵设计树，比直接写 PRD 省返工 |
+| **规划层** | 怎么拆、谁先做 | Matt（write-prd + prd-to-issues） | 垂直切片 + 阻塞关系，Tracer Bullet 优先 |
+| **规范层** | 每个变更的小契约 | Claude（feedback-to-spec-loop 原版） | 4 节 Spec，TODO ↔ Spec 双向链接，和你的 TODO 形式精确匹配 |
+| **执行层** | 写代码、跑测试 | Matt（ralph-loop + tdd） | 红绿重构自动关 Issue |
+| **验证层** | 人工 QA、架构健康 | Matt（human-qa + improve-architecture） | commit → QA Plan → Issue 回流 |
 
-| File | Holds |
-|------|-------|
-| `PROJECT-MEMORY.md` | Stable facts: product, locked decisions/red-lines, stack, key files. |
-| `SESSION-WIP.md` | This session: done / WIP / to-verify / deferred / next. Read first when resuming. |
-| `TODO.md` | North star → per-theme roadmap (priorities) → Specs index → done archive → **verbatim feedback archive**. |
+## 完整工作流（一次走到底）
 
-Drop a one-line pointer in your persistent memory so future sessions open this folder.
+### 第 0 步：建立项目骨架
+**调用：** `dev-memory-and-todos`
+```
+<repo>/Design/dev-memory/
+  PROJECT-MEMORY.md    ← 产品是什么、技术栈、红线
+  SESSION-WIP.md       ← 本 session 状态
+  TODO.md              ← 这里是一切的核心
+```
 
-## The per-change Spec (keep it short)
+**TODO.md 结构（你的格式）：**
 
-`Design/specs/YYYY-MM-DD-<topic>.md`, four sections, a few sentences each:
+```markdown
+# 🧭 North Star
+[一句话：这个项目最终要交付什么]
 
-1. **修改建议 / Suggestion** — what & why (in the user's framing).
-2. **解决思路 / Approach** — root cause + the idea.
-3. **技术方案 / Plan** — files, functions, key edits.
-4. **验证测试 / Verification** — commands + manual checks.
+# 📋 Active Plan
 
-Link both ways: TODO keeps a **Specs index** table (spec ↔ TODO item ↔ status); the spec header links back to its TODO item. This gives every change a traceable spec + version record.
+## 🔴 P0 — 阻塞项
+## 🟡 P1 — 本周
+## 🟢 P2 — 后续
 
-## Status legend (use consistently)
+# 🗺️ Specs Index
+| Spec | TODO Item | Issue | Status |
+|------|-----------|-------|--------|
 
-`⬜` not started/needs spec · `✅` implemented + self-tested (tsc/build) · `🧪` needs the user's manual verification · `⏸` deferred (note why) · priority `🔴/🟡/🟢`.
+# ✅ Done
+[已完成的 TODO 项目移到这]
 
-`✅` never means "user-verified" — that's `🧪` until they confirm in the running app.
+---
 
-## Common Mistakes
+# 📦 Verbatim Feedback Archive
+### 2026-06-03 — [来源]
+> [用户原话，包括 emoji 和 "btw" 旁白]
+```
 
-- **Paraphrasing away the user's words.** They won't recognize their own ask at review. Preserve phrasing and any chosen copy/decisions verbatim in the archive.
-- **Dropping "by the way" asks.** Side-comments are requirements too.
-- **Coding before the spec.** The spec + approval is the gate, like writing the test first.
-- **Letting the TODO sprawl.** When feedback piles up, re-plan around a north star and themes; archive raw feedback below, keep the active plan on top.
-- **Putting volatile status in PROJECT-MEMORY.** "What's done" lives in SESSION-WIP; only stable facts in PROJECT-MEMORY.
+### 第 1 步：捕获（每次收需求做一次）
+**调用：** `dev-memory-and-todos` 的 capture 逻辑
 
-## Relationship to other skills
+- 把用户原始需求原文扔进 `TODO.md` 的 📦 Verbatim Feedback Archive
+- 每条需求拆成独立 TODO item，放到 Active Plan
+- 不改写、不合并，保持原话
 
-This is the outer loop; it composes with planning/spec/TDD skills. Where a real test suite exists, the spec's verification section drives it; where it's product/UX, verification is build + manual checks the user runs.
+### 第 2 步：追问澄清
+**调用：** `grill-me`（Matt）
+- 在写任何代码或 PRD 前，走完整棵设计树
+- 每个决定节点问到底（"如果选 X，那 Y 和 Z 怎么处理？"）
+- 代码里有答案的，直接读代码，不问人
+- 产出：`SESSION-WIP.md` 里追加设计树结论
+
+### 第 3 步：写 PRD
+**调用：** `write-prd`（Matt）
+- 产出 GitHub Issue，不是飞书文档
+- 内容：问题陈述 + 方案（轻量）+ 用户故事 + 关键实现决定 + 模块草图
+- PRD 描述 **到达什么地方**，不描述怎么一步一步走
+
+### 第 4 步：拆为垂直切片
+**调用：** `prd-to-issues`（Matt）
+- 每个 Issue 是一条贯穿所有层的垂直切片
+- 标阻塞关系（谁依赖谁）
+- 第一个 Issue = 最大未知风险（Tracer Bullet）
+- 写入 `TODO.md` 的 `🗺️ Specs Index` 表
+
+```
+| # | Spec | TODO Item | Issue | Status |
+|---|------|-----------|-------|--------|
+| 1 | 2026-06-03-search-api.md | P1-1 搜索接口 | #42 | ⬜ |
+| 2 | 2026-06-03-split-pane.md | P1-2 分屏编辑器 | #43 | ⬜ (blocks 1) |
+```
+
+### 第 5 步：逐条写 Spec
+**调用：** `feedback-to-spec-loop` 的 spec 部分（Claude 原版）
+
+每 Issue 一个 `Design/specs/YYYY-MM-DD-<topic>.md`，4 节：
+
+1. **修改建议** — 什么 & 为什么（关联用户原文引用）
+2. **解决思路** — 根因 + 策略
+3. **技术方案** — 文件、函数、关键修改。**先确认接口变更，再实现**
+4. **验证测试** — 哪个测试证明它工作了 + 手动检查项
+
+Spec 头尾双向链接回 TODO.md 的 Specs Index 和 GitHub Issue。
+
+### 第 6 步：用户确认优先级
+先把 TODO.md 的 🗺️ Specs Index 表发给用户。
+- 调整顺序、合并、删除
+- 确认："最大未知风险是不是第一个？"
+- 用户说"go"→ 进入第 7 步
+
+### 第 7 步：自动化实现
+**调用：** `ralph-loop` + `tdd-red-green-refactor`（Matt）
+```
+对每个未阻塞 Issue：
+  RED   → 写一个失败的测试
+  GREEN → 写最少的代码让它过
+  REFACTOR → 清空上下文，重构
+  → tsc/build 全绿
+  → git commit + close Issue
+  → 下一个
+```
+
+### 第 8 步：人工 QA
+**调用：** `human-qa`（Matt）
+
+每 3-5 个 commit 生成 QA Plan → 人工验证 → 失败的回流新增 Issue → 回到 Specs Index
+
+### 第 9 步：架构周期检查
+**调用：** `improve-architecture`（Matt）
+
+每周跑一次：探查 shallow modules → 3 个 subagent 并行设计 → 人选最优 → GitHub Issue 记录
+
+## 关键差异：这个融合版 vs 纯 Matt 版
+
+| 方面 | 纯 Matt Enhanced 版 | 这个融合版 |
+|------|---------------------|-----------|
+| 起点 | PRD 开始 | **TODO 开始**（你的习惯） |
+| 记忆 | 隐含在 Phase 里 | **显式 dev-memory 文件夹**（Claude 设计） |
+| Spec | PRD 的一部分 | **独立 4 节 Spec + TODO 双向链接** |
+| TODO 格式 | Issues Kanban | **North Star → Active Plan → Specs Index → Archive** |
+| 可追溯 | Issue ↔ commit | **用户原话 → TODO → Spec → Issue → commit → QA** |
+
+## 什么时候用哪个 Skill
+
+| 场景 | 调哪个 |
+|------|--------|
+| 新项目搭建骨架 | `dev-memory-and-todos` |
+| 收到一大段需求 | `dev-memory-and-todos` capture → 拆 TODO |
+| 需求不清晰 | `grill-me` |
+| TODO 太多需要规划 | `write-prd` + `prd-to-issues` |
+| 某个 Issue 要开始写 | 写 4-section Spec → `ralph-loop` + `tdd` |
+| 跨 session 回来续跑 | 读 `dev-memory-and-todos` 的 SESSION-WIP.md |
+| 积累了几次提交 | `human-qa` |
+| 每周检查代码健康 | `improve-architecture` |
+
+## 注意事项
+
+- **dev-memory-and-todos 要全员读写。** Matt skill 产出的结果必须写回 TODO.md 和 SESSION-WIP.md，否则跨 session 全丢。
+- **grill-me 不省。** 5 分钟追问省 5 小时返工。
+- **Spec 不是过场。** 每条 TODO item 没 Spec 不写码。Spec 就是你和 AI 之间的小契约。
+- **TODO.md 是唯一真相源。** 不在 Issue、不在 PRD、不在 IM 聊天记录里，就在这个文件里。
