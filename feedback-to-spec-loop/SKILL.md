@@ -1,195 +1,289 @@
 ---
 name: feedback-to-spec-loop
-description: Turn messy human feedback or a PRD into shipped changes across multiple sessions. Bridges Claude's dev-memory-and-todos (memory layer) with Matt's 7 Vibe Coding skills (execution layer). Use when the user gives a long multi-part request, says "fix all these", or when resuming work with cold context.
+description: Use when turning messy human feedback or a PRD into shipped changes across multiple sessions — when the user gives a long multi-part request, says "fix all these", "redo the plan", "I'll review later", or "remember this", or when resuming work and you need to recall what's done and pending. Incorporates Grill-Me design-tree interviewing, vertical-slice issue breakdown, TDD red-green-refactor, and autonomous Ralph Loop execution.
 ---
 
-# Feedback → TODO → Spec → Delivery Loop
+# Feedback → TODO → Spec Loop (Enhanced)
 
-## 融合逻辑
+## Overview
+
+A repeatable loop for turning a human's raw words (PRD, scattered chat feedback, "this feels off") into shipped, reviewable changes. Three core rules:
+
+1. **The user's own words are the source of truth.** Capture verbatim before paraphrasing or coding.
+2. **Grill before you plan.** Walk the design tree — every undecided branch is a future rework.
+3. **No change without a tiny spec. Vertical slices, not horizontal layers.**
+
+## When to Use
+
+- Long multi-part feedback ("change A, also B, C feels important too").
+- "Redo the plan", "fix all these", "I'll review tomorrow", "remember this".
+- Resuming a multi-session project with cold context.
+- Any non-trivial feature where the scope spans >1 file or >1 session.
+
+Not for: trivial one-off edits in a single session.
+
+---
+
+## The Full Loop
 
 ```
-                    dev-memory-and-todos
-                    ┌─────────────────────┐
-用户原始需求  ──→  │ TODO.md 逐条登记    │  ←─ Claude 写的，你喜欢的 TODO 形式
-                    │ Session-WIP 续跑    │
-                    │ Project-Memory 稳定 │
-                    └──────┬──────────────┘
-                           │ 每条 TODO item
-                           ▼
-                    ┌──────────────────────┐
-                    │  grill-me            │  ←─ Matt：设计树追问，澄清需求边界
-                    │  write-prd           │  ←─ Matt：问题陈述 + 方案 + 模块
-                    │  prd-to-issues       │  ←─ Matt：垂直切片拆 Issue
-                    └──────┬───────────────┘
-                           │ 每个 Issue
-                           ▼
-                    ┌──────────────────────┐
-                    │  4-section Spec      │  ←─ Claude：修改建议/思路/方案/验证
-                    │  Design/specs/       │
-                    │  TODO.md Spec Index  │
-                    └──────┬───────────────┘
-                           │
-                    ┌───────┴───────┐
-                    ▼               ▼
-              ralph-loop    tdd-red-green-refactor
-              (自动循环)     (红绿重构)
-                    │               │
-                    └───────┬───────┘
-                            ▼
-                    ┌──────────────────────┐
-                    │  human-qa            │  ←─ Matt：commit → QA Plan → 回流
-                    │  improve-arch        │  ←─ Matt：周期重构，深化模块
-                    └──────────────────────┘
+human feedback / PRD / "this feels off"
+  │
+  ├─► Phase 0: GRILL                   → design tree walk; 3-sentence skill, 16+ questions
+  ├─► Phase 1: CAPTURE verbatim         → dev-memory/TODO.md (📦 archive section)
+  ├─► Phase 2: WRITE PRD               → GitHub Issue: Problem/Solution/UserStories/ImplDecisions
+  ├─► Phase 3: PRD → ISSUES            → vertical slices + blocking relationships
+  ├─► Phase 4: SPEC per-issue          → Design/specs/<date>-<topic>.md (4 sections)
+  ├─► Phase 5: user approves priority   → reorder/merge/delete slices before any code
+  ├─► Phase 6: RALPH LOOP              → autonomous: read→TDD→implement→test→commit→close
+  ├─► Phase 7: HUMAN QA                → QA plan from recent commits → new issues → loop back
+  └─► Phase 8: UPDATE memory + links   → status flips; user verifies in app
 ```
 
-## 为什么这样融合
+---
 
-| 层 | 负责 | 谁写的 | 为什么好用 |
-|----|------|--------|-----------|
-| **记忆层** | 记什么、做到哪了 | Claude（dev-memory-and-todos） | verbatim 归档不丢信息，Session-WIP 跨 session 续跑 |
-| **澄清层** | 需求长什么样 | Matt（grill-me） | 16-50 个问题走完整棵设计树，比直接写 PRD 省返工 |
-| **规划层** | 怎么拆、谁先做 | Matt（write-prd + prd-to-issues） | 垂直切片 + 阻塞关系，Tracer Bullet 优先 |
-| **规范层** | 每个变更的小契约 | Claude（feedback-to-spec-loop 原版） | 4 节 Spec，TODO ↔ Spec 双向链接，和你的 TODO 形式精确匹配 |
-| **执行层** | 写代码、跑测试 | Matt（ralph-loop + tdd） | 红绿重构自动关 Issue |
-| **验证层** | 人工 QA、架构健康 | Matt（human-qa + improve-architecture） | commit → QA Plan → Issue 回流 |
+## Lightweight Mode (TODO + Spec spine) — the default
 
-## 完整工作流（一次走到底）
+Most projects don't have GitHub Issues or a test suite. Run the loop with files only — this is the everyday path; the heavy machinery (GitHub Issues, formal TDD) is opt-in for projects with CI.
 
-### 第 0 步：建立项目骨架
-**调用：** `dev-memory-and-todos`
+| Full phase | Lightweight equivalent |
+|---|---|
+| GRILL | Same — ask before planning (fewer questions for small asks). |
+| CAPTURE | `TODO.md` 📦 verbatim archive. |
+| PRD | A north-star line + themes at the top of `TODO.md` (skip the GitHub Issue). |
+| PRD → Issues | Rows in a `TODO.md` table (per-page / per-theme), with priority + status — not GitHub Issues. |
+| SPEC per-issue | `Design/specs/YYYY-MM-DD-<topic>.md`, 4 sections, linked both ways to TODO. **This is the heart of the "TODO + Spec" feel.** |
+| APPROVE | User OKs the spec (or the plan order) before code. |
+| RALPH LOOP | spec → implement → `tsc`/`build` green → `git commit` → flip status to ✅🧪. |
+| HUMAN QA | A `REVIEW-<date>.md` checklist (what changed / where to look / 🧪 verify / ⚠️ key decisions). |
+| UPDATE | Update `TODO.md` Specs index + `SESSION-WIP.md`; user verifies in app. |
+
+Scale up to the full phases (real Issues, test-first TDD, parallel Ralph Loops) only when the project has the infrastructure for it.
+
+---
+
+## Phase 0: Grill Me (Design Tree Interview)
+
+**Before you capture, plan, or code — walk the design tree.**
+
+Use this 3-sentence prompt (self-contained — works without any other skill installed; if a `grill`/`grill-with-docs` skill is present it deepens this):
+
+> Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. Finally, if a question can be answered by exploring the codebase, explore the codebase instead.
+
+**What happens:**
+- The agent asks questions until every design branch is walked
+- Each decision node (e.g. "advanced search vs text box") spawns child questions (filters, sorting, etc.)
+- Expect 10-50 questions for non-trivial features
+- Codebase exploration replaces guesswork: if the answer exists in code, read it
+- Session length: 5-45 minutes depending on scope
+
+**When to skip:** Single-file fixes with zero ambiguity. Even then, ask "any edge cases?"
+
+**Source concept:** Frederick P. Brooks, *The Design of Design* — the design tree. "Walk down all branches before committing to code."
+
+---
+
+## Phase 1: Capture Verbatim
+
+Archive the user's raw words **exactly** into `TODO.md`'s 📦 archive section. Do not paraphrase. Side-comments ("by the way…") are requirements too.
+
+Format:
+```markdown
+## 📦 Verbatim Feedback Archive
+
+### 2026-06-02 — [topic]
+> [user's exact words, including emojis and "btw" asides]
+
+### 2026-06-01 — [topic]
+> ...
 ```
-<repo>/Design/dev-memory/
-  PROJECT-MEMORY.md    ← 产品是什么、技术栈、红线
-  SESSION-WIP.md       ← 本 session 状态
-  TODO.md              ← 这里是一切的核心
-```
 
-**TODO.md 结构（你的格式）：**
+---
+
+## Phase 2: Write PRD → GitHub Issue
+
+Use this template. The PRD itself is submitted **as a GitHub Issue** (so it's linkable, closeable, searchable).
 
 ```markdown
-# 🧭 North Star
-[一句话：这个项目最终要交付什么]
+# PRD: [Feature Name]
 
-# 📋 Active Plan
+## Problem Statement
+[What problem exists today. Measurable pain if possible.]
 
-## 🔴 P0 — 阻塞项
-## 🟡 P1 — 本周
-## 🟢 P2 — 后续
+## Solution
+[What we're building. Keep implementation decisions light — durable, not over-prescriptive.]
 
-# 🗺️ Specs Index
-| Spec | TODO Item | Issue | Status |
-|------|-----------|-------|--------|
+## User Stories
+[List desired behaviors in Agile user-story language. Each = one user-facing capability.]
 
-# ✅ Done
-[已完成的 TODO 项目移到这]
+## Implementation Decisions
+[Key decisions made during Grill Me. Lightweight — this is guidance, not a contract.
+Out-of-date PRDs cause problems at implementation time, so keep durable.]
+
+## Major Modules
+[Sketch the modules/components affected or to be built. Used by Phase 3 for slicing.]
+```
+
+**Important:** The PRD describes the **destination**, not the journey. Phase 3 handles the journey.
 
 ---
 
-# 📦 Verbatim Feedback Archive
-### 2026-06-03 — [来源]
-> [用户原话，包括 emoji 和 "btw" 旁白]
+## Phase 3: PRD → Issues (Vertical Slice Breakdown)
+
+**Core principle — vertical slices, not horizontal layers:**
+
+> Each issue is a thin vertical slice that cuts through all integration layers.
+> Do NOT slice horizontally (one issue for DB, one for UI, one for API).
+
+**Tracer bullet prioritization:**
+1. Identify the **riskiest unknown** (new integration, untested pattern, unclear feasibility)
+2. Make that Issue #1 — flush out unknown unknowns early
+3. If it fails, you learn fast without wasting time on dependent work
+
+**Output format** in `TODO.md`:
+
+```markdown
+## 🗺️ Issues Kanban
+
+| # | Issue | Blocks | Blocked By | Priority | Status |
+|---|-------|--------|------------|----------|--------|
+| 1 | [title] | — | — | 🔴 | ⬜ |
+| 2 | [title] | — | — | 🟡 | ⬜ |
+| 3 | [title] | 1 | — | 🟡 | ⬜ |
+| 4 | [title] | 2,3 | — | 🟢 | ⬜ |
+
+Parent PRD: [link to GitHub Issue #N]
 ```
 
-### 第 1 步：捕获（每次收需求做一次）
-**调用：** `dev-memory-and-todos` 的 capture 逻辑
+**Blocking rules:**
+- Unblocked issues can be picked up in parallel (fire multiple Ralph Loops at once)
+- Blocked issues auto-unlock when their dependency closes
+- New issues (from QA, bugs, scope creep) can be inserted with new blocking relationships
 
-- 把用户原始需求原文扔进 `TODO.md` 的 📦 Verbatim Feedback Archive
-- 每条需求拆成独立 TODO item，放到 Active Plan
-- 不改写、不合并，保持原话
+---
 
-### 第 2 步：追问澄清
-**调用：** `grill-me`（Matt）
-- 在写任何代码或 PRD 前，走完整棵设计树
-- 每个决定节点问到底（"如果选 X，那 Y 和 Z 怎么处理？"）
-- 代码里有答案的，直接读代码，不问人
-- 产出：`SESSION-WIP.md` 里追加设计树结论
+## Phase 4: Spec Per-Issue (4 Sections)
 
-### 第 3 步：写 PRD
-**调用：** `write-prd`（Matt）
-- 产出 GitHub Issue，不是飞书文档
-- 内容：问题陈述 + 方案（轻量）+ 用户故事 + 关键实现决定 + 模块草图
-- PRD 描述 **到达什么地方**，不描述怎么一步一步走
+Each issue gets a small spec before implementation. `Design/specs/YYYY-MM-DD-<topic>.md`:
 
-### 第 4 步：拆为垂直切片
-**调用：** `prd-to-issues`（Matt）
-- 每个 Issue 是一条贯穿所有层的垂直切片
-- 标阻塞关系（谁依赖谁）
-- 第一个 Issue = 最大未知风险（Tracer Bullet）
-- 写入 `TODO.md` 的 `🗺️ Specs Index` 表
+1. **修改建议 / Suggestion** — what & why (in the user's framing, linked to user story).
+2. **解决思路 / Approach** — root cause + the strategy.
+3. **技术方案 / Plan** — files, functions, key edits. **Confirm interface changes first** — they're the most important decisions.
+4. **验证测试 / Verification** — TDD entry point: what test proves this works, plus manual checks.
+
+Link both ways: TODO keeps a Specs index (spec ↔ Issue ↔ status); the spec header links back to its Issue.
+
+---
+
+## Phase 5: User Approves Priority
+
+Before ANY code is written:
+
+- Present the Issues Kanban to the user
+- Let user reorder, merge, or delete slices
+- Confirm: "Does this order flush out the biggest unknown unknowns first?"
+- User says "go" → move to Phase 6
+
+---
+
+## Phase 6: Ralph Loop (Autonomous Implementation)
+
+Named after the autonomous agent that executes one issue at a time.
 
 ```
-| # | Spec | TODO Item | Issue | Status |
-|---|------|-----------|-------|--------|
-| 1 | 2026-06-03-search-api.md | P1-1 搜索接口 | #42 | ⬜ |
-| 2 | 2026-06-03-split-pane.md | P1-2 分屏编辑器 | #43 | ⬜ (blocks 1) |
+┌───────────────────────────────────────────────┐
+│  RALPH LOOP (runs per issue, can be parallel)  │
+│                                                │
+│  1. Read the GitHub Issue + its linked Spec     │
+│  2. Red-green-refactor (TDD skill if present;   │
+│     else follow the inlined beats below)        │
+│  3. Write ONE failing test first                │
+│  4. Write minimal code to pass                  │
+│  5. Refactor (preferably with fresh context)    │
+│  6. Run full test suite; tsc/build green        │
+│  7. git commit -m "feat: X (closes #N)"         │
+│  8. Comment on Issue with test count + summary  │
+│  9. Issue auto-closes; next unblocked starts    │
+│                                                │
+└───────────────────────────────────────────────┘
 ```
 
-### 第 5 步：逐条写 Spec
-**调用：** `feedback-to-spec-loop` 的 spec 部分（Claude 原版）
+**TDD integration — the red-green-refactor beat:**
+- "Red green refactor with agents is incredible" — video source
+- Confirm interface changes with user first — they're the most important decisions
+- Design interfaces for testability (test at module boundaries, not internals)
+- Write ONE test at a time, then code, then refactor
+- LLMs are reluctant to refactor their own code — clear context between refactor passes, or spawn a fresh agent
 
-每 Issue 一个 `Design/specs/YYYY-MM-DD-<topic>.md`，4 节：
+**Interface-first principle:**
+> When an AI faces a codebase with many small undifferentiated modules, it struggles to understand relationships and test boundaries. When the codebase has larger modules with thin interfaces, testing and implementation become natural. **Confirm interface changes before coding.**
 
-1. **修改建议** — 什么 & 为什么（关联用户原文引用）
-2. **解决思路** — 根因 + 策略
-3. **技术方案** — 文件、函数、关键修改。**先确认接口变更，再实现**
-4. **验证测试** — 哪个测试证明它工作了 + 手动检查项
+---
 
-Spec 头尾双向链接回 TODO.md 的 Specs Index 和 GitHub Issue。
+## Phase 7: Human QA
 
-### 第 6 步：用户确认优先级
-先把 TODO.md 的 🗺️ Specs Index 表发给用户。
-- 调整顺序、合并、删除
-- 确认："最大未知风险是不是第一个？"
-- 用户说"go"→ 进入第 7 步
+After 3-5 commits accumulate:
 
-### 第 7 步：自动化实现
-**调用：** `ralph-loop` + `tdd-red-green-refactor`（Matt）
-```
-对每个未阻塞 Issue：
-  RED   → 写一个失败的测试
-  GREEN → 写最少的代码让它过
-  REFACTOR → 清空上下文，重构
-  → tsc/build 全绿
-  → git commit + close Issue
-  → 下一个
-```
+1. **Generate QA Plan** from recent commits:
+   - Each commit's functional description
+   - Expected behavior vs. failure modes
+   - Specific test steps (manual or scripted)
+   - Regression checklist (did previously fixed bugs resurface?)
 
-### 第 8 步：人工 QA
-**调用：** `human-qa`（Matt）
+2. **User executes** QA Plan locally:
+   - Mark each test pass/fail
+   - Failed → new Issue (goes back into Kanban, Phase 3)
 
-每 3-5 个 commit 生成 QA Plan → 人工验证 → 失败的回流新增 Issue → 回到 Specs Index
+3. **Feedback loop closes:**
+   - QA Issues enter the same Kanban with blocking relationships
+   - Ralph Loop picks them up on next cycle
 
-### 第 9 步：架构周期检查
-**调用：** `improve-architecture`（Matt）
+---
 
-每周跑一次：探查 shallow modules → 3 个 subagent 并行设计 → 人选最优 → GitHub Issue 记录
+## In-Repo dev-memory Folder
 
-## 关键差异：这个融合版 vs 纯 Matt 版
+`<repo>/Design/dev-memory/` (or `docs/dev-memory/`):
 
-| 方面 | 纯 Matt Enhanced 版 | 这个融合版 |
-|------|---------------------|-----------|
-| 起点 | PRD 开始 | **TODO 开始**（你的习惯） |
-| 记忆 | 隐含在 Phase 里 | **显式 dev-memory 文件夹**（Claude 设计） |
-| Spec | PRD 的一部分 | **独立 4 节 Spec + TODO 双向链接** |
-| TODO 格式 | Issues Kanban | **North Star → Active Plan → Specs Index → Archive** |
-| 可追溯 | Issue ↔ commit | **用户原话 → TODO → Spec → Issue → commit → QA** |
+| File | Holds |
+|------|-------|
+| `PROJECT-MEMORY.md` | Stable facts: product, locked decisions/red-lines, stack, key files. Never volatile status. |
+| `SESSION-WIP.md` | This session: done / WIP / to-verify / deferred / next. Read first when resuming. |
+| `TODO.md` | North star → Issues Kanban → Specs index → done archive → 📦 verbatim feedback archive. |
 
-## 什么时候用哪个 Skill
+Drop a one-line pointer in your persistent memory so future sessions open this folder.
 
-| 场景 | 调哪个 |
-|------|--------|
-| 新项目搭建骨架 | `dev-memory-and-todos` |
-| 收到一大段需求 | `dev-memory-and-todos` capture → 拆 TODO |
-| 需求不清晰 | `grill-me` |
-| TODO 太多需要规划 | `write-prd` + `prd-to-issues` |
-| 某个 Issue 要开始写 | 写 4-section Spec → `ralph-loop` + `tdd` |
-| 跨 session 回来续跑 | 读 `dev-memory-and-todos` 的 SESSION-WIP.md |
-| 积累了几次提交 | `human-qa` |
-| 每周检查代码健康 | `improve-architecture` |
+---
 
-## 注意事项
+## Status Legend
 
-- **dev-memory-and-todos 要全员读写。** Matt skill 产出的结果必须写回 TODO.md 和 SESSION-WIP.md，否则跨 session 全丢。
-- **grill-me 不省。** 5 分钟追问省 5 小时返工。
-- **Spec 不是过场。** 每条 TODO item 没 Spec 不写码。Spec 就是你和 AI 之间的小契约。
-- **TODO.md 是唯一真相源。** 不在 Issue、不在 PRD、不在 IM 聊天记录里，就在这个文件里。
+`⬜` not started · `✅` implemented + self-tested (tsc/build/tests green) · `🧪` needs user verification · `⏸` deferred (note why) · `❌` blocked (link to blocker)
+
+Priority: `🔴` risky/urgent · `🟡` important · `🟢` nice-to-have
+
+`✅` never means "user-verified" — that's `🧪` until confirmed in the running app.
+
+---
+
+## Common Mistakes
+
+- **Skipping Grill Me.** The 5 extra minutes of questioning saves hours of rework. Every undecided branch = future rework.
+- **Horizontal slicing.** "DB layer → API layer → UI layer" is wrong. Each issue should deliver a user-visible capability end-to-end.
+- **Paraphrasing away the user's words.** They won't recognize their own ask at review. Preserve phrasing verbatim.
+- **Dropping "by the way" asks.** Side-comments are requirements too.
+- **Coding before the spec.** The spec + approval is the gate, like writing the test first.
+- **Letting the TODO sprawl.** When feedback piles up, re-plan around a north star and themes; archive raw feedback below, keep the active plan on top.
+- **Putting volatile status in PROJECT-MEMORY.** "What's done" lives in SESSION-WIP; only stable facts in PROJECT-MEMORY.
+- **Skipping interface confirmation.** Interface changes are the highest-leverage decisions — confirm them with the user before implementation.
+
+---
+
+## Relationship to Other Skills
+
+This is the outer loop and is **fully self-contained** — every phase's essential content is inlined above, so it runs on a bare machine with no other skills installed. The skills below are **optional enhancers**: used automatically if present, silently skipped if not. None is a hard dependency.
+
+- **Grill Me** → Phase 0 design tree walk
+- **TDD** → Phase 6 red-green-refactor engine
+- **Improve Architecture** → when a Spec's 技术方案 touches a shared interface or a file that's grown too big: before coding, spawn 2-3 subagents to draft competing interface/module designs, compare, pick one, and record the choice in the Spec. Run it between Ralph Loop cycles, not mid-issue.
+- **Skill Vetter** → review spec quality before implementation
+
+Where a real test suite exists, the spec's verification section drives it; where it's product/UX, verification is build + manual checks.
