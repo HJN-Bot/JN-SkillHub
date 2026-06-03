@@ -1,267 +1,74 @@
 ---
 name: feedback-to-spec-loop
-description: Use when turning messy human feedback or a PRD into shipped changes across multiple sessions — when the user gives a long multi-part request, says "fix all these", "redo the plan", "I'll review later", or "remember this", or when resuming work and you need to recall what's done and pending. Incorporates Grill-Me design-tree interviewing, vertical-slice issue breakdown, TDD red-green-refactor, and autonomous Ralph Loop execution.
+description: Use when turning messy human feedback or a PRD into shipped changes across multiple sessions — when the user gives a long multi-part request, says "fix all these", "redo the plan", "I'll review later", or "remember this", or when resuming work and you need to recall what's done and pending. Keeps a durable in-repo dev-memory, turns raw requirements into a tracked TODO, and writes a small spec per change before coding.
 ---
 
-# Feedback → TODO → Spec Loop (Enhanced)
+# Feedback → TODO → Spec Loop
 
 ## Overview
 
-A repeatable loop for turning a human's raw words (PRD, scattered chat feedback, "this feels off") into shipped, reviewable changes. Three core rules:
+A repeatable loop for turning a human's raw words (PRD, scattered chat feedback, "this feels off") into shipped, reviewable changes — TDD-style, but for product work. Two rules:
 
-1. **The user's own words are the source of truth.** Capture verbatim before paraphrasing or coding.
-2. **Grill before you plan.** Walk the design tree — every undecided branch is a future rework.
-3. **No change without a tiny spec. Vertical slices, not horizontal layers.**
+1. **The user's own words are the source of truth.** Capture them verbatim before you paraphrase or code.
+2. **No change without a tiny spec first.** Each modification point gets a 4-section spec, linked both ways to the TODO, before implementation.
 
 ## When to Use
 
 - Long multi-part feedback ("change A, also B, C feels important too").
 - "Redo the plan", "fix all these", "I'll review tomorrow", "remember this".
 - Resuming a multi-session project with cold context.
-- Any non-trivial feature where the scope spans >1 file or >1 session.
 
 Not for: trivial one-off edits in a single session.
 
----
-
-## The Full Loop
+## The Loop
 
 ```
-human feedback / PRD / "this feels off"
-  │
-  ├─► Phase 0: GRILL                   → design tree walk; 3-sentence skill, 16+ questions
-  ├─► Phase 1: CAPTURE verbatim         → dev-memory/TODO.md (📦 archive section)
-  ├─► Phase 2: WRITE PRD               → GitHub Issue: Problem/Solution/UserStories/ImplDecisions
-  ├─► Phase 3: PRD → ISSUES            → vertical slices + blocking relationships
-  ├─► Phase 4: SPEC per-issue          → Design/specs/<date>-<topic>.md (4 sections)
-  ├─► Phase 5: user approves priority   → reorder/merge/delete slices before any code
-  ├─► Phase 6: RALPH LOOP              → autonomous: read→TDD→implement→test→commit→close
-  ├─► Phase 7: HUMAN QA                → QA plan from recent commits → new issues → loop back
-  └─► Phase 8: UPDATE memory + links   → status flips; user verifies in app
+human feedback / PRD
+  └─► 1. CAPTURE verbatim          → dev-memory/TODO.md (📦 archive section)
+  └─► 2. PLAN into roadmap         → north star + per-theme items + priorities
+  └─► 3. SPEC the next change      → Design/specs/<date>-<topic>.md (4 sections)
+  └─► 4. user approves spec
+  └─► 5. IMPLEMENT small + verify  → tsc/build/tests green
+  └─► 6. UPDATE memory + links     → status flips to ✅🧪; user verifies in app
 ```
 
----
-
-## Phase 0: Grill Me (Design Tree Interview)
-
-**Before you capture, plan, or code — walk the design tree.**
-
-Invoke this 3-sentence skill:
-
-> Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. Finally, if a question can be answered by exploring the codebase, explore the codebase instead.
-
-**What happens:**
-- The agent asks questions until every design branch is walked
-- Each decision node (e.g. "advanced search vs text box") spawns child questions (filters, sorting, etc.)
-- Expect 10-50 questions for non-trivial features
-- Codebase exploration replaces guesswork: if the answer exists in code, read it
-- Session length: 5-45 minutes depending on scope
-
-**When to skip:** Single-file fixes with zero ambiguity. Even then, ask "any edge cases?"
-
-**Source concept:** Frederick P. Brooks, *The Design of Design* — the design tree. "Walk down all branches before committing to code."
-
----
-
-## Phase 1: Capture Verbatim
-
-Archive the user's raw words **exactly** into `TODO.md`'s 📦 archive section. Do not paraphrase. Side-comments ("by the way…") are requirements too.
-
-Format:
-```markdown
-## 📦 Verbatim Feedback Archive
-
-### 2026-06-02 — [topic]
-> [user's exact words, including emojis and "btw" asides]
-
-### 2026-06-01 — [topic]
-> ...
-```
-
----
-
-## Phase 2: Write PRD → GitHub Issue
-
-Use this template. The PRD itself is submitted **as a GitHub Issue** (so it's linkable, closeable, searchable).
-
-```markdown
-# PRD: [Feature Name]
-
-## Problem Statement
-[What problem exists today. Measurable pain if possible.]
-
-## Solution
-[What we're building. Keep implementation decisions light — durable, not over-prescriptive.]
-
-## User Stories
-[List desired behaviors in Agile user-story language. Each = one user-facing capability.]
-
-## Implementation Decisions
-[Key decisions made during Grill Me. Lightweight — this is guidance, not a contract.
-Out-of-date PRDs cause problems at implementation time, so keep durable.]
-
-## Major Modules
-[Sketch the modules/components affected or to be built. Used by Phase 3 for slicing.]
-```
-
-**Important:** The PRD describes the **destination**, not the journey. Phase 3 handles the journey.
-
----
-
-## Phase 3: PRD → Issues (Vertical Slice Breakdown)
-
-**Core principle — vertical slices, not horizontal layers:**
-
-> Each issue is a thin vertical slice that cuts through all integration layers.
-> Do NOT slice horizontally (one issue for DB, one for UI, one for API).
-
-**Tracer bullet prioritization:**
-1. Identify the **riskiest unknown** (new integration, untested pattern, unclear feasibility)
-2. Make that Issue #1 — flush out unknown unknowns early
-3. If it fails, you learn fast without wasting time on dependent work
-
-**Output format** in `TODO.md`:
-
-```markdown
-## 🗺️ Issues Kanban
-
-| # | Issue | Blocks | Blocked By | Priority | Status |
-|---|-------|--------|------------|----------|--------|
-| 1 | [title] | — | — | 🔴 | ⬜ |
-| 2 | [title] | — | — | 🟡 | ⬜ |
-| 3 | [title] | 1 | — | 🟡 | ⬜ |
-| 4 | [title] | 2,3 | — | 🟢 | ⬜ |
-
-Parent PRD: [link to GitHub Issue #N]
-```
-
-**Blocking rules:**
-- Unblocked issues can be picked up in parallel (fire multiple Ralph Loops at once)
-- Blocked issues auto-unlock when their dependency closes
-- New issues (from QA, bugs, scope creep) can be inserted with new blocking relationships
-
----
-
-## Phase 4: Spec Per-Issue (4 Sections)
-
-Each issue gets a small spec before implementation. `Design/specs/YYYY-MM-DD-<topic>.md`:
-
-1. **修改建议 / Suggestion** — what & why (in the user's framing, linked to user story).
-2. **解决思路 / Approach** — root cause + the strategy.
-3. **技术方案 / Plan** — files, functions, key edits. **Confirm interface changes first** — they're the most important decisions.
-4. **验证测试 / Verification** — TDD entry point: what test proves this works, plus manual checks.
-
-Link both ways: TODO keeps a Specs index (spec ↔ Issue ↔ status); the spec header links back to its Issue.
-
----
-
-## Phase 5: User Approves Priority
-
-Before ANY code is written:
-
-- Present the Issues Kanban to the user
-- Let user reorder, merge, or delete slices
-- Confirm: "Does this order flush out the biggest unknown unknowns first?"
-- User says "go" → move to Phase 6
-
----
-
-## Phase 6: Ralph Loop (Autonomous Implementation)
-
-Named after the autonomous agent that executes one issue at a time.
-
-```
-┌───────────────────────────────────────────────┐
-│  RALPH LOOP (runs per issue, can be parallel)  │
-│                                                │
-│  1. Read the GitHub Issue + its linked Spec     │
-│  2. Load TDD skill (red-green-refactor)         │
-│  3. Write ONE failing test first                │
-│  4. Write minimal code to pass                  │
-│  5. Refactor (preferably with fresh context)    │
-│  6. Run full test suite; tsc/build green        │
-│  7. git commit -m "feat: X (closes #N)"         │
-│  8. Comment on Issue with test count + summary  │
-│  9. Issue auto-closes; next unblocked starts    │
-│                                                │
-└───────────────────────────────────────────────┘
-```
-
-**TDD integration — the red-green-refactor beat:**
-- "Red green refactor with agents is incredible" — video source
-- Confirm interface changes with user first — they're the most important decisions
-- Design interfaces for testability (test at module boundaries, not internals)
-- Write ONE test at a time, then code, then refactor
-- LLMs are reluctant to refactor their own code — clear context between refactor passes, or spawn a fresh agent
-
-**Interface-first principle:**
-> When an AI faces a codebase with many small undifferentiated modules, it struggles to understand relationships and test boundaries. When the codebase has larger modules with thin interfaces, testing and implementation become natural. **Confirm interface changes before coding.**
-
----
-
-## Phase 7: Human QA
-
-After 3-5 commits accumulate:
-
-1. **Generate QA Plan** from recent commits:
-   - Each commit's functional description
-   - Expected behavior vs. failure modes
-   - Specific test steps (manual or scripted)
-   - Regression checklist (did previously fixed bugs resurface?)
-
-2. **User executes** QA Plan locally:
-   - Mark each test pass/fail
-   - Failed → new Issue (goes back into Kanban, Phase 3)
-
-3. **Feedback loop closes:**
-   - QA Issues enter the same Kanban with blocking relationships
-   - Ralph Loop picks them up on next cycle
-
----
-
-## In-Repo dev-memory Folder
+## In-repo dev-memory folder
 
 `<repo>/Design/dev-memory/` (or `docs/dev-memory/`):
 
 | File | Holds |
 |------|-------|
-| `PROJECT-MEMORY.md` | Stable facts: product, locked decisions/red-lines, stack, key files. Never volatile status. |
+| `PROJECT-MEMORY.md` | Stable facts: product, locked decisions/red-lines, stack, key files. |
 | `SESSION-WIP.md` | This session: done / WIP / to-verify / deferred / next. Read first when resuming. |
-| `TODO.md` | North star → Issues Kanban → Specs index → done archive → 📦 verbatim feedback archive. |
+| `TODO.md` | North star → per-theme roadmap (priorities) → Specs index → done archive → **verbatim feedback archive**. |
 
 Drop a one-line pointer in your persistent memory so future sessions open this folder.
 
----
+## The per-change Spec (keep it short)
 
-## Status Legend
+`Design/specs/YYYY-MM-DD-<topic>.md`, four sections, a few sentences each:
 
-`⬜` not started · `✅` implemented + self-tested (tsc/build/tests green) · `🧪` needs user verification · `⏸` deferred (note why) · `❌` blocked (link to blocker)
+1. **修改建议 / Suggestion** — what & why (in the user's framing).
+2. **解决思路 / Approach** — root cause + the idea.
+3. **技术方案 / Plan** — files, functions, key edits.
+4. **验证测试 / Verification** — commands + manual checks.
 
-Priority: `🔴` risky/urgent · `🟡` important · `🟢` nice-to-have
+Link both ways: TODO keeps a **Specs index** table (spec ↔ TODO item ↔ status); the spec header links back to its TODO item. This gives every change a traceable spec + version record.
 
-`✅` never means "user-verified" — that's `🧪` until confirmed in the running app.
+## Status legend (use consistently)
 
----
+`⬜` not started/needs spec · `✅` implemented + self-tested (tsc/build) · `🧪` needs the user's manual verification · `⏸` deferred (note why) · priority `🔴/🟡/🟢`.
+
+`✅` never means "user-verified" — that's `🧪` until they confirm in the running app.
 
 ## Common Mistakes
 
-- **Skipping Grill Me.** The 5 extra minutes of questioning saves hours of rework. Every undecided branch = future rework.
-- **Horizontal slicing.** "DB layer → API layer → UI layer" is wrong. Each issue should deliver a user-visible capability end-to-end.
-- **Paraphrasing away the user's words.** They won't recognize their own ask at review. Preserve phrasing verbatim.
+- **Paraphrasing away the user's words.** They won't recognize their own ask at review. Preserve phrasing and any chosen copy/decisions verbatim in the archive.
 - **Dropping "by the way" asks.** Side-comments are requirements too.
 - **Coding before the spec.** The spec + approval is the gate, like writing the test first.
 - **Letting the TODO sprawl.** When feedback piles up, re-plan around a north star and themes; archive raw feedback below, keep the active plan on top.
 - **Putting volatile status in PROJECT-MEMORY.** "What's done" lives in SESSION-WIP; only stable facts in PROJECT-MEMORY.
-- **Skipping interface confirmation.** Interface changes are the highest-leverage decisions — confirm them with the user before implementation.
 
----
+## Relationship to other skills
 
-## Relationship to Other Skills
-
-This is the outer loop. It composes with:
-- **Grill Me** → Phase 0 design tree walk
-- **TDD** → Phase 6 red-green-refactor engine
-- **Improve Architecture** → spawn 3 subagents for parallel interface designs (run between cycles)
-- **Skill Vetter** → review spec quality before implementation
-
-Where a real test suite exists, the spec's verification section drives it; where it's product/UX, verification is build + manual checks.
+This is the outer loop; it composes with planning/spec/TDD skills. Where a real test suite exists, the spec's verification section drives it; where it's product/UX, verification is build + manual checks the user runs.
